@@ -1,0 +1,66 @@
+
+Playfield
+---------
+
+memory format:
+	11111198 76543210
+	543210
+	  color  tile offset
+	t cccccc tttttttt
+	8 543210 76543210
+
+color is "base" color offset; actual color = base-color*4+tile-color
+
+tile is 8x8x2; 2 bits/pixel, color 0-3 (tc1,tc0)
+
+color index = pfv[7:0]
+
+      76543210
+      cccccctt
+      543210cc
+            10
+
+Stamps / motion objects
+-----------------------
+
+16x16x2; 2 bits/pixel, color 0-3 (sc1,sc0)
+
+memory format:
+
+0,1
+	11111198 76543210
+	543210
+	   color stamp
+	hvpccccc ssssssss
+	ffr
+	lli
+	iio
+	pp
+
+2,3
+	11111198 76543210
+	543210
+        hpos     vpos
+	hhhhhhhh vvvvvvvv
+
+int vpos = (0xff - vvvvvvvv - 16) & 0xff;
+
+color index = {1'b0, ov[6:0]}
+priority (pf/stamp) = ov[7]
+
+base color + 
+
+      76543210
+      ccccccss
+      543210cc
+            10
+
+Color RAM
+---------
+256 x 8 bits
+
+76543210
+rrrggbbb
+
+
+		    ~vcrsel_n ? (~pf_obj_n ? {1'b0, ov[6:0]} : ) :
