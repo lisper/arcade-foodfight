@@ -1,0 +1,49 @@
+Running: /opt/Xilinx/14.4/ISE_DS/ISE/bin/lin/unwrapped/fuse -intstyle ise -incremental -lib unisims_ver -lib unimacro_ver -lib xilinxcorelib_ver -lib secureip -o /files/code/foodfight/m68k-vhdl/ise/m68k_tb_isim_beh.exe -prj /files/code/foodfight/m68k-vhdl/ise/m68k_tb_beh.prj work.m68k_tb work.glbl 
+ISim P.49d (signature 0xfbc00daa)
+Number of CPUs detected in this system: 4
+Turning on mult-threading, number of parallel sub-compilation jobs: 8 
+Determining compilation order of HDL files
+Analyzing Verilog file "/files/code/foodfight/m68k-vhdl/ise/../m68k_tb.v" into library work
+Analyzing Verilog file "/opt/Xilinx/14.4/ISE_DS/ISE//verilog/src/glbl.v" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_pkg.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_shifter.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_opcode_decoder.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_interrupt_controller.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_data_registers.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_control.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_bus_interface.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_alu.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_address_registers.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_top_soc.vhd" into library work
+Parsing VHDL file "/files/code/foodfight/m68k-vhdl/ise/../68K00/wf68k00ip_top.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 40548 KB
+Fuse CPU Usage: 1810 ms
+Compiling module rom
+Compiling module ram
+Compiling module m68k_tb
+Compiling module glbl
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package std_logic_arith
+Compiling package std_logic_unsigned
+Compiling package wf68k00ip_pkg
+Compiling architecture behavior of entity WF68K00IP_CONTROL [wf68k00ip_control_default]
+Compiling architecture behavior of entity WF68K00IP_INTERRUPT_CONTROL [wf68k00ip_interrupt_control_defa...]
+Compiling architecture behavior of entity WF68K00IP_OPCODE_DECODER [wf68k00ip_opcode_decoder_default]
+Compiling architecture behavior of entity WF68K00IP_ADDRESS_REGISTERS [wf68k00ip_address_registers_defa...]
+Compiling architecture behavior of entity WF68K00IP_DATA_REGISTERS [wf68k00ip_data_registers_default]
+Compiling architecture behavior of entity WF68K00IP_ALU [wf68k00ip_alu_default]
+Compiling architecture behavior of entity WF68K00IP_SHIFTER [wf68k00ip_shifter_default]
+Compiling architecture behavior of entity WF68K00IP_BUS_INTERFACE [wf68k00ip_bus_interface_default]
+Compiling architecture structure of entity WF68K00IP_TOP_SOC [wf68k00ip_top_soc_default]
+Compiling architecture structure of entity WF68K00IP_TOP [wf68k00ip_top_default]
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 25 VHDL Units
+Compiled 4 Verilog Units
+Built simulation executable /files/code/foodfight/m68k-vhdl/ise/m68k_tb_isim_beh.exe
+Fuse Memory Usage: 100460 KB
+Fuse CPU Usage: 2370 ms
+GCC CPU Usage: 260 ms

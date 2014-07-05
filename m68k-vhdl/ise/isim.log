@@ -1,0 +1,132 @@
+ISim log file
+Running: ./m68k_tb_isim_beh.exe -intstyle ise -gui -tclbatch isim.cmd -wdb /files/code/foodfight/m68k-vhdl/ise/m68k_tb_isim_beh.wdb -view ./isim.wcfg 
+ISim P.49d (signature 0xfbc00daa)
+WARNING: A WEBPACK license was found.
+WARNING: Please use Xilinx License Configuration Manager to check out a full ISim license.
+WARNING: ISim will run in Lite mode. Please refer to the ISim documentation for more information on the differences between the Lite and the Full version.
+This is a Lite version of ISim.
+Time resolution is 1 ps
+# onerror resume
+# run 1000 ns
+Simulator is doing circuit initialization process.
+rom: xxxxxX -> 0000
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_CTRL/ : Warning: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, the result will be 'X'(es).
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_ADRREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_ADRREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_ADRREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_DATAREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_DATAREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_DATAREG/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+Finished circuit initialization process.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 0 ps, Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 000000 -> 0000
+              130000 uds_n=0 rw_n=1 data=0000
+              130000 lds_n=0 rw_n=1 data=0000
+              150000 uds_n=0 rw_n=1 data=0000
+              150000 lds_n=0 rw_n=1 data=0000
+rom: zzzzzZ -> 0000
+rom: 000002 -> 2000
+              210000 uds_n=0 rw_n=1 data=2000
+              210000 lds_n=0 rw_n=1 data=2000
+              230000 uds_n=0 rw_n=1 data=2000
+              230000 lds_n=0 rw_n=1 data=2000
+rom: zzzzzZ -> 0000
+rom: 000004 -> 0000
+              290000 uds_n=0 rw_n=1 data=0000
+              290000 lds_n=0 rw_n=1 data=0000
+              310000 uds_n=0 rw_n=1 data=0000
+              310000 lds_n=0 rw_n=1 data=0000
+rom: zzzzzZ -> 0000
+rom: 000006 -> 1000
+              370000 uds_n=0 rw_n=1 data=1000
+              370000 lds_n=0 rw_n=1 data=1000
+              390000 uds_n=0 rw_n=1 data=1000
+              390000 lds_n=0 rw_n=1 data=1000
+rom: zzzzzZ -> 0000
+rom: 001000 -> 3038
+              470000 uds_n=0 rw_n=1 data=3038
+              470000 lds_n=0 rw_n=1 data=3038
+              490000 uds_n=0 rw_n=1 data=3038
+              490000 lds_n=0 rw_n=1 data=3038
+rom: zzzzzZ -> 0000
+rom: 001002 -> 2000
+              550000 uds_n=0 rw_n=1 data=2000
+              550000 lds_n=0 rw_n=1 data=2000
+              570000 uds_n=0 rw_n=1 data=2000
+              570000 lds_n=0 rw_n=1 data=2000
+rom: zzzzzZ -> 0000
+rom: 002000 -> 0000
+              630000 uds_n=0 rw_n=1 data=xxxx
+              630000 lds_n=0 rw_n=1 data=xxxx
+              650000 uds_n=0 rw_n=1 data=xxxx
+              650000 lds_n=0 rw_n=1 data=xxxx
+at 670 ns(4), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 670 ns(4), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 680 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 001004 -> d078
+at 690 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 700 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              710000 uds_n=0 rw_n=1 data=d078
+              710000 lds_n=0 rw_n=1 data=d078
+at 710 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 720 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              730000 uds_n=0 rw_n=1 data=d078
+              730000 lds_n=0 rw_n=1 data=d078
+at 730 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 740 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 740 ns(4), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 740 ns(4), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 740 ns(5), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 750 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 760 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 001006 -> 2002
+at 770 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 780 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              790000 uds_n=0 rw_n=1 data=2002
+              790000 lds_n=0 rw_n=1 data=2002
+at 790 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 800 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              810000 uds_n=0 rw_n=1 data=2002
+              810000 lds_n=0 rw_n=1 data=2002
+at 810 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 820 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 830 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 840 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 002002 -> 0000
+at 850 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 860 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              870000 uds_n=0 rw_n=1 data=xxxx
+              870000 lds_n=0 rw_n=1 data=xxxx
+at 870 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 880 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              890000 uds_n=0 rw_n=1 data=xxxx
+              890000 lds_n=0 rw_n=1 data=xxxx
+at 890 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 900 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 910 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 920 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 001008 -> d078
+at 930 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 940 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              950000 uds_n=0 rw_n=1 data=d078
+              950000 lds_n=0 rw_n=1 data=d078
+at 950 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 960 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+              970000 uds_n=0 rw_n=1 data=d078
+              970000 lds_n=0 rw_n=1 data=d078
+at 970 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 980 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+at 990 ns(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: zzzzzZ -> 0000
+at 1 us(1), Instance /m68k_tb/top/I_68K00/I_SHFT/ : Warning: CONV_INTEGER: There is an 'U'|'X'|'W'|'Z'|'-' in an arithmetic operand, and it has been converted to 0.
+rom: 00100a -> 2004

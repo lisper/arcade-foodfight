@@ -1,0 +1,29 @@
+Command line:
+   m68k_tb_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  59299
+
+Wed Jun  4 08:26:53 2014
+
+
+ Elaboration Time: 0.03 sec
+
+ Current Memory Usage: 125.87 Meg
+
+ Total Signals          : 791
+ Total Nets             : 3148
+ Total Signal Drivers   : 402
+ Total Blocks           : 18
+ Total Primitive Blocks : 15
+ Total Processes        : 326
+ Total Traceable Variables  : 39
+ Total Scalar Nets and Variables : 3649
+Total Line Count : 2024
+
+ Total Simulation Time: 0.05 sec
+
+ Current Memory Usage: 135.311 Meg
+
+Wed Jun  4 10:04:10 2014
+

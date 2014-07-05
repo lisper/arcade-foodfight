@@ -1,0 +1,54 @@
+This document describes the special cases for the execution of 68000 operations. This document may be freely distributed as long as it is not modified in anyway. For additions and remarks on this document please contact the author: wf@inventronik.de.
+
+Wolfgang Foerster in August 2008, updated 2010.
+
+The following operations included in the 68000 instruction set cover some special cases which are described in the following sections.
+
+ADDA, CMPA, SUBA:
+For the Operations in the predecremented mode, the operand used is also the decremented. E.g.:
+The instruction ADDA.W -(Ax),Ax uses the decremented Ax as operand. Thus the memory location (Ax-2) is added to Ax-2.
+The instruction CMPA.W -(Ax),Ax uses the decremented Ax as operand. Thus the memory location (Ax-2) is compared to Ax-2.
+The instruction SUBA.W -(Ax),Ax uses the decremented Ax as operand. Thus the memory location (Ax-2) is subtracted from Ax-
+
+CMPM, MOVE, ADDX, SUBX, ABCD, SBCD:
+generally spoken all operations where a source and a destination location are given. The predecrement and the postincrement addressing modes are affected. Which result is calculated by addressing modes (ax)+,(ay)+ and -(ax),-(ay). The result depends on the time when the address registers are incremented or decremented and the order, the operands are loaded. I assume, that the address registers are incremented twice during these instructions and that the address registers are incremented during the operation in a way, that the second operand is already taken from the postincremented or the predecremented address.
+
+MOVE:
+The instruction MOVE Ax,-(Ax) copies the undecremented Ax to the location Ax-2.
+
+MOVEM:
+(Taken from the Motorola's 68000 programmer's manual):
+Memory to register transfers: if the addressing register is also loaded from memory, the memory value is ignored and the register is written with the postincremented effective address.
+Register to memory transfers: if the addressing register is also moved to memory, the value written is the initial register value (not decremented).
+If the addressing register is included in the register list, the initial value of the register should be written to the memory. For the 68K20+ the decremented value is written. Which value is the correct one? Decremented by the actual amount of already transfered registers or the decremented value for the total amount of decremented registers?
+If the register list mask is empty, the MOVEM does nothing and behaves like a NOP.
+
+ILLEGAL, UNIMPLEMENTED, RESERVED lineA, lineF:
+The PC written to the stack is the PC pointing ahead of the current operation.
+
+TRAP, TRAPV, TRAP_CHK, TRAP_DIVZERO:
+The PC written to the stack is the PC pointing ahead the next operation.
+
+PEA(A7):
+The initial value of A7 is written to the stack and not the decremented.
+
+DIVS, DIVU:
+In case of an overflow, the data registers are not updated.
+
+LINK A7, displacement:
+In this case, the undecremented Register is written to the stack.
+
+MOVEA (Ax)+, AX:
+writes the value from the bus to register Ax. The operand will not be decremented.
+
+ROL, ROR, ROXL, ROXR, ROTL, ROTR
+The operation (example) ROL d0,d0 takes the number of required rotations out of do, rotates d0 and copies afterwards the result to d0. If the immediate rotation register is zero, no shift operation results, the status flags are updated.
+
+UNLK:
+The UNLK_A7 does not increment the value read from the stack.
+
+---------------------------------------------------------------------------------------------------------------------------
+CPU core original CPU unclear items:
+What does the instruction MOVE -(Ax),-(Ax).
+What does the instruction MOVE (Ax)+,-(Ax).
+What does the instruction MOVE (Ax)+,-(Ax)+.

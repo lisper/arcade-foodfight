@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "/files/code/foodfight/m68k-vhdl/ise/m68k_tb_isim_beh.exe" -prj "/files/code/foodfight/m68k-vhdl/ise/m68k_tb_beh.prj" "work.m68k_tb" "work.glbl" 

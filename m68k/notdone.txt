@@ -1,0 +1,5 @@
+/files/code/foodfight/m68k/wf68k00ip_address_registers.v
+/files/code/foodfight/m68k/wf68k00ip_data_registers.v
+/files/code/foodfight/m68k/wf68k00ip_control.v
+
+

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/files/code/foodfight/m68k-vhdl/ise/m68k_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="m68k_tb" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="wf68k00ip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="33" />
+   <wvobject fp_name="/m68k_tb/reset_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[23:1]</obj_property>
+      <obj_property name="ObjectShortName">addr[23:1]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">data[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/halt_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">halt_n</obj_property>
+      <obj_property name="ObjectShortName">halt_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/fc" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">fc[2:0]</obj_property>
+      <obj_property name="ObjectShortName">fc[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/uds_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">uds_n</obj_property>
+      <obj_property name="ObjectShortName">uds_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/lds_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lds_n</obj_property>
+      <obj_property name="ObjectShortName">lds_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/e" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">e</obj_property>
+      <obj_property name="ObjectShortName">e</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/vma_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vma_n</obj_property>
+      <obj_property name="ObjectShortName">vma_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/bg_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">bg_n</obj_property>
+      <obj_property name="ObjectShortName">bg_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/mem_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mem_addr[23:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_addr[23:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/rom_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">rom_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">rom_out[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/ram_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ram_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_out[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/ram_in" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ram_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_in[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/ram_we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ram_we</obj_property>
+      <obj_property name="ObjectShortName">ram_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/steer_rom" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">steer_rom</obj_property>
+      <obj_property name="ObjectShortName">steer_rom</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/steer_ram" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">steer_ram</obj_property>
+      <obj_property name="ObjectShortName">steer_ram</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/avec_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">avec_n</obj_property>
+      <obj_property name="ObjectShortName">avec_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/dtack_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dtack_n</obj_property>
+      <obj_property name="ObjectShortName">dtack_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/asn_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">asn_n</obj_property>
+      <obj_property name="ObjectShortName">asn_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/rw_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rw_n</obj_property>
+      <obj_property name="ObjectShortName">rw_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/berr_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">berr_n</obj_property>
+      <obj_property name="ObjectShortName">berr_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/vpa_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">vpa_n</obj_property>
+      <obj_property name="ObjectShortName">vpa_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/ipl_n" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ipl_n[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ipl_n[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/br_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">br_n</obj_property>
+      <obj_property name="ObjectShortName">br_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/bgack_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">bgack_n</obj_property>
+      <obj_property name="ObjectShortName">bgack_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/dtackn" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dtackn</obj_property>
+      <obj_property name="ObjectShortName">dtackn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/drive_reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">drive_reset</obj_property>
+      <obj_property name="ObjectShortName">drive_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/reset" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/top/I_68K00/I_CTRL/exec_state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">exec_state</obj_property>
+      <obj_property name="ObjectShortName">exec_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/top/I_68K00/I_CTRL/next_exec_state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">next_exec_state</obj_property>
+      <obj_property name="ObjectShortName">next_exec_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/m68k_tb/top/I_68K00/I_BUS_IF/t_slice" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">t_slice</obj_property>
+      <obj_property name="ObjectShortName">t_slice</obj_property>
+   </wvobject>
+</wave_config>

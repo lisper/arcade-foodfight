@@ -1,0 +1,14 @@
+GPLCVER_2.12a of 05/16/07 (Linux-elf).
+Copyright (c) 1991-2007 Pragmatic C Software Corp.
+  All Rights reserved.  Licensed under the GNU General Public License (GPL).
+  See the 'COPYING' file for details.  NO WARRANTY provided.
+Today is Fri Jun  6 06:22:06 2014.
+Compiling source file "wf68k00ip_address_registers.v"
+Highest level modules:
+wf68k00ip_address_registers
+
+2 simulation events and 11 declarative immediate assigns processed.
+26 behavioral statements executed (13 procedural suspends).
+  Times (in sec.):  Translate 0.0, load/optimize 0.1, simulation 0.1.
+  There were 0 error(s), 0 warning(s), and 174 inform(s).
+End of GPLCVER_2.12a at Fri Jun  6 06:22:06 2014 (elapsed 0.0 seconds).
