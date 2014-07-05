@@ -1,0 +1,14 @@
+GPLCVER_2.12a of 05/16/07 (Linux-elf).
+Copyright (c) 1991-2007 Pragmatic C Software Corp.
+  All Rights reserved.  Licensed under the GNU General Public License (GPL).
+  See the 'COPYING' file for details.  NO WARRANTY provided.
+Today is Sat May 31 08:30:23 2014.
+Compiling source file "pokey.v"
+Highest level modules:
+pokey
+
+0 simulation events and 115 declarative immediate assigns processed.
+37 behavioral statements executed (37 procedural suspends).
+  Times (in sec.):  Translate 0.0, load/optimize 0.1, simulation 0.1.
+  There were 0 error(s), 0 warning(s), and 59 inform(s).
+End of GPLCVER_2.12a at Sat May 31 08:30:23 2014 (elapsed 0.0 seconds).

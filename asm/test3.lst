@@ -1,0 +1,228 @@
+                        ;; m68000 instruction test #1
+                        ;; address and data registers
+                        ;; basic loops
+                        ;; shifter
+                        ;; mul/div
+                        	
+000000                          ORG     $0
+000000 0001B000         	long	$1b000
+000004 00000100         	long	$100
+                        	
+000100                          ORG     $100
+                        	;; test basic regs
+000100                  test1
+000100 203C 00000000            MOVE.L #$00000000,D0
+000106 223C 80010001            MOVE.L #$80010001,D1
+00010C 243C 80020002            MOVE.L #$80020002,D2
+000112 263C 80030003            MOVE.L #$80030003,D3
+000118 283C 00000004            MOVE.L #4,D4
+00011E 2A3C 00000005            MOVE.L #5,D5
+000124 2C3C 00000006            MOVE.L #6,D6
+00012A 2E3C 00000007            MOVE.L #7,D7
+
+                        	;; test movem
+000130 207C 00014000    	move.l	#$14000,a0
+000136 48D0 00FF        	movem.l	d0-d7,(a0)
+
+                        	;; check reg contents
+00013A 0C80 00000000    	cmpi.l	#0,d0
+000140 6600 025A        	bne	bad1
+000144 0C81 80010001    	cmpi.l	#$80010001,d1
+00014A 6600 0250        	bne	bad1
+00014E 0C82 80020002    	cmpi.l	#$80020002,d2
+000154 6600 0246        	bne	bad1
+000158 0C83 80030003    	cmpi.l	#$80030003,d3
+00015E 6600 023C        	bne	bad1
+000162 0C84 00000004    	cmpi.l	#4,d4
+000168 6600 0232        	bne	bad1
+00016C 0C85 00000005    	cmpi.l	#5,d5
+000172 6600 0228        	bne	bad1
+000176 0C86 00000006    	cmpi.l	#6,d6
+00017C 6600 021E        	bne	bad1
+000180 0C87 00000007    	cmpi.l	#7,d7
+000186 6600 0214        	bne	bad1
+
+                        	;; make sure movem worked
+00018A 207C 0001401C    	move.l	#$1401c,a0
+000190 2010             	move.l	(a0),d0
+000192 0C80 00000007    	cmpi.l	#7,d0
+000198 6600 0202        	bne	bad1
+
+                        	;; test offset
+00019C 207C 00014000    	move.l	#$14000,a0
+0001A2 2228 0004        	move.l	$4(a0),d1
+0001A6 0C81 80010001    	cmpi.l	#$80010001,d1
+0001AC 6600 01EE        	bne	bad1
+
+                        	;; test offset
+0001B0 207C 000144D6    	move.l	#$144d6,a0
+0001B6 2228 0004        	move.l	$4(a0),d1
+
+                        	;; basic loop
+0001BA                  test2
+0001BA 243C 00000004            MOVE.L #4,D2
+0001C0 4280             	clr.l	d0
+0001C2 D0BC 00000001    LOOP1   ADD.L   #1,D0
+0001C8 5382                     SUBQ.L  #1,D2
+0001CA 66F6                     BNE     LOOP1
+0001CC 0C80 00000004    	cmpi.l	#4,d0
+0001D2 6600 0098        	bne	bad2
+
+                        	;; bug
+0001D6 2E3C 0000FFFF    	MOVE.L	#$0000ffff,D7
+0001DC 7E04             	moveq	#4,D7
+0001DE 0C87 00000004    	cmpi.l	#4,d7
+0001E4 6600 0086        	bne	bad2
+
+                        	;; post inc 1
+0001E8 207C 00014000    	move.l	#$14000,a0
+0001EE 2018             	MOVE.L  (A0)+,d0
+0001F0 2218             	MOVE.L  (A0)+,d1
+0001F2 2418             	MOVE.L  (A0)+,d2
+0001F4 2618             	MOVE.L  (A0)+,d3
+0001F6 B0BC 00000000            cmp.L	#$00000000,D0
+0001FC 6600 006E        	bne	bad2
+000200 B2BC 80010001            cmp.L	#$80010001,D1
+000206 6600 0064        	bne	bad2
+00020A B4BC 80020002            cmp.L	#$80020002,D2
+000210 6600 005A        	bne	bad2
+000214 B6BC 80030003            cmp.L	#$80030003,D3
+00021A 6600 0050        	bne	bad2
+
+                        	;;
+00021E 2A7C 00014000    	move.l	#$14000,a5
+000224 267C 00015000    	move.l	#$15000,a3
+00022A 287C 00015008    	move.l	#$15008,a4
+000230 36DD             	move.w	(a5)+,(a3)+
+000232 36DD             	move.w	(a5)+,(a3)+
+000234 36DD             	move.w	(a5)+,(a3)+
+000236 36DD             	move.w	(a5)+,(a3)+
+
+000238 B7CC             	cmpa.l	a4,a3
+00023A 6630             	bne.s	bad2
+                        	
+00023C 207C 00015000    	move.l	#$15000,a0
+000242 2018             	MOVE.L  (A0)+,d0
+000244 2218             	MOVE.L  (A0)+,d1
+000246 B0BC 00000000            cmp.L	#$00000000,D0
+00024C 661E             	bne.s	bad2
+00024E B2BC 80010001            cmp.L	#$80010001,D1
+000254 6616             	bne.s	bad2
+
+                        	;;
+000256 287C 00014000    	move.l	#$14000,a4
+00025C 267C 00015000    	move.l	#$15000,a3
+000262 B74C             	cmpm	(a4)+,(a3)+
+000264 6606             	bne.s	bad2
+000266 B74C             	cmpm	(a4)+,(a3)+
+000268 6602             	bne.s	bad2
+00026A 600C             	bra.s	test2a
+
+00026C 203C 00000002    bad2	move.l	#2,d0
+000272 4E72 2700        	STOP    #$2700
+000276 60F4             	BRA	bad2
+
+                        	;; basic loop, post inc a reg
+000278                  test2a
+000278 2E3C 0000FFFF            MOVE.L	#$0000ffff,D7
+00027E 7E04             	moveq	#4,D7
+000280 207C 00014000    	move.l	#$14000,a0
+000286 20FC 00000000    loop2	MOVE.L  #$0,(A0)+
+00028C 51CF FFF8        	DBF 	D7,loop2
+
+                        	;; bug
+000290 223C 0000FFFF            MOVE.L	#$0000ffff,D1
+000296 4A79 00958000    	tst.w	$958000.l	
+00029C 51C9 0004        	DBF 	D1,test2b
+0002A0 60CA             	BRA	bad2
+0002A2                  test2b
+0002A2 B2BC 0000FFFE    	cmp.l	#$0000fffe,d1
+0002A8 66C2             	bne	bad2
+                        	
+                        	;; movem test
+0002AA 207C 00014000    	move.l	#$14000,a0
+0002B0 203C 0000FFF0    	move.l	#$fff0,d0
+0002B6 223C 0000FFF1    	move.l	#$fff1,d1
+0002BC 243C 0000FFF2    	move.l	#$fff2,d2
+0002C2 263C 0000FFF3    	move.l	#$fff3,d3
+0002C8 4CD0 000F        	movem.l	(a0),d0-d3
+0002CC 0C80 00000000    	cmpi.l	#0,d0
+0002D2 6698             	bne	bad2
+0002D4 0C81 00000000    	cmpi.l	#0,d1
+0002DA 6690             	bne	bad2
+0002DC 0C82 00000000    	cmpi.l	#0,d2
+0002E2 6688             	bne	bad2
+0002E4 0C83 00000000    	cmpi.l	#0,d3
+0002EA 6680             	bne	bad2
+
+                        	;; predecrement, postincrement
+0002EC 203C 00000000            MOVE.L #$00000000,D0
+0002F2 223C 80010001            MOVE.L #$80010001,D1
+0002F8 243C 80020002            MOVE.L #$80020002,D2
+0002FE 263C 80030003            MOVE.L #$80030003,D3
+                        	
+000304 207C 00016000    	move.l	#$16000,A0
+00030A 2E48                     move.l  A0,A7
+00030C 48E7 E000        	movem.l	d0/d1/d2,-(a7)
+000310 4CDF 0007        	movem.l	(a7)+,d0/d1/d2
+
+000314 B0BC 00000000    	cmp.L	#$00000000,D0
+00031A 6600 FF50        	bne	bad2
+00031E B2BC 80010001            cmp.L	#$80010001,D1
+000324 6600 FF46        	bne	bad2
+000328 B4BC 80020002            cmp.L	#$80020002,D2
+00032E 6600 FF3C        	bne	bad2
+000332 B6BC 80030003            cmp.L	#$80030003,D3
+000338 6600 FF32        	bne	bad2
+
+                        	;; shifter
+00033C                  test3
+00033C 203C 0000AA55    	move.l	#$aa55,d0
+000342 E980                     ASL.L   #4,D0
+000344 0C80 000AA550    	cmpi.l	#$aa550,d0
+00034A 6600 005C        	bne	bad3
+
+                        	;; shifter
+00034E 203C 000055AA    	move.l	#$55aa,d0
+000354 E880                     ASR.L   #4,D0
+000356 0C80 0000055A    	cmpi.l	#$55a,d0
+00035C 6600 004A        	bne	bad3
+
+                        	;; mul
+000360 223C 00000002    	move.l	#2,d1
+000366 203C 0000000C    	move.l	#12,d0
+00036C C3C0             	muls	d0,d1
+00036E 0C81 00000018    	cmpi.l	#24,d1
+000374 6600 003E        	bne	bad4
+
+                        	;; div
+000378 223C 00000090    	move.l	#144,d1
+00037E 203C 0000000C    	move.l	#12,d0
+000384 83C0             	divs	d0,d1
+000386 0C81 0000000C    	cmpi.l	#12,d1
+00038C 6600 0026        	bne	bad4
+
+000390 203C 00000000    	move.l	#0,d0
+000396 4E72 2700        DONE    STOP    #$2700
+00039A 60FA             	BRA	DONE
+
+00039C 203C 00000001    bad1	move.l	#1,d0
+0003A2 4E72 2700        	STOP    #$2700
+0003A6 60F4             	BRA	bad1
+                        	
+0003A8 203C 00000003    bad3	move.l	#3,d0
+0003AE 4E72 2700        	STOP    #$2700
+0003B2 60F4             	BRA	bad3
+
+0003B4 203C 00000004    bad4	move.l	#4,d0
+0003BA 4E72 2700        	STOP    #$2700
+0003BE 60F4             	BRA	bad4
+
+0003C0  (001000)                END     $1000
+
+00000 Total Error(s)
+
+BAD1               0000039C    BAD2               0000026C    BAD3               000003A8
+BAD4               000003B4    DONE               00000396    LOOP1              000001C2
+LOOP2              00000286    TEST1              00000100    TEST2              000001BA
+TEST2A             00000278    TEST2B             000002A2    TEST3              0000033C

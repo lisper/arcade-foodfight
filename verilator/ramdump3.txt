@@ -1,0 +1,1536 @@
+pf 0 09 0
+pf 1 09 1
+pf 2 09 2
+pf 3 09 3
+pf 4 09 4
+pf 5 09 5
+pf 6 09 6
+pf 7 09 7
+pf 8 09 8
+pf 9 09 9
+pf a 09 a
+pf b 09 b
+pf c 09 c
+pf d 09 d
+pf e 09 e
+pf f 09 f
+pf 10 09 10
+pf 11 09 11
+pf 12 09 12
+pf 13 09 13
+pf 14 09 14
+pf 15 09 15
+pf 16 09 16
+pf 17 09 17
+pf 18 09 18
+pf 19 09 19
+pf 1a 09 1a
+pf 1b 09 1b
+pf 1c 09 1c
+pf 1d 09 1d
+pf 1e 09 1e
+pf 1f 09 1f
+pf 20 09 20
+pf 21 09 21
+pf 22 09 22
+pf 23 09 23
+pf 24 09 24
+pf 25 09 25
+pf 26 09 26
+pf 27 09 27
+pf 28 09 28
+pf 29 09 29
+pf 2a 09 2a
+pf 2b 09 2b
+pf 2c 09 2c
+pf 2d 09 2d
+pf 2e 09 2e
+pf 2f 09 2f
+pf 30 09 30
+pf 31 09 31
+pf 32 09 32
+pf 33 09 33
+pf 34 09 34
+pf 35 09 35
+pf 36 09 36
+pf 37 09 37
+pf 38 09 38
+pf 39 09 39
+pf 3a 09 3a
+pf 3b 09 3b
+pf 3c 09 3c
+pf 3d 09 3d
+pf 3e 09 3e
+pf 3f 09 3f
+pf 40 09 40
+pf 41 09 41
+pf 42 09 42
+pf 43 09 43
+pf 44 09 44
+pf 45 09 45
+pf 46 09 46
+pf 47 09 47
+pf 48 09 48
+pf 49 09 49
+pf 4a 09 4a
+pf 4b 09 4b
+pf 4c 09 4c
+pf 4d 09 4d
+pf 4e 09 4e
+pf 4f 09 4f
+pf 50 09 50
+pf 51 09 51
+pf 52 09 52
+pf 53 09 53
+pf 54 09 54
+pf 55 09 55
+pf 56 09 56
+pf 57 09 57
+pf 58 09 58
+pf 59 09 59
+pf 5a 09 5a
+pf 5b 09 5b
+pf 5c 09 5c
+pf 5d 09 5d
+pf 5e 09 5e
+pf 5f 09 5f
+pf 60 09 60
+pf 61 09 61
+pf 62 09 62
+pf 63 09 63
+pf 64 09 64
+pf 65 09 65
+pf 66 09 66
+pf 67 09 67
+pf 68 09 68
+pf 69 09 69
+pf 6a 09 6a
+pf 6b 09 6b
+pf 6c 09 6c
+pf 6d 09 6d
+pf 6e 09 6e
+pf 6f 09 6f
+pf 70 09 70
+pf 71 09 71
+pf 72 09 72
+pf 73 09 73
+pf 74 09 74
+pf 75 09 75
+pf 76 09 76
+pf 77 09 77
+pf 78 09 78
+pf 79 09 79
+pf 7a 09 7a
+pf 7b 09 7b
+pf 7c 09 7c
+pf 7d 09 7d
+pf 7e 09 7e
+pf 7f 09 7f
+pf 80 09 80
+pf 81 09 81
+pf 82 09 82
+pf 83 09 83
+pf 84 09 84
+pf 85 09 85
+pf 86 09 86
+pf 87 09 87
+pf 88 09 88
+pf 89 09 89
+pf 8a 09 8a
+pf 8b 09 8b
+pf 8c 09 8c
+pf 8d 09 8d
+pf 8e 09 8e
+pf 8f 09 8f
+pf 90 09 90
+pf 91 09 91
+pf 92 09 92
+pf 93 09 93
+pf 94 09 94
+pf 95 09 95
+pf 96 09 96
+pf 97 09 97
+pf 98 09 98
+pf 99 09 99
+pf 9a 09 9a
+pf 9b 09 9b
+pf 9c 09 9c
+pf 9d 09 9d
+pf 9e 09 9e
+pf 9f 09 9f
+pf a0 09 a0
+pf a1 09 a1
+pf a2 09 a2
+pf a3 09 a3
+pf a4 09 a4
+pf a5 09 a5
+pf a6 09 a6
+pf a7 09 a7
+pf a8 09 a8
+pf a9 09 a9
+pf aa 09 aa
+pf ab 09 ab
+pf ac 09 ac
+pf ad 09 ad
+pf ae 09 ae
+pf af 09 af
+pf b0 09 b0
+pf b1 09 b1
+pf b2 09 b2
+pf b3 09 b3
+pf b4 09 b4
+pf b5 09 b5
+pf b6 09 b6
+pf b7 09 b7
+pf b8 09 b8
+pf b9 09 b9
+pf ba 09 ba
+pf bb 09 bb
+pf bc 09 bc
+pf bd 09 bd
+pf be 09 be
+pf bf 09 bf
+pf c0 09 c0
+pf c1 09 c1
+pf c2 09 c2
+pf c3 09 c3
+pf c4 09 c4
+pf c5 09 c5
+pf c6 09 c6
+pf c7 09 c7
+pf c8 09 c8
+pf c9 09 c9
+pf ca 09 ca
+pf cb 09 cb
+pf cc 09 cc
+pf cd 09 cd
+pf ce 09 ce
+pf cf 09 cf
+pf d0 09 d0
+pf d1 09 d1
+pf d2 09 d2
+pf d3 09 d3
+pf d4 09 d4
+pf d5 09 d5
+pf d6 09 d6
+pf d7 09 d7
+pf d8 09 d8
+pf d9 09 d9
+pf da 09 da
+pf db 09 db
+pf dc 09 dc
+pf dd 09 dd
+pf de 09 de
+pf df 09 df
+pf e0 09 e0
+pf e1 09 e1
+pf e2 09 e2
+pf e3 09 e3
+pf e4 09 e4
+pf e5 09 e5
+pf e6 09 e6
+pf e7 09 e7
+pf e8 09 e8
+pf e9 09 e9
+pf ea 09 ea
+pf eb 09 eb
+pf ec 09 ec
+pf ed 09 ed
+pf ee 09 ee
+pf ef 09 ef
+pf f0 09 f0
+pf f1 09 f1
+pf f2 09 f2
+pf f3 09 f3
+pf f4 09 f4
+pf f5 09 f5
+pf f6 09 f6
+pf f7 09 f7
+pf f8 09 f8
+pf f9 09 f9
+pf fa 09 fa
+pf fb 09 fb
+pf fc 09 fc
+pf fd 09 fd
+pf fe 09 fe
+pf ff 09 ff
+pf 100 39 0
+pf 101 39 1
+pf 102 39 2
+pf 103 39 3
+pf 104 39 4
+pf 105 39 5
+pf 106 39 6
+pf 107 39 7
+pf 108 39 8
+pf 109 39 9
+pf 10a 39 a
+pf 10b 39 b
+pf 10c 39 c
+pf 10d 39 d
+pf 10e 39 e
+pf 10f 39 f
+pf 110 39 10
+pf 111 39 11
+pf 112 39 12
+pf 113 39 13
+pf 114 39 14
+pf 115 39 15
+pf 116 39 16
+pf 117 39 17
+pf 118 39 18
+pf 119 39 19
+pf 11a 39 1a
+pf 11b 39 1b
+pf 11c 39 1c
+pf 11d 39 1d
+pf 11e 39 1e
+pf 11f 39 1f
+pf 120 39 20
+pf 121 39 21
+pf 122 39 22
+pf 123 39 23
+pf 124 39 24
+pf 125 39 25
+pf 126 39 26
+pf 127 39 27
+pf 128 39 28
+pf 129 39 29
+pf 12a 39 2a
+pf 12b 39 2b
+pf 12c 39 2c
+pf 12d 39 2d
+pf 12e 39 2e
+pf 12f 39 2f
+pf 130 39 30
+pf 131 39 31
+pf 132 39 32
+pf 133 39 33
+pf 134 39 34
+pf 135 39 35
+pf 136 39 36
+pf 137 39 37
+pf 138 39 38
+pf 139 39 39
+pf 13a 39 3a
+pf 13b 39 3b
+pf 13c 39 3c
+pf 13d 39 3d
+pf 13e 39 3e
+pf 13f 39 3f
+pf 140 39 40
+pf 141 39 41
+pf 142 39 42
+pf 143 39 43
+pf 144 39 44
+pf 145 39 45
+pf 146 39 46
+pf 147 39 47
+pf 148 39 48
+pf 149 39 49
+pf 14a 39 4a
+pf 14b 39 4b
+pf 14c 39 4c
+pf 14d 39 4d
+pf 14e 39 4e
+pf 14f 39 4f
+pf 150 39 50
+pf 151 39 51
+pf 152 39 52
+pf 153 39 53
+pf 154 39 54
+pf 155 39 55
+pf 156 39 56
+pf 157 39 57
+pf 158 39 58
+pf 159 39 59
+pf 15a 39 5a
+pf 15b 39 5b
+pf 15c 39 5c
+pf 15d 39 5d
+pf 15e 39 5e
+pf 15f 39 5f
+pf 160 39 60
+pf 161 39 61
+pf 162 39 62
+pf 163 39 63
+pf 164 39 64
+pf 165 39 65
+pf 166 39 66
+pf 167 39 67
+pf 168 39 68
+pf 169 39 69
+pf 16a 39 6a
+pf 16b 39 6b
+pf 16c 39 6c
+pf 16d 39 6d
+pf 16e 39 6e
+pf 16f 39 6f
+pf 170 39 70
+pf 171 39 71
+pf 172 39 72
+pf 173 39 73
+pf 174 39 74
+pf 175 39 75
+pf 176 39 76
+pf 177 39 77
+pf 178 39 78
+pf 179 39 79
+pf 17a 39 7a
+pf 17b 39 7b
+pf 17c 39 7c
+pf 17d 39 7d
+pf 17e 39 7e
+pf 17f 39 7f
+pf 180 39 80
+pf 181 39 81
+pf 182 39 82
+pf 183 39 83
+pf 184 39 84
+pf 185 39 85
+pf 186 39 86
+pf 187 39 87
+pf 188 39 88
+pf 189 39 89
+pf 18a 39 8a
+pf 18b 39 8b
+pf 18c 39 8c
+pf 18d 39 8d
+pf 18e 39 8e
+pf 18f 39 8f
+pf 190 39 90
+pf 191 39 91
+pf 192 39 92
+pf 193 39 93
+pf 194 39 94
+pf 195 39 95
+pf 196 39 96
+pf 197 39 97
+pf 198 39 98
+pf 199 39 99
+pf 19a 39 9a
+pf 19b 39 9b
+pf 19c 39 9c
+pf 19d 39 9d
+pf 19e 39 9e
+pf 19f 39 9f
+pf 1a0 39 a0
+pf 1a1 39 a1
+pf 1a2 39 a2
+pf 1a3 39 a3
+pf 1a4 39 a4
+pf 1a5 39 a5
+pf 1a6 39 a6
+pf 1a7 39 a7
+pf 1a8 39 a8
+pf 1a9 39 a9
+pf 1aa 39 aa
+pf 1ab 39 ab
+pf 1ac 39 ac
+pf 1ad 39 ad
+pf 1ae 39 ae
+pf 1af 39 af
+pf 1b0 39 b0
+pf 1b1 39 b1
+pf 1b2 39 b2
+pf 1b3 39 b3
+pf 1b4 39 b4
+pf 1b5 39 b5
+pf 1b6 39 b6
+pf 1b7 39 b7
+pf 1b8 39 b8
+pf 1b9 39 b9
+pf 1ba 39 ba
+pf 1bb 39 bb
+pf 1bc 39 bc
+pf 1bd 39 bd
+pf 1be 39 be
+pf 1bf 39 bf
+pf 1c0 39 c0
+pf 1c1 39 c1
+pf 1c2 39 c2
+pf 1c3 39 c3
+pf 1c4 39 c4
+pf 1c5 39 c5
+pf 1c6 39 c6
+pf 1c7 39 c7
+pf 1c8 39 c8
+pf 1c9 39 c9
+pf 1ca 39 ca
+pf 1cb 39 cb
+pf 1cc 39 cc
+pf 1cd 39 cd
+pf 1ce 39 ce
+pf 1cf 39 cf
+pf 1d0 39 d0
+pf 1d1 39 d1
+pf 1d2 39 d2
+pf 1d3 39 d3
+pf 1d4 39 d4
+pf 1d5 39 d5
+pf 1d6 39 d6
+pf 1d7 39 d7
+pf 1d8 39 d8
+pf 1d9 39 d9
+pf 1da 39 da
+pf 1db 39 db
+pf 1dc 39 dc
+pf 1dd 39 dd
+pf 1de 39 de
+pf 1df 39 df
+pf 1e0 39 e0
+pf 1e1 39 e1
+pf 1e2 39 e2
+pf 1e3 39 e3
+pf 1e4 39 e4
+pf 1e5 39 e5
+pf 1e6 39 e6
+pf 1e7 39 e7
+pf 1e8 39 e8
+pf 1e9 39 e9
+pf 1ea 39 ea
+pf 1eb 39 eb
+pf 1ec 39 ec
+pf 1ed 39 ed
+pf 1ee 39 ee
+pf 1ef 39 ef
+pf 1f0 39 f0
+pf 1f1 39 f1
+pf 1f2 39 f2
+pf 1f3 39 f3
+pf 1f4 39 f4
+pf 1f5 39 f5
+pf 1f6 39 f6
+pf 1f7 39 f7
+pf 1f8 39 f8
+pf 1f9 39 f9
+pf 1fa 39 fa
+pf 1fb 39 fb
+pf 1fc 39 fc
+pf 1fd 39 fd
+pf 1fe 39 fe
+pf 1ff 39 ff
+pf 200 39 0
+pf 201 39 1
+pf 202 39 2
+pf 203 39 3
+pf 204 39 4
+pf 205 39 5
+pf 206 39 6
+pf 207 39 7
+pf 208 39 8
+pf 209 39 9
+pf 20a 39 a
+pf 20b 39 b
+pf 20c 39 c
+pf 20d 39 d
+pf 20e 39 e
+pf 20f 39 f
+pf 210 39 10
+pf 211 39 11
+pf 212 39 12
+pf 213 39 13
+pf 214 39 14
+pf 215 39 15
+pf 216 39 16
+pf 217 39 17
+pf 218 39 18
+pf 219 39 19
+pf 21a 39 1a
+pf 21b 39 1b
+pf 21c 39 1c
+pf 21d 39 1d
+pf 21e 39 1e
+pf 21f 39 1f
+pf 220 39 20
+pf 221 39 21
+pf 222 39 22
+pf 223 39 23
+pf 224 39 24
+pf 225 39 25
+pf 226 39 26
+pf 227 39 27
+pf 228 39 28
+pf 229 39 29
+pf 22a 39 2a
+pf 22b 39 2b
+pf 22c 39 2c
+pf 22d 39 2d
+pf 22e 39 2e
+pf 22f 39 2f
+pf 230 39 30
+pf 231 39 31
+pf 232 39 32
+pf 233 39 33
+pf 234 39 34
+pf 235 39 35
+pf 236 39 36
+pf 237 39 37
+pf 238 39 38
+pf 239 39 39
+pf 23a 39 3a
+pf 23b 39 3b
+pf 23c 39 3c
+pf 23d 39 3d
+pf 23e 39 3e
+pf 23f 39 3f
+pf 240 39 40
+pf 241 39 41
+pf 242 39 42
+pf 243 39 43
+pf 244 39 44
+pf 245 39 45
+pf 246 39 46
+pf 247 39 47
+pf 248 39 48
+pf 249 39 49
+pf 24a 39 4a
+pf 24b 39 4b
+pf 24c 39 4c
+pf 24d 39 4d
+pf 24e 39 4e
+pf 24f 39 4f
+pf 250 39 50
+pf 251 39 51
+pf 252 39 52
+pf 253 39 53
+pf 254 39 54
+pf 255 39 55
+pf 256 39 56
+pf 257 39 57
+pf 258 39 58
+pf 259 39 59
+pf 25a 39 5a
+pf 25b 39 5b
+pf 25c 39 5c
+pf 25d 39 5d
+pf 25e 39 5e
+pf 25f 39 5f
+pf 260 39 60
+pf 261 39 61
+pf 262 39 62
+pf 263 39 63
+pf 264 39 64
+pf 265 39 65
+pf 266 39 66
+pf 267 39 67
+pf 268 39 68
+pf 269 39 69
+pf 26a 39 6a
+pf 26b 39 6b
+pf 26c 39 6c
+pf 26d 39 6d
+pf 26e 39 6e
+pf 26f 39 6f
+pf 270 39 70
+pf 271 39 71
+pf 272 39 72
+pf 273 39 73
+pf 274 39 74
+pf 275 39 75
+pf 276 39 76
+pf 277 39 77
+pf 278 39 78
+pf 279 39 79
+pf 27a 39 7a
+pf 27b 39 7b
+pf 27c 39 7c
+pf 27d 39 7d
+pf 27e 39 7e
+pf 27f 39 7f
+pf 280 39 80
+pf 281 39 81
+pf 282 39 82
+pf 283 39 83
+pf 284 39 84
+pf 285 39 85
+pf 286 39 86
+pf 287 39 87
+pf 288 39 88
+pf 289 39 89
+pf 28a 39 8a
+pf 28b 39 8b
+pf 28c 39 8c
+pf 28d 39 8d
+pf 28e 39 8e
+pf 28f 39 8f
+pf 290 39 90
+pf 291 39 91
+pf 292 39 92
+pf 293 39 93
+pf 294 39 94
+pf 295 39 95
+pf 296 39 96
+pf 297 39 97
+pf 298 39 98
+pf 299 39 99
+pf 29a 39 9a
+pf 29b 39 9b
+pf 29c 39 9c
+pf 29d 39 9d
+pf 29e 39 9e
+pf 29f 39 9f
+pf 2a0 39 a0
+pf 2a1 39 a1
+pf 2a2 39 a2
+pf 2a3 39 a3
+pf 2a4 39 a4
+pf 2a5 39 a5
+pf 2a6 39 a6
+pf 2a7 39 a7
+pf 2a8 39 a8
+pf 2a9 39 a9
+pf 2aa 39 aa
+pf 2ab 39 ab
+pf 2ac 39 ac
+pf 2ad 39 ad
+pf 2ae 39 ae
+pf 2af 39 af
+pf 2b0 39 b0
+pf 2b1 39 b1
+pf 2b2 39 b2
+pf 2b3 39 b3
+pf 2b4 39 b4
+pf 2b5 39 b5
+pf 2b6 39 b6
+pf 2b7 39 b7
+pf 2b8 39 b8
+pf 2b9 39 b9
+pf 2ba 39 ba
+pf 2bb 39 bb
+pf 2bc 39 bc
+pf 2bd 39 bd
+pf 2be 39 be
+pf 2bf 39 bf
+pf 2c0 39 c0
+pf 2c1 39 c1
+pf 2c2 39 c2
+pf 2c3 39 c3
+pf 2c4 39 c4
+pf 2c5 39 c5
+pf 2c6 39 c6
+pf 2c7 39 c7
+pf 2c8 39 c8
+pf 2c9 39 c9
+pf 2ca 39 ca
+pf 2cb 39 cb
+pf 2cc 39 cc
+pf 2cd 39 cd
+pf 2ce 39 ce
+pf 2cf 39 cf
+pf 2d0 39 d0
+pf 2d1 39 d1
+pf 2d2 39 d2
+pf 2d3 39 d3
+pf 2d4 39 d4
+pf 2d5 39 d5
+pf 2d6 39 d6
+pf 2d7 39 d7
+pf 2d8 39 d8
+pf 2d9 39 d9
+pf 2da 39 da
+pf 2db 39 db
+pf 2dc 39 dc
+pf 2dd 39 dd
+pf 2de 39 de
+pf 2df 39 df
+pf 2e0 39 e0
+pf 2e1 39 e1
+pf 2e2 39 e2
+pf 2e3 39 e3
+pf 2e4 39 e4
+pf 2e5 39 e5
+pf 2e6 39 e6
+pf 2e7 39 e7
+pf 2e8 39 e8
+pf 2e9 39 e9
+pf 2ea 39 ea
+pf 2eb 39 eb
+pf 2ec 39 ec
+pf 2ed 39 ed
+pf 2ee 39 ee
+pf 2ef 39 ef
+pf 2f0 39 f0
+pf 2f1 39 f1
+pf 2f2 39 f2
+pf 2f3 39 f3
+pf 2f4 39 f4
+pf 2f5 39 f5
+pf 2f6 39 f6
+pf 2f7 39 f7
+pf 2f8 39 f8
+pf 2f9 39 f9
+pf 2fa 39 fa
+pf 2fb 39 fb
+pf 2fc 39 fc
+pf 2fd 39 fd
+pf 2fe 39 fe
+pf 2ff 39 ff
+pf 300 39 0
+pf 301 39 1
+pf 302 39 2
+pf 303 39 3
+pf 304 39 4
+pf 305 39 5
+pf 306 39 6
+pf 307 39 7
+pf 308 39 8
+pf 309 39 9
+pf 30a 39 a
+pf 30b 39 b
+pf 30c 39 c
+pf 30d 39 d
+pf 30e 39 e
+pf 30f 39 f
+pf 310 39 10
+pf 311 39 11
+pf 312 39 12
+pf 313 39 13
+pf 314 39 14
+pf 315 39 15
+pf 316 39 16
+pf 317 39 17
+pf 318 39 18
+pf 319 39 19
+pf 31a 39 1a
+pf 31b 39 1b
+pf 31c 39 1c
+pf 31d 39 1d
+pf 31e 39 1e
+pf 31f 39 1f
+pf 320 39 20
+pf 321 39 21
+pf 322 39 22
+pf 323 39 23
+pf 324 39 24
+pf 325 39 25
+pf 326 39 26
+pf 327 39 27
+pf 328 39 28
+pf 329 39 29
+pf 32a 39 2a
+pf 32b 39 2b
+pf 32c 39 2c
+pf 32d 39 2d
+pf 32e 39 2e
+pf 32f 39 2f
+pf 330 39 30
+pf 331 39 31
+pf 332 39 32
+pf 333 39 33
+pf 334 39 34
+pf 335 39 35
+pf 336 39 36
+pf 337 39 37
+pf 338 39 38
+pf 339 39 39
+pf 33a 39 3a
+pf 33b 39 3b
+pf 33c 39 3c
+pf 33d 39 3d
+pf 33e 39 3e
+pf 33f 39 3f
+pf 340 39 40
+pf 341 39 41
+pf 342 39 42
+pf 343 39 43
+pf 344 39 44
+pf 345 39 45
+pf 346 39 46
+pf 347 39 47
+pf 348 39 48
+pf 349 39 49
+pf 34a 39 4a
+pf 34b 39 4b
+pf 34c 39 4c
+pf 34d 39 4d
+pf 34e 39 4e
+pf 34f 39 4f
+pf 350 39 50
+pf 351 39 51
+pf 352 39 52
+pf 353 39 53
+pf 354 39 54
+pf 355 39 55
+pf 356 39 56
+pf 357 39 57
+pf 358 39 58
+pf 359 39 59
+pf 35a 39 5a
+pf 35b 39 5b
+pf 35c 39 5c
+pf 35d 39 5d
+pf 35e 39 5e
+pf 35f 39 5f
+pf 360 39 60
+pf 361 39 61
+pf 362 39 62
+pf 363 39 63
+pf 364 39 64
+pf 365 39 65
+pf 366 39 66
+pf 367 39 67
+pf 368 39 68
+pf 369 39 69
+pf 36a 39 6a
+pf 36b 39 6b
+pf 36c 39 6c
+pf 36d 39 6d
+pf 36e 39 6e
+pf 36f 39 6f
+pf 370 39 70
+pf 371 39 71
+pf 372 39 72
+pf 373 39 73
+pf 374 39 74
+pf 375 39 75
+pf 376 39 76
+pf 377 39 77
+pf 378 39 78
+pf 379 39 79
+pf 37a 39 7a
+pf 37b 39 7b
+pf 37c 39 7c
+pf 37d 39 7d
+pf 37e 39 7e
+pf 37f 39 7f
+pf 380 39 80
+pf 381 39 81
+pf 382 39 82
+pf 383 39 83
+pf 384 39 84
+pf 385 39 85
+pf 386 39 86
+pf 387 39 87
+pf 388 39 88
+pf 389 39 89
+pf 38a 39 8a
+pf 38b 39 8b
+pf 38c 39 8c
+pf 38d 39 8d
+pf 38e 39 8e
+pf 38f 39 8f
+pf 390 39 90
+pf 391 39 91
+pf 392 39 92
+pf 393 39 93
+pf 394 39 94
+pf 395 39 95
+pf 396 39 96
+pf 397 39 97
+pf 398 39 98
+pf 399 39 99
+pf 39a 39 9a
+pf 39b 39 9b
+pf 39c 39 9c
+pf 39d 39 9d
+pf 39e 39 9e
+pf 39f 39 9f
+pf 3a0 39 a0
+pf 3a1 39 a1
+pf 3a2 39 a2
+pf 3a3 39 a3
+pf 3a4 39 a4
+pf 3a5 39 a5
+pf 3a6 39 a6
+pf 3a7 39 a7
+pf 3a8 39 a8
+pf 3a9 39 a9
+pf 3aa 39 aa
+pf 3ab 39 ab
+pf 3ac 39 ac
+pf 3ad 39 ad
+pf 3ae 39 ae
+pf 3af 39 af
+pf 3b0 39 b0
+pf 3b1 39 b1
+pf 3b2 39 b2
+pf 3b3 39 b3
+pf 3b4 39 b4
+pf 3b5 39 b5
+pf 3b6 39 b6
+pf 3b7 39 b7
+pf 3b8 39 b8
+pf 3b9 39 b9
+pf 3ba 39 ba
+pf 3bb 39 bb
+pf 3bc 39 bc
+pf 3bd 39 bd
+pf 3be 39 be
+pf 3bf 39 bf
+pf 3c0 39 c0
+pf 3c1 39 c1
+pf 3c2 39 c2
+pf 3c3 39 c3
+pf 3c4 39 c4
+pf 3c5 39 c5
+pf 3c6 39 c6
+pf 3c7 39 c7
+pf 3c8 39 c8
+pf 3c9 39 c9
+pf 3ca 39 ca
+pf 3cb 39 cb
+pf 3cc 39 cc
+pf 3cd 39 cd
+pf 3ce 39 ce
+pf 3cf 39 cf
+pf 3d0 39 d0
+pf 3d1 39 d1
+pf 3d2 39 d2
+pf 3d3 39 d3
+pf 3d4 39 d4
+pf 3d5 39 d5
+pf 3d6 39 d6
+pf 3d7 39 d7
+pf 3d8 39 d8
+pf 3d9 39 d9
+pf 3da 39 da
+pf 3db 39 db
+pf 3dc 39 dc
+pf 3dd 39 dd
+pf 3de 39 de
+pf 3df 39 df
+pf 3e0 39 e0
+pf 3e1 39 e1
+pf 3e2 39 e2
+pf 3e3 39 e3
+pf 3e4 39 e4
+pf 3e5 39 e5
+pf 3e6 39 e6
+pf 3e7 39 e7
+pf 3e8 39 e8
+pf 3e9 39 e9
+pf 3ea 39 ea
+pf 3eb 39 eb
+pf 3ec 39 ec
+pf 3ed 39 ed
+pf 3ee 39 ee
+pf 3ef 39 ef
+pf 3f0 39 f0
+pf 3f1 39 f1
+pf 3f2 39 f2
+pf 3f3 39 f3
+pf 3f4 39 f4
+pf 3f5 39 f5
+pf 3f6 39 f6
+pf 3f7 39 f7
+pf 3f8 39 f8
+pf 3f9 39 f9
+pf 3fa 39 fa
+pf 3fb 39 fb
+pf 3fc 39 fc
+pf 3fd 39 fd
+pf 3fe 39 fe
+pf 3ff 39 ff
+mo 0 0 0 0 0
+mo 1 0 0 0 0
+mo 2 0 0 0 0
+mo 3 0 0 0 0
+mo 4 0 0 0 0
+mo 5 0 0 0 0
+mo 6 0 0 0 0
+mo 7 0 0 0 0
+mo 8 0 0 0 0
+mo 9 0 0 0 0
+mo a 0 0 0 0
+mo b 0 0 0 0
+mo c 0 0 0 0
+mo d 0 0 0 0
+mo e 0 0 0 0
+mo f 0 0 0 0
+mo 10 0 0 0 0
+mo 11 0 0 0 0
+mo 12 0 0 0 0
+mo 13 0 0 0 0
+mo 14 0 0 0 0
+mo 15 0 0 0 0
+mo 16 0 0 0 0
+mo 17 0 0 0 0
+mo 18 0 0 0 0
+mo 19 0 0 0 0
+mo 1a 0 0 0 0
+mo 1b 0 0 0 0
+mo 1c 0 0 0 0
+mo 1d 0 0 0 0
+mo 1e 0 0 0 0
+mo 1f 0 0 0 0
+mo 20 0 0 0 0
+mo 21 0 0 0 0
+mo 22 0 0 0 0
+mo 23 0 0 0 0
+mo 24 0 0 0 0
+mo 25 0 0 0 0
+mo 26 0 0 0 0
+mo 27 0 0 0 0
+mo 28 0 0 0 0
+mo 29 0 0 0 0
+mo 2a 0 0 0 0
+mo 2b 0 0 0 0
+mo 2c 0 0 0 0
+mo 2d 0 0 0 0
+mo 2e 0 0 0 0
+mo 2f 0 0 0 0
+mo 30 0 0 0 0
+mo 31 0 0 0 0
+mo 32 0 0 0 0
+mo 33 0 0 0 0
+mo 34 0 0 0 0
+mo 35 0 0 0 0
+mo 36 0 0 0 0
+mo 37 0 0 0 0
+mo 38 0 0 0 0
+mo 39 0 0 0 0
+mo 3a 0 0 0 0
+mo 3b 0 0 0 0
+mo 3c 0 0 0 0
+mo 3d 0 0 0 0
+mo 3e 0 0 0 0
+mo 3f 0 0 0 0
+mo 40 0 0 0 0
+mo 41 0 0 0 0
+mo 42 0 0 0 0
+mo 43 0 0 0 0
+mo 44 0 0 0 0
+mo 45 0 0 0 0
+mo 46 0 0 0 0
+mo 47 0 0 0 0
+mo 48 0 0 0 0
+mo 49 0 0 0 0
+mo 4a 0 0 0 0
+mo 4b 0 0 0 0
+mo 4c 0 0 0 0
+mo 4d 0 0 0 0
+mo 4e 0 0 0 0
+mo 4f 0 0 0 0
+mo 50 0 0 0 0
+mo 51 0 0 0 0
+mo 52 0 0 0 0
+mo 53 0 0 0 0
+mo 54 0 0 0 0
+mo 55 0 0 0 0
+mo 56 0 0 0 0
+mo 57 0 0 0 0
+mo 58 0 0 0 0
+mo 59 0 0 0 0
+mo 5a 0 0 0 0
+mo 5b 0 0 0 0
+mo 5c 0 0 0 0
+mo 5d 0 0 0 0
+mo 5e 0 0 0 0
+mo 5f 0 0 0 0
+mo 60 0 0 0 0
+mo 61 0 0 0 0
+mo 62 0 0 0 0
+mo 63 0 0 0 0
+mo 64 0 0 0 0
+mo 65 0 0 0 0
+mo 66 0 0 0 0
+mo 67 0 0 0 0
+mo 68 0 0 0 0
+mo 69 0 0 0 0
+mo 6a 0 0 0 0
+mo 6b 0 0 0 0
+mo 6c 0 0 0 0
+mo 6d 0 0 0 0
+mo 6e 0 0 0 0
+mo 6f 0 0 0 0
+mo 70 0 0 0 0
+mo 71 0 0 0 0
+mo 72 0 0 0 0
+mo 73 0 0 0 0
+mo 74 0 0 0 0
+mo 75 0 0 0 0
+mo 76 0 0 0 0
+mo 77 0 0 0 0
+mo 78 0 0 0 0
+mo 79 0 0 0 0
+mo 7a 0 0 0 0
+mo 7b 0 0 0 0
+mo 7c 0 0 0 0
+mo 7d 0 0 0 0
+mo 7e 0 0 0 0
+mo 7f 0 0 0 0
+mo 80 0 0 0 0
+mo 81 0 0 0 0
+mo 82 0 0 0 0
+mo 83 0 0 0 0
+mo 84 0 0 0 0
+mo 85 0 0 0 0
+mo 86 0 0 0 0
+mo 87 0 0 0 0
+mo 88 0 0 0 0
+mo 89 0 0 0 0
+mo 8a 0 0 0 0
+mo 8b 0 0 0 0
+mo 8c 0 0 0 0
+mo 8d 0 0 0 0
+mo 8e 0 0 0 0
+mo 8f 0 0 0 0
+mo 90 0 0 0 0
+mo 91 0 0 0 0
+mo 92 0 0 0 0
+mo 93 0 0 0 0
+mo 94 0 0 0 0
+mo 95 0 0 0 0
+mo 96 0 0 0 0
+mo 97 0 0 0 0
+mo 98 0 0 0 0
+mo 99 0 0 0 0
+mo 9a 0 0 0 0
+mo 9b 0 0 0 0
+mo 9c 0 0 0 0
+mo 9d 0 0 0 0
+mo 9e 0 0 0 0
+mo 9f 0 0 0 0
+mo a0 0 0 0 0
+mo a1 0 0 0 0
+mo a2 0 0 0 0
+mo a3 0 0 0 0
+mo a4 0 0 0 0
+mo a5 0 0 0 0
+mo a6 0 0 0 0
+mo a7 0 0 0 0
+mo a8 0 0 0 0
+mo a9 0 0 0 0
+mo aa 0 0 0 0
+mo ab 0 0 0 0
+mo ac 0 0 0 0
+mo ad 0 0 0 0
+mo ae 0 0 0 0
+mo af 0 0 0 0
+mo b0 0 0 0 0
+mo b1 0 0 0 0
+mo b2 0 0 0 0
+mo b3 0 0 0 0
+mo b4 0 0 0 0
+mo b5 0 0 0 0
+mo b6 0 0 0 0
+mo b7 0 0 0 0
+mo b8 0 0 0 0
+mo b9 0 0 0 0
+mo ba 0 0 0 0
+mo bb 0 0 0 0
+mo bc 0 0 0 0
+mo bd 0 0 0 0
+mo be 0 0 0 0
+mo bf 0 0 0 0
+mo c0 0 0 0 0
+mo c1 0 0 0 0
+mo c2 0 0 0 0
+mo c3 0 0 0 0
+mo c4 0 0 0 0
+mo c5 0 0 0 0
+mo c6 0 0 0 0
+mo c7 0 0 0 0
+mo c8 0 0 0 0
+mo c9 0 0 0 0
+mo ca 0 0 0 0
+mo cb 0 0 0 0
+mo cc 0 0 0 0
+mo cd 0 0 0 0
+mo ce 0 0 0 0
+mo cf 0 0 0 0
+mo d0 0 0 0 0
+mo d1 0 0 0 0
+mo d2 0 0 0 0
+mo d3 0 0 0 0
+mo d4 0 0 0 0
+mo d5 0 0 0 0
+mo d6 0 0 0 0
+mo d7 0 0 0 0
+mo d8 0 0 0 0
+mo d9 0 0 0 0
+mo da 0 0 0 0
+mo db 0 0 0 0
+mo dc 0 0 0 0
+mo dd 0 0 0 0
+mo de 0 0 0 0
+mo df 0 0 0 0
+mo e0 0 0 0 0
+mo e1 0 0 0 0
+mo e2 0 0 0 0
+mo e3 0 0 0 0
+mo e4 0 0 0 0
+mo e5 0 0 0 0
+mo e6 0 0 0 0
+mo e7 0 0 0 0
+mo e8 0 0 0 0
+mo e9 0 0 0 0
+mo ea 0 0 0 0
+mo eb 0 0 0 0
+mo ec 0 0 0 0
+mo ed 0 0 0 0
+mo ee 0 0 0 0
+mo ef 0 0 0 0
+mo f0 0 0 0 0
+mo f1 0 0 0 0
+mo f2 0 0 0 0
+mo f3 0 0 0 0
+mo f4 0 0 0 0
+mo f5 0 0 0 0
+mo f6 0 0 0 0
+mo f7 0 0 0 0
+mo f8 0 0 0 0
+mo f9 0 0 0 0
+mo fa 0 0 0 0
+mo fb 0 0 0 0
+mo fc 0 0 0 0
+mo fd 0 0 0 0
+mo fe 0 0 0 0
+mo ff 0 0 0 0
+co 0 0 0
+co 1 0 0
+co 2 0 0
+co 3 0 0
+co 4 0 0
+co 5 0 7
+co 6 0 7
+co 7 6 7
+co 8 0 0
+co 9 0 7
+co a 0 e
+co b 0 c
+co c 0 0
+co d 5 f
+co e 5 e
+co f 5 5
+co 10 0 0
+co 11 2 0
+co 12 2 1
+co 13 1 8
+co 14 0 0
+co 15 f f
+co 16 9 b
+co 17 6 7
+co 18 0 0
+co 19 3 f
+co 1a 3 7
+co 1b 2 e
+co 1c 0 0
+co 1d f f
+co 1e c 0
+co 1f 6 7
+co 20 0 0
+co 21 f f
+co 22 6 f
+co 23 5 2
+co 24 0 0
+co 25 f f
+co 26 f e
+co 27 a d
+co 28 0 0
+co 29 f f
+co 2a a e
+co 2b 1 4
+co 2c 0 0
+co 2d f f
+co 2e 2 8
+co 2f 1 8
+co 30 0 0
+co 31 1 4
+co 32 1 4
+co 33 0 b
+co 34 0 0
+co 35 2 e
+co 36 3 f
+co 37 6 7
+co 38 0 0
+co 39 f f
+co 3a 0 7
+co 3b 0 4
+co 3c 0 0
+co 3d 1 7
+co 3e 1 5
+co 3f 6 f
+co 40 0 0
+co 41 f f
+co 42 5 f
+co 43 5 2
+co 44 0 0
+co 45 2 0
+co 46 2 0
+co 47 1 0
+co 48 0 0
+co 49 f f
+co 4a 1 3
+co 4b 0 a
+co 4c 0 0
+co 4d 3 f
+co 4e 3 f
+co 4f 6 7
+co 50 0 0
+co 51 f f
+co 52 4 e
+co 53 5 4
+co 54 0 0
+co 55 9 0
+co 56 e 0
+co 57 6 7
+co 58 0 0
+co 59 3 f
+co 5a 2 7
+co 5b 1 5
+co 5c 0 0
+co 5d 5 2
+co 5e 5 2
+co 5f 5 2
+co 60 0 0
+co 61 0 7
+co 62 7 a
+co 63 5 2
+co 64 0 0
+co 65 f f
+co 66 3 f
+co 67 2 6
+co 68 0 0
+co 69 1 4
+co 6a 1 4
+co 6b 6 7
+co 6c 0 0
+co 6d 2 0
+co 6e 2 0
+co 6f 6 7
+co 70 0 0
+co 71 5 f
+co 72 5 f
+co 73 6 7
+co 74 0 0
+co 75 2 e
+co 76 3 f
+co 77 1 5
+co 78 0 0
+co 79 0 4
+co 7a 0 7
+co 7b 6 7
+co 7c 0 0
+co 7d f f
+co 7e a d
+co 7f 5 b
+co 80 0 0
+co 81 a 7
+co 82 a 7
+co 83 a 7
+co 84 0 0
+co 85 f f
+co 86 1 3
+co 87 1 d
+co 88 0 0
+co 89 6 6
+co 8a 6 6
+co 8b 6 6
+co 8c 0 0
+co 8d b 9
+co 8e b 9
+co 8f b 9
+co 90 0 0
+co 91 8 e
+co 92 8 e
+co 93 8 e
+co 94 0 0
+co 95 5 1
+co 96 9 b
+co 97 f f
+co 98 0 0
+co 99 0 2
+co 9a 0 4
+co 9b 0 7
+co 9c 0 0
+co 9d 4 1
+co 9e 4 9
+co 9f 5 2
+co a0 0 0
+co a1 1 2
+co a2 1 c
+co a3 2 f
+co a4 0 0
+co a5 1 0
+co a6 1 8
+co a7 2 0
+co a8 0 0
+co a9 0 0
+co aa 4 9
+co ab 5 2
+co ac 0 0
+co ad 2 e
+co ae 3 f
+co af 6 7
+co b0 0 0
+co b1 1 b
+co b2 2 d
+co b3 3 f
+co b4 0 0
+co b5 0 2
+co b6 0 4
+co b7 0 7
+co b8 0 0
+co b9 1 3
+co ba 6 4
+co bb 6 f
+co bc 0 0
+co bd 4 1
+co be 5 4
+co bf a 7
+co c0 0 0
+co c1 0 a
+co c2 1 4
+co c3 1 f
+co c4 0 0
+co c5 1 2
+co c6 2 6
+co c7 3 f
+co c8 0 0
+co c9 1 2
+co ca 1 c
+co cb 2 f
+co cc 0 0
+co cd 0 a
+co ce 1 4
+co cf 2 7
+co d0 0 0
+co d1 0 2
+co d2 0 b
+co d3 1 4
+co d4 0 0
+co d5 4 8
+co d6 5 a
+co d7 6 a
+co d8 0 0
+co d9 1 0
+co da 2 0
+co db 3 8
+co dc 0 0
+co dd 5 8
+co de 6 1
+co df 7 a
+co e0 0 0
+co e1 1 0
+co e2 1 8
+co e3 2 0
+co e4 0 0
+co e5 4 0
+co e6 8 0
+co e7 c 0
+co e8 0 0
+co e9 8 a
+co ea a 0
+co eb f 0
+co ec 0 0
+co ed 4 0
+co ee 5 1
+co ef 8 0
+co f0 0 0
+co f1 4 2
+co f2 4 d
+co f3 4 f
+co f4 0 0
+co f5 4 9
+co f6 9 3
+co f7 c 6
+co f8 0 0
+co f9 5 2
+co fa a c
+co fb f f
+co fc 0 0
+co fd 4 8
+co fe 4 9
+co ff 5 2

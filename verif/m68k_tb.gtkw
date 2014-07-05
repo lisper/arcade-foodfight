@@ -1,0 +1,144 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Fri Jun 13 13:12:02 2014
+[*]
+[dumpfile] "/files/code/foodfight/verif/m68k_tb.vcd"
+[dumpfile_mtime] "Fri Jun 13 12:30:32 2014"
+[dumpfile_size] 255204
+[savefile] "/files/code/foodfight/verif/m68k_tb.gtkw"
+[timestart] 3453
+[size] 1399 729
+[pos] -17 -20
+*-7.400283 3858 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] m68k_tb.
+[treeopen] m68k_tb.top.
+[treeopen] m68k_tb.top.i_68k00.
+[sst_width] 224
+[signals_width] 321
+[sst_expanded] 1
+[sst_vpaned_height] 197
+@28
+m68k_tb.top.i_68k00.clk
+m68k_tb.top.i_68k00.reset_coren
+m68k_tb.top.i_68k00.reset_cpu_in
+m68k_tb.top.i_68k00.reset_in_in
+m68k_tb.top.i_68k00.i_bus_if.resetn
+m68k_tb.halt_in_n
+m68k_tb.halt_out_n
+m68k_tb.top.i_68k00.i_bus_if.clk
+@24
+m68k_tb.top.i_68k00.i_bus_if.t_slice[2:0]
+m68k_tb.top.i_68k00.i_bus_if.slice_cnt[1:0]
+@28
+m68k_tb.top.i_68k00.i_bus_if.arb_state[1:0]
+m68k_tb.top.i_68k00.i_bus_if.adr_en_n
+m68k_tb.top.i_68k00.i_bus_if.adr_en_p
+m68k_tb.top.i_68k00.i_bus_if.uds_rd_en_n
+m68k_tb.top.i_68k00.i_bus_if.uds_rd_en_p
+m68k_tb.top.i_68k00.i_bus_if.lds_rd_en_n
+m68k_tb.top.i_68k00.i_bus_if.lds_rd_en_p
+m68k_tb.top.i_68k00.i_bus_if.as_enab_n
+m68k_tb.top.i_68k00.i_bus_if.as_enab_p
+m68k_tb.top.i_68k00.as_outn
+m68k_tb.top.i_68k00.lds_outn
+m68k_tb.top.i_68k00.uds_outn
+m68k_tb.top.i_68k00.i_bus_if.rd_bus
+m68k_tb.top.i_68k00.i_bus_if.wr_bus
+@200
+-
+@22
+m68k_tb.top.i_68k00.adr_i[31:0]
+@28
+m68k_tb.top.i_68k00.i_bus_if.haltn
+m68k_tb.top.i_68k00.i_bus_if.berrn
+m68k_tb.top.i_68k00.i_bus_if.waitstates
+m68k_tb.top.i_68k00.i_bus_if.dtackn
+m68k_tb.top.i_68k00.i_bus_if.syncn
+m68k_tb.top.i_68k00.i_bus_if.avecn
+@24
+m68k_tb.top.i_68k00.i_bus_if.berr
+@28
+m68k_tb.top.i_68k00.i_bus_if.bus_cyc_rdy
+@24
+m68k_tb.top.i_68k00.i_ctrl.exec_state[4:0]
+m68k_tb.top.i_68k00.i_ctrl.next_exec_state[4:0]
+@28
+m68k_tb.top.i_68k00.i_ctrl.movem_cpy
+m68k_tb.top.i_68k00.i_ctrl.adr_mode[2:0]
+m68k_tb.top.i_68k00.i_ctrl.regsel_tmp[2:0]
+m68k_tb.top.i_68k00.i_ctrl.regsel_tmp_r[2:0]
+m68k_tb.top.i_68k00.i_ctrl.regsel_20[2:0]
+m68k_tb.top.i_68k00.i_ctrl.movem_adn_i
+m68k_tb.top.i_68k00.i_ctrl.dr
+@200
+-
+@22
+m68k_tb.top.i_68k00.i_bus_if.buffer_a[31:0]
+m68k_tb.top.i_68k00.i_bus_if.buffer_b[31:0]
+m68k_tb.top.i_68k00.data_in[15:0]
+@28
+m68k_tb.top.i_68k00.i_bus_if.sel_buff_a_hi
+m68k_tb.top.i_68k00.i_bus_if.sel_buff_a_lo
+m68k_tb.top.i_68k00.i_bus_if.sel_buff_b_hi
+m68k_tb.top.i_68k00.i_bus_if.sel_buff_b_lo
+m68k_tb.top.i_68k00.i_ctrl.op_start
+m68k_tb.top.i_68k00.i_ctrl.bus_cyc_rdy
+m68k_tb.top.i_68k00.i_ctrl.op_end_i
+@22
+m68k_tb.top.i_68k00.i_ctrl.op[6:0]
+m68k_tb.top.i_68k00.i_opcode.biw_0[15:0]
+m68k_tb.top.i_68k00.i_opcode.biw_1[15:0]
+m68k_tb.top.i_68k00.i_opcode.data_in[15:0]
+@28
+m68k_tb.top.i_68k00.i_opcode.iw_wr
+m68k_tb.top.i_68k00.i_opcode.clk
+@22
+m68k_tb.top.i_68k00.i_opcode.data_in[15:0]
+@28
+m68k_tb.top.i_68k00.i_ctrl.data_valid
+@200
+-
+@22
+m68k_tb.top.i_68k00.pc_out[31:0]
+@28
+m68k_tb.top.i_68k00.i_opcode.ew_wr
+m68k_tb.top.i_68k00.i_opcode.ew_adr
+@22
+m68k_tb.top.i_68k00.i_opcode.data_in[15:0]
+@28
+m68k_tb.top.i_68k00.i_opcode.src_destn
+@24
+m68k_tb.top.i_68k00.i_ctrl.exec_state[4:0]
+@22
+m68k_tb.data_in[15:0]
+m68k_tb.top.i_68k00.data_out[15:0]
+@28
+m68k_tb.steer_ram
+m68k_tb.steer_rom
+@22
+m68k_tb.mem_addr[23:0]
+m68k_tb.addr[23:1]
+@28
+m68k_tb.top.i_68k00.i_bus_if.adr_en
+m68k_tb.top.i_68k00.i_bus_if.adr_en_n
+m68k_tb.top.i_68k00.i_bus_if.adr_en_p
+@24
+m68k_tb.top.i_68k00.i_bus_if.t_slice[2:0]
+@28
+m68k_tb.top.i_68k00.i_bus_if.asn
+m68k_tb.top.i_68k00.i_bus_if.udsn
+m68k_tb.top.i_68k00.i_bus_if.ldsn
+m68k_tb.top.rwn
+@22
+m68k_tb.top.i_68k00.data_in[15:0]
+m68k_tb.top.i_68k00.data_out[15:0]
+m68k_tb.top.i_68k00.data_out_i[31:0]
+@28
+m68k_tb.top.i_68k00.i_adrreg.trap_aerr
+m68k_tb.top.i_68k00.i_adrreg.chk_adr
+m68k_tb.top.i_68k00.i_adrreg.chk_pc
+m68k_tb.top.i_68k00.i_ctrl.rd_bus_i
+m68k_tb.top.i_68k00.i_ctrl.chk_adr_strb_lock
+m68k_tb.top.i_68k00.i_ctrl.bus_cyc_rdy
+[pattern_trace] 1
+[pattern_trace] 0

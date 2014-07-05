@@ -1,0 +1,133 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Mon Jun 16 21:04:49 2014
+[*]
+[dumpfile] "/files/code/foodfight/verif/ff_tb.vcd"
+[dumpfile_mtime] "Mon Jun 16 19:58:36 2014"
+[dumpfile_size] 163626890
+[savefile] "/files/code/foodfight/verif/ff_tb.gtkw"
+[timestart] 0
+[size] 1527 766
+[pos] -57 -158
+*-22.195816 12630000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ff_top_tb.
+[treeopen] ff_top_tb.uut.
+[treeopen] ff_top_tb.uut.ff.
+[treeopen] ff_top_tb.uut.ff.cpu.
+[treeopen] ff_top_tb.uut.ff.cpu.wf68k00ip_top.
+[treeopen] ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.
+[sst_width] 224
+[signals_width] 226
+[sst_expanded] 1
+[sst_vpaned_height] 209
+@28
+ff_top_tb.uut.ff.clk_12mhz
+ff_top_tb.uut.ff.reset
+ff_top_tb.uut.ff.as_n
+ff_top_tb.uut.ff.uds_n
+ff_top_tb.uut.ff.lds_n
+ff_top_tb.uut.ff.r_w_n
+ff_top_tb.uut.ff.mdtack_n
+ff_top_tb.uut.ff.dtack_n
+ff_top_tb.uut.ff.u_n_v_d
+ff_top_tb.uut.ff.as
+@22
+ff_top_tb.uut.ff.a[23:0]
+@28
+ff_top_tb.uut.ff.membufen_n
+@22
+ff_top_tb.uut.ff.mb_out_ram[15:0]
+ff_top_tb.uut.ff.mb_out_rom[15:0]
+@28
+ff_top_tb.uut.ff.ram0_n
+ff_top_tb.uut.ff.ram1_n
+ff_top_tb.uut.ff.rom0_n
+ff_top_tb.uut.ff.rom1_n
+ff_top_tb.uut.ff.rom2_n
+ff_top_tb.uut.ff.rom3_n
+@22
+ff_top_tb.uut.ff.mb_out[15:0]
+ff_top_tb.uut.ff.ud_in[15:0]
+ff_top_tb.uut.ff.ud_out[15:0]
+@24
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_bus_if.t_slice[2:0]
+@28
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_bus_if.waitstates
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_bus_if.reset_cpu_in
+@22
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.pc_out[31:0]
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.fc_out[2:0]
+@28
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.op_start_i
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_ctrl.op_end_i
+@24
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_ctrl.op[6:0]
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_ctrl.exec_state[4:0]
+@28
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.chk_pc_i
+@22
+ff_top_tb.uut.ff.bd_out[15:0]
+@28
+ff_top_tb.uut.ff.as_n
+ff_top_tb.uut.ff.fc[2:0]
+@22
+ff_top_tb.uut.ff.pal.a[23:18]
+ff_top_tb.uut.ff.ba[15:0]
+ff_top_tb.uut.ff.pal.addr[23:16]
+@200
+-
+@28
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_wr
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_inc
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_dec
+@24
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_nr_a[2:0]
+ff_top_tb.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_nr_b[2:0]
+@200
+-
+@28
+ff_top_tb.uut.ff.pf_n
+ff_top_tb.uut.ff.u_v_n
+ff_top_tb.uut.ff.pfwr_n
+ff_top_tb.uut.ff.lwr_n
+ff_top_tb.uut.ff.uwr_n
+ff_top_tb.uut.ff.csl_n
+ff_top_tb.uut.ff.csu_n
+ff_top_tb.uut.ff.br_w_n
+ff_top_tb.uut.ff.u_n_v_d
+ff_top_tb.uut.ff.coloramwr_n
+ff_top_tb.uut.ff.i_o_n
+ff_top_tb.uut.ff.watchdog_n
+ff_top_tb.uut.ff.recall_n
+ff_top_tb.uut.ff.coloram_n
+ff_top_tb.uut.ff.digitalin_n
+ff_top_tb.uut.ff.analogin_n
+ff_top_tb.uut.ff.analogout_n
+ff_top_tb.uut.ff.objram_n
+ff_top_tb.uut.ff.ram0_n
+ff_top_tb.uut.ff.rom0_n
+@200
+-
+@24
+ff_top_tb.uut.ff.counter_h[11:0]
+ff_top_tb.uut.ff.counter_v[7:0]
+@28
+ff_top_tb.uut.ff.vpreset
+ff_top_tb.uut.ff.vpreset_n
+ff_top_tb.uut.ff.vsync
+ff_top_tb.uut.ff.vsync_n
+ff_top_tb.uut.ff.vblank
+ff_top_tb.uut.ff.vblank_n
+ff_top_tb.uut.ff.hsync
+ff_top_tb.uut.ff.il3
+ff_top_tb.uut.ff.il3_n
+ff_top_tb.uut.ff.il4
+ff_top_tb.uut.ff.il4_n
+ff_top_tb.uut.ff.int3rst_n
+ff_top_tb.uut.ff.int4rst_n
+@29
+ff_top_tb.uut.ff.s_ctrl
+@22
+ff_top_tb.uut.ff.bd_out[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

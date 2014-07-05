@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>FAME Library Generation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<hr size="1">
+<div align="center">
+  <p><font color="#0000FF" size="4"><strong><font color="#0000FF" size="4"><strong><font size="7">F.A.M.E.</font></strong></font><font size="5"><br>
+  <font size="4">Fast and Accurate Morolora 68000 Emulation Library<br>
+  Custom Code Generation</font></font></strong></font><font size="4"><br>
+    <font size="3"><strong>Copyright (c) 2002-2005 Oscar Orallo Pel&aacute;ez / Daniel Lancha Garc&iacute;a. All rights reserved.</strong></font></font><br>
+    <strong>March 14th, 2006</strong><br>
+  </p>
+  <hr size="1">
+  <div align="left">
+      <div align="center">
+        <div align="left">
+          <p><font size="5"><strong>Table of Contents</strong></font></p>
+        </div>
+      </div>
+      <blockquote>
+        <p> <font size="3"><strong><a href="#Introduction">0. Introduction</a></strong><br>
+        		<a href="#TermsofUse"><strong>1. Terms of Use</strong></a><br>
+   				<a href="#WhatYouWillNeed"><strong>2. What you will need</strong></a><br>
+                <a href="#GettingStarted"><strong>3. Getting started</strong></a><br>
+                <a href="#GenerationOptions"><strong>4. Code generation options</strong></a><br>
+                <a href="#GenerationTips"><strong>5. Generation tips</strong></a></font></p>
+    </blockquote>
+    <p>&nbsp;</p>
+  </div>
+</div>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="Introduction"></a><font color="#FFFFFF" size="5"><strong> 0. Introduction</strong></font></font></td>
+  </tr>
+</table>
+<p align="justify">This document is intented for advanced users in order to get advantage of some expert features defined at  design time. If you are not very familiar with 68000 emulation/architecture, you are probably looking for the <a href="http://www.m68k.com/fame">standard FAME distribution</a>. For a complete function reference, take a look at the <a href="http://www.m68k.com/fame">standard FAME distribution</a> too. </p>
+<p align="justify">Customized code generation allows you to get the best from FAME, fiting it to your needs. Frequently, some emulation features are not really interesting/needed when you emulate a given system, so you can switch them off to speed things up. This is specially useful when you are running out of CPU power.</p>
+<p align="justify">This library was designed with customization in mind. Every emulation environment has its own requirements and frequently using a standard built is kinda pointless. We experimented great speed improvements using a customized built for every emulator. <a href="http://chui.dcemu.co.uk/neo4all.html">NEO4all</a> and <a href="http://chui.dcemu.co.uk/uae4all.html">UAE4all</a> emulators were coded in this fashion.</p>
+<p align="justify">Unfortunately, we did not think in the first place about anyone generating a custom built so you will find generator messages/comments in spanish. Refer to this documentation if you do not understand spanish.</p>
+<p align="justify">If you find any bug in FAME, it would be nice that you inform me about that via <a href="mailto:oscar@m68k.com?subject=FAME">email</a>. Any feedback, comments and suggestions will also be appreciated.</p>
+<p>How to contact Oscar Orallo:</p>
+<blockquote>
+  <p>E-mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:oscar@m68k.com?subject=FAME">oscar@m68k.com</a><br>
+  Web site:&nbsp; <a href="http://www.m68k.com/fame">http://www.m68k.com/fame</a></p>
+</blockquote>
+<p>FAME Distribution: <a href="http://www.m68k.com/fame/fame.zip">http://www.m68k.com/fame/fame.zip</a> (latest)<br>
+  FAME Development Package: <a href="http://www.m68k.com/fame/famedev.zip">http://www.m68k.com/fame/famedev.zip</a> (latest)</p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="TermsofUse" id="TermsofUse"></a><strong><font color="#FFFFFF">&nbsp;<font size="5">1. Terms of use</font></font></strong></font></td>
+  </tr>
+</table>
+<p> FAME is a development package that contains the following files:</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#666666">
+    <th scope="col"><font color="#FFFFFF">File</font></th>
+    <th scope="col"><font color="#FFFFFF">Description</font></th>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td>famex86.c</td>
+    <td>X86 source code generator </td>
+  </tr>
+  <tr bgcolor="#CCCCCC">
+    <td>famesh4.c</td>
+    <td>SH4 source code generator </td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td>generation.html</td>
+    <td>Library generation document</td>
+  </tr>
+  <tr bgcolor="#CCCCCC">
+    <td>fame.html</td>
+    <td>Documentation file</td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td>fame.h</td>
+    <td>C/C++ header file</td>
+  </tr>
+</table>
+<p><br>
+  FAME may be distributed freely in unmodified form, as long as this document file is included.</p>
+<p>Nothing may be charged for this library. If you want to use it in a shareware or commercial application, contact me.</p>
+<p align="justify">The author will not be held liable for damages. FAME comes with absolutely NO WARRANTY. Anyway i will try to help you with any problem you have using FAME.</p>
+<p>If you do not agree with all of these terms, please remove FAME from your computer.</p>
+<p>You are encouraged to contact the author if you wish to use FAME in a commercial product (to negotiate licensing).</p>
+<p>Any program which uses FAME must include in its documentation or in the program itself the following credit text:</p>
+<p><em><strong>FAME Motorola 68000 Emulation Library by Oscar Orallo (oscar@m68k.com)</strong></em></p>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="GettingStarted" id="GettingStarted"></a><strong><font color="#FFFFFF">&nbsp;<font size="5">2. What you will need </font></font></strong></font></td>
+  </tr>
+</table>
+<ul>
+  <li>
+    <div align="justify">A fully compliant ANSI C/C++ compiler. This is required to compile the generator builder.</div>
+  </li>
+  <li>
+    <div align="justify">A 32-bit assembler. X86 platform relies on <a href="http://nasm.sourceforge.net/">NASM</a> and SH4 on <a href="http://sourceware.org/binutils/docs-2.16/as/index.html">GNU as</a>. </div>
+  </li>
+  <li>
+    <div align="justify"> Good knowledge about the 68000 microprocessor. This is required in order to understand some generation options.</div>
+  </li>
+  <li>
+    <div align="justify">Not required, but helpful, the <a href="http://www.m68k.com/docs/m68k/M68000PRM.pdf">Motorola 68000 Programmer's Reference Manual</a>. Also, the 
+
+ 
+      <a href="http://www.m68k.com/docs/m68k/MC68000UM.pdf">Motorola 68000 User's Manual </a>could be of some use. </div>
+  </li>
+</ul>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="GettingStarted" id="GettingStarted"></a><strong><font color="#FFFFFF">&nbsp;<font size="5">3. Getting started </font></font></strong></font></td>
+  </tr>
+</table>
+<p>In order to generate your customized FAME, you will have to follow these steps:</p>
+<ol>
+  <li>
+    <div align="justify">Get the <em>generator builder</em> compiling  the generator source that suits your needs (X86, SH4). For <a href="http://gcc.gnu.org/">GCC</a>, the basic command could be: gcc fame<em>xxx</em>-src.c -o fame<em>xxx</em> (change <em>xxx</em> to match your target platform).</div>
+  </li>
+  <li>
+    <div align="justify">Generate the <em>custom source</em> using the <a href="#GenerationOptions">generation options</a> described bellow. For example, <font size="2" face="Courier New, Courier, mono">famesh4 [options]</font>.</div>
+  </li>
+  <li>
+    <div align="justify">Assemble the custom source. For X86 platform you will need <a href="http://nasm.sourceforge.net/">NASM</a>, for SH4, <a href="http://sourceware.org/binutils/docs-2.16/as/index.html">GNU as</a>. Both are freeware and open source. You will get an object code here.</div>
+  </li>
+  <li>
+    <div align="justify">Build the library. This is an optional step because you can link statically the assembled object to your executable.</div>
+  </li>
+  <li>
+    <div align="justify">Strip  unneeded symbols when you are done.<br>
+    </div>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="GenerationOptions" id="GenerationOptions"></a><strong><font color="#FFFFFF">&nbsp;<font size="5">4. Code generation options</font></font></strong></font></td>
+  </tr>
+</table>
+<p>I describe here the generation options found in FAME.</p>
+<p>I have coloured option headers to warm about size/speed issues:</p>
+<p>- Grey: Does not affect in speed and/or size at all.<br>
+  - Green: Little impact in speed and/or size.<br>
+  - Yellow: Medium impact in speed and/or size. Sometimes depends upon execution environment. <br>
+  - Red: Big impact in speed and/or size.</p>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#DDDDDD">
+    <td width="61%" bgcolor="#DDDDDD" scope="col"><div align="left"><strong>Code generation format</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -f &lt;format&gt;</td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: win32 </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: X86 </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+      <p>Select the code format to use the library with the different compilers around for the X86 platform. Currently, the following output formats are supported:</p>
+      <ul>
+        <li>
+          <div align="justify">OMF: This output format generates Microsoft OMF object files. Used by Borland's win32 compilers. </div>
+        </li>
+        <li>
+          <div align="justify">WIN32: This output format generates Microsoft Win32 object files. It is suitable for Microsoft linkers such as Visual C++. It is an object format newer than OMF. Is is used by default. </div>
+        </li>
+        <li>
+          <div align="justify">ELF: This output format generates ELF32 (Executable and Linkable Format) object files<strong>.</strong> Used by Linux and other unix-like operating systems.</div>
+        </li>
+      </ul>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#DDDDDD">
+    <td width="61%" scope="col"><div align="left"><strong>Calling convention</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -r</td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: stack </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: X86 </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">This option is related with the way the compilers manage the function parameters. There are two options: by the <em>stack</em> or by <em>registers</em>. Generally, the compilers pass the parameters by the stack. Visual C++ and GNU C/C++ compilers do this by stack. Consult the documentation of your compiler if you do not know how it does. </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#FF0033">
+    <td width="61%" scope="col"><div align="left"><font color="#FFFFFF"><strong>Inline code</strong></font></div></td>
+    <td width="29%" nowrap scope="col"><strong><font color="#FFFFFF">Option</font></strong><font color="#FFFFFF">: -i</font></td>
+    <td width="29%" nowrap scope="col"><div align="right"><font color="#FFFFFF"><strong>Set by default</strong>: disabled </font></div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><font color="#FFFFFF"><strong>Plaforms</strong>: X86 </font></div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">The fetch-decode loop is inlined with the opcode implementation in order to speed up this process. This option has a great impact in terms of speed, so do not turn it off unless you want to get as a reduced code size as possible.<br>
+In the SH4 version, the code is always inlined.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Bits address bus</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -ab32 </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: 24 </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">You can select between 24 and 32 bits address bus. 32 bits addresses are faster because there is no need to isolate the lower address bits but requires to have clean addresses. There is no rule to know if a system requires address masking. Some systems take in advantage of the fact that the 68000 only uses the lower 24 bits for addressing to not worry about the higher bits.</div></td>
+  </tr>
+</table>
+<p align="justify">&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" bgcolor="#00FF99" scope="col"><div align="left"><strong>Dummy reads emulation</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -nlt </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">Some instructions perform a memory read that does not modify the result of the instruction nor the timing in any way. This is, a dummy read. However, a 68000 microprocessor really does the read.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Not documented features emulation</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -ncnd </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">Enables the emulation of some 68000 undocumented behaviour. Usually, this is not needed to get a fairly good level of accuracy. If you want to know more about this, you can find more information <a href="http://www.trzy.org/files/68knotes.txt">here</a>.</div></td>
+  </tr>
+</table>
+<p align="justify">&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#FFFF99">
+    <td width="61%" scope="col"><div align="left"><strong>User and supervisor memory address spaces</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -eum</td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">Generally, the emulated systems use the supervisor memory address space. Generating FAME to use a single memory address space speeds up emulation and decrease object code significantly. Try to use a single memory address space whenever possible.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#FF0033">
+    <td width="61%" scope="col"><div align="left"><font color="#FFFFFF"><strong>Group 0 exceptions emulation</strong></font></div></td>
+    <td width="29%" nowrap scope="col"><font color="#FFFFFF"><strong>Option</strong>: -ne0</font></td>
+    <td width="29%" nowrap scope="col"><div align="right"><font color="#FFFFFF"><strong>Set by default</strong>: enabled </font></div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><font color="#FFFFFF"><strong>Plaforms</strong>: All </font></div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">The address and bus error exceptions (reset exception is not emulated) could be emulated enabling this option. However, this will slow things down significantly due to the aditional checkings on addresses.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#DDDDDD">
+    <td width="61%" scope="col"><div align="left"><strong>Function names prefix</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -n &lt;pref&gt;</td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: m68k </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">You can change the prefix used in function naming in FAME. By default, they are named with the <em>m68k</em> prefix. This is useful when you are about emulating a multi-CPU system and do not want to switch the CPU context generating as many instances as </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Exact timing</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -net </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">Some instructions requires a good deal of CPU power to calculate the exact number of clock cycles spent in its execution. With this option you can enable/disable the accurate timing. Swith this off if you prefer speed over accuracy.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#FFFF99">
+    <td width="61%" scope="col"><div align="left"><strong>Memory map descriptors caching</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -dm </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: disabled</div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: SH</div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">A large memory region list could generate a bottleneck in memory access easily. To avoid this problem, you can enable this option, fixing the time spent in address decoding despiting the memory region list. However, this will increase notably the object code generated.</div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Internal clock cycles counting</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -ncc </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+      <p align="justify">FAME has an internal cycles counter with the total number of clock cycles executed since the last reset. Disabling this option, FAME will not update this counter after each execution freeing a bit of CPU power for other tasks. </p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Bit 0 execinfo</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -nb0 </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+        <p align="justify">This bit holds the running state of the emulated CPU. This bit is used by the core to modify correctly some register values from the outside (memory handler, interrupt handler, ...).<br>
+Keeping this bit updated takes a bit of CPU power. Leave it by default if you are in doubt. </p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#FFFF99">
+    <td width="61%" scope="col"><div align="left"><strong>Trace mode emulation</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -nt </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+        <p align="justify">This option enables trace exceptions. The emulation of this feature could be expensive in terms of speed depending upon size of timeslices. In addition, the vast majority of the systems do not use it at all, allowing you to turn it off for good.</p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Take in account clock cycles spent in IRQ attention</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -nic</td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: All </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+        <p align="justify">When the 68000 CPU gets interrupted by an IRQ, it spends some clock cycles in its attention. This option allows you to take in account those clock cycles. They will <em>stop the emulation</em> under normal circumstances, this is, if the internal cycles counter reaches zero or bellow. </p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" bgcolor="#00FF99" scope="col"><div align="left"><strong>Memory accesses to two memory regions simultaneously</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -nmb </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: SH </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+        <p align="justify">Since a long word memory access requires two word accesses, it may happen a single long word access implies two different memory regions in one shot. In some systems, this could not be take place, so you can turn off this option to speed up memory wobblies by a bit.</p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%"  border="0">
+  <tr bgcolor="#00FF99">
+    <td width="61%" scope="col"><div align="left"><strong>Check address errors in short jumps</strong></div></td>
+    <td width="29%" nowrap scope="col"><strong>Option</strong>: -cb </td>
+    <td width="29%" nowrap scope="col"><div align="right"><strong>Set by default</strong>: enabled </div></td>
+    <td width="10%" nowrap scope="col"><div align="right"><strong>Plaforms</strong>: SH </div></td>
+  </tr>
+  <tr bgcolor="#EEEEEE">
+    <td colspan="4"><div align="justify">
+        <p align="justify">This option is a partially implemented address error exception. It was specially designed to fix the Commodore Amiga 500 game <em>&quot;Shadow of the Beast&quot;</em> with the lowest CPU power cost possible.</p>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <td bgcolor="#000000"><font size="4"><a name="GenerationTips" id="GenerationTips"></a><strong><font color="#FFFFFF">&nbsp;<font size="5">5. Generation tips </font></font></strong></font></td>
+  </tr>
+</table>
+<ul>
+  <li>
+  If you want a safe set up, get the <a href="http://www.m68k.com/fame">standard FAME distribution</a>. You can always switch to a customized generation at a later time.</li>
+  <li>Default options generally work fine in every environment. Use them whenever you are in doubt.</li>
+  <li>Sometimes is better to go for a <em>safety</em> configuration when dealing with <em>green options</em> because you do not always know in advance about execution conditions. The bits of the address bus is a good example. </li>
+</ul>
+<p>&nbsp;</p>
+<p align="justify">If you have any suggestions, comments or contributions do not hesitate to get in contact with <a href="mailto:oscar@m68k.com?subject=FAME">me</a>.</p>
+<p align="justify">Have a nice day!</p>
+</body>
+</html>

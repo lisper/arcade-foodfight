@@ -1,0 +1,24 @@
+###############################################################################
+# Makefile FAME example
+#
+# Oscar Orallo Pelaez
+# Date: 03-02-2006
+###############################################################################
+
+TARGET = example
+OBJS = main.o
+CFLAGS = -O2 -I../include
+LDFLAGS = -L../x86/cygwin
+FAME_LIB = -lfame
+CC = gcc
+STRIP = strip
+
+$(TARGET) : $(OBJS)
+			$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET).exe $(FAME_LIB)
+			$(STRIP) $(TARGET).exe
+
+all: $(TARGET)
+
+clean:
+	rm -f $(OBJS) $(TARGET).exe
+

@@ -1,0 +1,29 @@
+                        ; Author : Greg Colley
+                        ; Date   : 04/12/1998
+
+       = 000002         NUM1    EQU     2
+       = 000006         NUM2    EQU     6               ; Loop controll Counter
+
+000000                          ORG     $0
+000000 00002000         	long	$2000
+000004 00001000         	long	$1000
+                        	
+001000                          ORG     $1000
+001000 203C 00000000            MOVE.L #0,D0            ; Set the Data register to 0
+001006 243C 00000006            MOVE.L #NUM2,D2         ; Move Num2 (6) to D2
+
+00100C D0BC 00000002    LOOP    ADD.L   #NUM1,D0        ; Add Num1 (2) to D0
+001012 5382                     SUBQ.L  #1,D2           ; Take 1 away from D0
+001014 66F6                     BNE     LOOP            ; Branch if result not Zero
+
+                        ;RESULT IN D0
+
+001016 4E72 2700        DONE    STOP    #$2700
+00101A 60FA             	BRA	DONE
+00101C  (001000)                END     $1000
+
+
+00000 Total Error(s)
+
+DONE               00001016    LOOP               0000100C    NUM1               00000002 E
+NUM2               00000006 E

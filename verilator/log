@@ -1,0 +1,175 @@
++ V=/usr/local/bin/verilator
++ TOP='--top-module ff_verilator'
++ RTL=../rtl
++ CPU=../m68k
++ ROM=../roms/v3
++ INC='+incdir+../rtl +incdir+../m68k +incdir+../roms/v3'
++ /usr/local/bin/verilator -cc -LDFLAGS '-lSDL -lpthread' -exe --trace --Mdir ./tmp +define+debug=1 +incdir+../rtl +incdir+../m68k +incdir+../roms/v3 --top-module ff_verilator ff_verilator.v ../rtl/ff.v ../rtl/ff_top.v ../rtl/m68000.v ../rtl/pokey.v ../rtl/pal.v ../rtl/prom_2b.v ../rtl/coderom.v ../rtl/coderam.v ../rtl/ram_907036.v ../rtl/rom_6lm.v ../rtl/ram_137250.v ../rtl/rom_136020.v ../rtl/ram_93422.v
+%Warning-VARHIDDEN: ff_verilator.v:35: Declaration of signal hides declaration in upper scope: vsync
+%Warning-VARHIDDEN: Use "/* verilator lint_off VARHIDDEN */" and lint_on around source to disable this message.
+%Warning-VARHIDDEN: ff_verilator.v:8: ... Location of original declaration
+%Warning-VARHIDDEN: ff_verilator.v:36: Declaration of signal hides declaration in upper scope: hsync
+%Warning-VARHIDDEN: ff_verilator.v:7: ... Location of original declaration
+%Warning-IMPLICIT: ../rtl/ff.v:477: Signal definition not found, creating implicitly: pfwr_n
+%Warning-IMPLICIT: ../rtl/m68000.v:138: Signal definition not found, creating implicitly: haltn
+%Warning-IMPLICIT: ff_verilator.v:26: Signal definition not found, creating implicitly: sw
+%Warning-IMPLICIT: ../rtl/ff.v:66: Signal definition not found, creating implicitly: e
+%Warning-IMPLICIT: ../rtl/ff.v:194: Signal definition not found, creating implicitly: i_o_n
+%Warning-IMPLICIT: ../rtl/ff.v:196: Signal definition not found, creating implicitly: pf_n
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:196: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_a' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:197: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_b' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:198: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_index' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:224: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_tmp' generates 5 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:441: Operator ADD expects 6 bits on the RHS, but RHS's CONST '2'h1' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:443: Operator ADD expects 6 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:455: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:523: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_offset' generates 4 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:528: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_offset' generates 4 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:537: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'adr_tmp' generates 6 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:564: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:567: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:570: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:573: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:576: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:579: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:596: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:599: Operator SUB expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:605: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:608: Operator SUB expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:663: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:666: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_tmp' generates 5 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:666: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:272: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:285: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:289: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:646: Operator EQ expects 65 bits on the RHS, but RHS's CONST '64'h0' generates 64 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:682: Operator ASSIGNDLY expects 33 bits on the Assign RHS, but Assign RHS's CONST '32'h0' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:693: Operator ASSIGNDLY expects 33 bits on the Assign RHS, but Assign RHS's CONST '32'h0' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:717: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:721: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:724: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'op_in_d_lo' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'mul_div_op_s' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:746: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'op_in_d_lo' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:746: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:748: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'mul_div_op_s' generates 32 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:748: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:776: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:794: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:796: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:800: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:803: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:805: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:828: Operator SUB expects 6 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:550: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:629: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:661: Operator SUB expects 7 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:903: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's SUB generates 32 or 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:905: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's SUB generates 32 or 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:965: Operator SUB expects 3 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:967: Operator ADD expects 3 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:985: Bit extraction of var[15:0] requires 4 bit index, not 5 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1017: Bit extraction of var[15:0] requires 4 bit index, not 5 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1434: Operator AND expects 2 bits on the LHS, but LHS's VARREF 'movem_cpy' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1434: Logical Operator IF expects 1 bit on the If, but If's AND generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Operator AND expects 2 bits on the LHS, but LHS's VARREF 'movem_cpy' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Operator AND expects 2 bits on the RHS, but RHS's VARREF 'dr' generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Logical Operator IF expects 1 bit on the If, but If's AND generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:95: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_a' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:96: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_b' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:97: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_c' generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:194: Operator ASSIGNDLY expects 32 bits on the Assign RHS, but Assign RHS's CONCAT generates 16 bits.
+%Warning-WIDTHCONCAT: ../m68k/wf68k00ip_data_registers.v:209: Unsized numbers/parameters not allowed in concatenations.
+%Warning-WIDTH: ../rtl/m68000.v:551: Operator ADD expects 8 bits on the RHS, but RHS's SEL generates 3 bits.
+%Warning-WIDTH: ../rtl/m68000.v:570: Operator ADD expects 10 bits on the RHS, but RHS's CONCAT generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:477: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:488: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Logical Operator LOGNOT expects 1 bit on the LHS, but LHS's SEL generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Operator EQ expects 3 bits on the LHS, but LHS's LOGNOT generates 1 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Logical Operator LOGNOT expects 1 bit on the LHS, but LHS's SEL generates 3 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Operator EQ expects 3 bits on the LHS, but LHS's LOGNOT generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:37: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's VARREF 'freq' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:43: Operator ASSIGNDLY expects 8 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:106: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's SEL generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:141: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 4 bits.
+%Error: ../rtl/pokey.v:156: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:156: Illegal range select; variable already selected, or bad dimension
+%Warning-WIDTH: ../rtl/pokey.v:156: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
+%Error: ../rtl/pokey.v:157: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:157: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:158: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:158: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:159: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:159: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:160: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:160: Illegal bit or array select; variable already selected, or bad dimension
+%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:577: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:885: Output port connection ext_cnt expects 1 bits but connection's VARREF 'ext_cnt_i' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:886: Output port connection dest_ext_cnt expects 1 bits but connection's VARREF 'dest_ext_cnt_i' generates 2 bits.
+%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:1100: Operator EQ expects 5 bits on the RHS, but RHS's CONST '4'h1' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:221: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's ADD generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:288: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's VARREF 'random' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:294: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's NOT generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:297: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:306: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's CONST '?32?hff' generates 32 or 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:295: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:292: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:289: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:286: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:283: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:310: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:312: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:315: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Error: ../rtl/pokey.v:319: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:319: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:320: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:320: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:321: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:321: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:322: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:322: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:323: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:323: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:324: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:324: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:325: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:325: Illegal bit or array select; variable already selected, or bad dimension
+%Error: ../rtl/pokey.v:326: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:326: Illegal bit or array select; variable already selected, or bad dimension
+%Warning-WIDTH: ../rtl/pokey.v:318: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:331: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:339: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:350: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:360: Operator ASSIGNDLY expects 8 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:359: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Error: ../rtl/pokey.v:364: Illegal bit or array select; variable already selected, or bad dimension: dat_i
+%Error: ../rtl/pokey.v:364: Illegal range select; variable already selected, or bad dimension
+%Warning-WIDTH: ../rtl/pokey.v:364: Operator ASSIGNDLY expects 2 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:363: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
+%Warning-WIDTH: ../rtl/pokey.v:394: Output port connection __pinNumber5 expects 1 bits but connection's VARREF 'random' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:417: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:420: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:423: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:426: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:431: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout0' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:436: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout1' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:441: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout2' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:446: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout3' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:35: Input port connection adr_i expects 1 bits but connection's VARREF 'a' generates 4 bits.
+%Warning-WIDTH: ../rtl/pokey.v:36: Input port connection dat_i expects 1 bits but connection's VARREF 'd_in' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:37: Output port connection dat_o expects 1 bits but connection's VARREF 'd_out' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:42: Output port connection audout expects 1 bits but connection's VARREF 'audout' generates 6 bits.
+%Warning-WIDTH: ../rtl/pokey.v:43: Input port connection key_code expects 1 bits but connection's CONST '8'h0' generates 8 bits.
+%Warning-WIDTH: ../rtl/pokey.v:45: Input port connection serin expects 1 bits but connection's CONST '8'h0' generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:484: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONST '8'h0' generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:485: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's VARREF 'pf_data' generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:486: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:487: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:659: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONST '8'h0' generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:661: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
+%Warning-WIDTH: ../rtl/ff.v:662: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
+%Warning-WIDTH: ff_verilator.v:26: Input port connection sw expects 10 bits but connection's VARREF 'sw' generates 1 bits.
+%Error: Exiting due to 165 warning(s)
+%Error: Command Failed verilator_bin -cc -LDFLAGS '-lSDL -lpthread' -exe --trace --Mdir ./tmp '+define+debug=1' +incdir+../rtl +incdir+../m68k +incdir+../roms/v3 --top-module ff_verilator ff_verilator.v ../rtl/ff.v ../rtl/ff_top.v ../rtl/m68000.v ../rtl/pokey.v ../rtl/pal.v ../rtl/prom_2b.v ../rtl/coderom.v ../rtl/coderam.v ../rtl/ram_907036.v ../rtl/rom_6lm.v ../rtl/ram_137250.v ../rtl/rom_136020.v ../rtl/ram_93422.v

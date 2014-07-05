@@ -1,0 +1,52 @@
+GPLCVER_2.12a of 05/16/07 (Linux-elf).
+Copyright (c) 1991-2007 Pragmatic C Software Corp.
+  All Rights reserved.  Licensed under the GNU General Public License (GPL).
+  See the 'COPYING' file for details.  NO WARRANTY provided.
+Today is Fri Jul  4 18:32:37 2014.
+Compiling source file "../rtl/ff.v"
+Compiling source file "../rtl/ff_top.v"
+Compiling source file "../rtl/m68000.v"
+Compiling source file "../rtl/pokey.v"
+Compiling source file "../rtl/pal.v"
+Compiling source file "../rtl/prom_2b.v"
+Compiling source file "../rtl/coderom.v"
+Compiling source file "../rtl/coderam.v"
+Compiling source file "../rtl/ram_907036.v"
+Compiling source file "../rtl/rom_6lm.v"
+Compiling source file "../rtl/ram_137250.v"
+Compiling source file "../rtl/rom_136020.v"
+Compiling source file "../rtl/ram_93422.v"
+Compiling source file "../rtl/nvram.v"
+Compiling source file "../rtl/ram_dp256x8.v"
+Compiling source file "ff_tb.v"
+Highest level modules:
+ff_top_tb
+
+     42; bus: -> GRANT
+   1050; bus: -> GRANT
+m68k: irq_inn 111, irq_in 000, irq_out 000, ex_p_int 0, status_reg_in 0000;    1134
+   1134; bus: -> IDLE
+   1218; bus: -> IDLE
+ex_state -> INIT
+exception: reset
+ex_state -> INIT
+exception: reset
+sr: sreg_mem [7:5] <= 3'b111 (preset_irq_mask)
+ex_state -> VECT_NR
+sr: status_reg <= 2700
+ex_state -> UPDATE_SSP_HI
+m68k: status_reg_in 2700;    2142
+ex_state -> UPDATE_SSP_LO
+ex_state -> UPDATE_PC_HI
+ex_state -> UPDATE_PC_LO
+ex_state -> IDLE
+PC <- 0000008c (init)
+sr: sreg_mem <= 1e0 (sr_wr)
+color: write 00 <- 0000
+color: write 01 <- 0052
+color: write 02 <- 00ac
+color: write 03 <- 00ff
+digital: write 948000 <- 0000 (0000)
+control: in=0000;   25998
+C1 > 
+C1 > :q

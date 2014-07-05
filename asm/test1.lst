@@ -1,0 +1,29 @@
+                        ;       68Sample.x68
+                        ;       By Greg Colley
+                        ;       Program which adds 3 numbers together and subtracts another.
+       = 002000         LOC1    EQU     $2000
+       = 002002         LOC2    EQU     $2002
+       = 002004         LOC3    EQU     $2004
+
+       = 002006         RESULT  EQU     $2006   ; Answer Location
+
+000000                  	ORG	$0
+000000 00002000         	long	$2000
+000004 00001000         	long	$1000
+                        	
+001000                          ORG     $1000
+
+                        ;       Main Program
+001000 3038 2000                MOVE.W  LOC1,D0
+001004 D078 2002                ADD.W   LOC2,D0
+001008 D078 2004                ADD.W   LOC3,D0
+00100C 907C 01F0                SUB.W   #$1F0,D0
+001010 31C0 2006                MOVE.W  D0,RESULT
+001014 4E72 2700                STOP    #$2700
+
+001018  (001000)                END     $1000
+
+00000 Total Error(s)
+
+LOC1               00002000 E  LOC2               00002002 E  LOC3               00002004 E
+RESULT             00002006 E

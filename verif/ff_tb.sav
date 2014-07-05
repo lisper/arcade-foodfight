@@ -1,0 +1,71 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Sat May 31 11:49:23 2014
+[*]
+[dumpfile] "/files/code/foodfight/verif/ff_tb.vcd"
+[dumpfile_mtime] "Sat May 31 11:49:19 2014"
+[dumpfile_size] 112285893
+[savefile] "/files/code/foodfight/verif/ff_tb.sav"
+[timestart] 21920136
+[size] 1630 750
+[pos] -1 -1
+*-8.029600 21896070 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ff_top_tb.
+[treeopen] ff_top_tb.uut.
+[treeopen] ff_top_tb.uut.ff.
+[sst_width] 224
+[signals_width] 202
+[sst_expanded] 1
+[sst_vpaned_height] 204
+@28
+ff_top_tb.uut.ff.clk_12mhz
+ff_top_tb.uut.ff.reset
+ff_top_tb.uut.ff.reset_n
+@22
+ff_top_tb.uut.ff.counter_h[11:0]
+@28
+ff_top_tb.uut.ff.s_1h
+ff_top_tb.uut.ff.s_2h
+ff_top_tb.uut.ff.s_4h
+ff_top_tb.uut.ff.s_8h
+ff_top_tb.uut.ff.s_16h
+ff_top_tb.uut.ff.s_32h
+ff_top_tb.uut.ff.s_64h
+ff_top_tb.uut.ff.s_128h
+ff_top_tb.uut.ff.s_256h
+ff_top_tb.uut.ff.s_256h_n
+@24
+ff_top_tb.uut.ff.counter_v[7:0]
+@28
+ff_top_tb.uut.ff.s_1v
+ff_top_tb.uut.ff.s_2v
+ff_top_tb.uut.ff.s_4v
+ff_top_tb.uut.ff.s_8v
+ff_top_tb.uut.ff.s_16v
+ff_top_tb.uut.ff.hsync
+ff_top_tb.uut.ff.vblank
+ff_top_tb.uut.ff.vsync
+ff_top_tb.uut.ff.vpreset
+ff_top_tb.uut.ff.vpreset_n
+@22
+ff_top_tb.uut.ff.prom_2b_addr[7:0]
+ff_top_tb.uut.ff.prom_out[3:0]
+@200
+------
+@22
+ff_top_tb.uut.ff.pf_rom_addr[7:0]
+ff_top_tb.uut.ff.pf_out[15:0]
+@28
+ff_top_tb.uut.ff.csu_n
+ff_top_tb.uut.ff.csl_n
+ff_top_tb.uut.ff.pfwr_n
+@22
+ff_top_tb.uut.ff.pfa[9:0]
+@28
+ff_top_tb.uut.ff.u_v_n
+ff_top_tb.uut.ff.pf_n
+ff_top_tb.uut.ff.pfflip
+@23
+ff_top_tb.uut.ff.rgb[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
