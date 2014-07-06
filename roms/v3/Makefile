@@ -38,5 +38,5 @@ rom_4d4e.v: dump4d4e
 	./dump4d4e $(STAMP_ROMS_V) >$@
 
 clean:
-	rm -f dumpcode dump6lm dump2p dump89hex dump4e4d
-	rm -f rom_89.hex rom_89.bin rom_2p.v rom_6lm.v rom_4e4d.v
+	rm -f dumpcode dump6lm dump2p dump89hex dump4d4e
+	rm -f rom_89.hex rom_89.bin rom_2p.v rom_6lm.v rom_4d4e.v

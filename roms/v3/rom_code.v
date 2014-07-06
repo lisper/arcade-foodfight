@@ -65543,14 +65543,4 @@ initial begin
 	coderom_h.rom3[8189] = 8'h00; // 0x1ffd
 	coderom_h.rom3[8190] = 8'h04; // 0x1ffe
 	coderom_h.rom3[8191] = 8'h4e; // 0x1fff
-
-//
-//`define shortcircuit_loop
-`ifdef shortcircuit_loop
-	coderom_l.rom0[638] = 8'h00; // 0x027e
-	coderom_l.rom0[639] = 8'h00; // 0x027f
-	coderom_h.rom0[638] = 8'h00; // 0x027e
-	coderom_h.rom0[639] = 8'h00; // 0x027f
-`endif
-   
 end
