@@ -28,22 +28,43 @@ main(int argc, char *argv[])
 	int i;
 	char *bs;
 
-	printf("initial begin\n");
-	printf("\t// foodfight %s %s\n", argv[1], argv[2]);
+	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'a') {
+		// for xst
+		for (i = 0; i < 2; i++) {
+			read_rom(i, argv[2+i]);
+		}
+		printf("initial begin\n");
 
-	for (i = 0; i < 2; i++) {
-		read_rom(i, argv[1+i]);
+		printf("\t// foodfight %s\n", argv[2]);
+		for (i = 0; i < 8192; i++) {
+			printf("\tromh[%d] = 8'h%02x; // 0x%04x\n", i, roms[1][i], i);
+		}
+
+		printf("\t// foodfight %s\n", argv[3]);
+		for (i = 0; i < 8192; i++) {
+			printf("\troml[%d] = 8'h%02x; // 0x%04x\n", i, roms[0][i], i);
+		}
+
+		printf("end\n");
+	} else {
+		// this works in sim, but xst barfs
+		printf("initial begin\n");
+		printf("\t// foodfight %s %s\n", argv[1], argv[2]);
+
+		for (i = 0; i < 2; i++) {
+			read_rom(i, argv[1+i]);
+		}
+
+		for (i = 0; i < 8192; i++) {
+			printf("\tchip_4d.rom[%d] = 8'h%02x; // 0x%04x\n", i, roms[0][i], i);
+		}
+
+		for (i = 0; i < 8192; i++) {
+			printf("\tchip_4e.rom[%d] = 8'h%02x; // 0x%04x\n", i, roms[1][i], i);
+		}
+
+		printf("end\n");
 	}
-
-	for (i = 0; i < 8192; i++) {
-		printf("\tchip_4d.rom[%d] = 8'h%02x; // 0x%04x\n", i, roms[0][i], i);
-	}
-
-	for (i = 0; i < 8192; i++) {
-		printf("\tchip_4e.rom[%d] = 8'h%02x; // 0x%04x\n", i, roms[1][i], i);
-	}
-
-	printf("end\n");
 
 	exit(0);
 }

@@ -17,7 +17,7 @@ PF_ROM_V = 136020-109.6lm
 STAMP_ROMS_V = \
 	136020-111.4d 136020-110.4e
 
-all: rom_2p.v rom_6lm.v rom_4d4e.v rom_code.v rom_89.hex rom_89.bin Makefile
+all: rom_2p.v rom_6lm.v rom_4d4e.v rom_4d4e_alt.v rom_code.v rom_code_alt.v rom_89.hex rom_89.bin Makefile
 
 rom_2p.v: dump2p
 	./dump2p <136020-112.2p >$@
@@ -34,9 +34,16 @@ rom_6lm.v: dump6lm
 rom_code.v: dumpcode
 	./dumpcode $(CODE_ROMS_V) >$@
 
+rom_code_alt.v: dumpcode
+	./dumpcode -a $(CODE_ROMS_V) >$@
+
 rom_4d4e.v: dump4d4e
 	./dump4d4e $(STAMP_ROMS_V) >$@
+
+rom_4d4e_alt.v: dump4d4e
+	./dump4d4e -a $(STAMP_ROMS_V) >$@
 
 clean:
 	rm -f dumpcode dump6lm dump2p dump89hex dump4d4e
 	rm -f rom_89.hex rom_89.bin rom_2p.v rom_6lm.v rom_4d4e.v
+
