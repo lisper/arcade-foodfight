@@ -7,9 +7,9 @@
 //`define debug_color
 //`define debug_h
 //`define debug_h_lines
-//`define normal_video
-`define debug_stamps
-`define debug_stamps_color
+`define normal_video
+//`define debug_stamps
+//`define debug_stamps_color
 
 module ff(
 	  input        clk_12mhz,
@@ -30,11 +30,14 @@ module ff(
 	  output       o_hsync,
 	  output       o_compsync,
 	  output       o_vsync,
-	  output [7:0] o_rgb
+	  output       o_blank,
+	  output [7:0] o_rgb,
+	  output [7:0] o_audio
 	  );
 
 // page 15 - sheet 4B
 
+   wire mpuclk;
    wire [23:0] 	 a;
    wire [15:0] 	 ud_in;
    wire [15:0] 	 ud_out;
@@ -42,13 +45,18 @@ module ff(
    wire 	 uds_n;
    wire 	 lds_n;
    wire 	 as_n;
+   wire 	 vpa_n;
    wire 	 vma_n;
    wire 	 avec_n;
+   wire 	 mdtack_n;
    wire [2:0] 	 fc;
    wire 	 halt_n;
    wire 	 reset_n;
    wire 	 il3, il4;
    wire 	 e;
+
+   reg 		 il3_n = 1;
+   reg 		 il4_n = 1;
    
    mc68000 cpu(
 	       .clk(mpuclk),
@@ -77,15 +85,8 @@ module ff(
    assign reset_n = ~reset;
    assign halt_n = 1'b1;
 
-   // i/o -> cpu
-   assign ud_in =
-		 ~membufen_n ? mb_out :
-		 ~u_n_v ? pf_out :
-		 ~analogin_n ? analog_out :
-		 ~audio0_n ? { 8'b0, pokey_out } :
-		 ~digitalin_n ? { 8'b0, digital_out } :
-		 ~nvram_n ? { 12'b0, nvram_out } :
-		 16'b0;
+   wire nvram_n, audio2_n, audio1_n, audio0_n, dtack_n, recall_n;
+   reg 		 membufen_n;
 
    // cpu -> i/o
    wire [15:0] 	 bd_out;
@@ -99,12 +100,20 @@ module ff(
    wire 	 br_w_n;
    wire 	 r_w_u_n, r_w_l_n, r_n_w;
    wire 	 as;
-   wire 	 mdtack_n;
-   reg 		 membufen_n;
    wire [7:0] 	 digital_out;
-   reg 		 il3_n = 1;
-   reg 		 il4_n = 1;
+   wire [7:0] 	 pokey_out;
+   wire [15:0] 	 analog_out;
+   wire [3:0] 	 nvram_out;
 
+   // i/o -> cpu
+   assign ud_in =
+		 ~membufen_n ? mb_out :
+		 ~u_n_v ? pf_out :
+		 ~analogin_n ? analog_out :
+		 ~audio0_n ? { 8'b0, pokey_out } :
+		 ~digitalin_n ? { 8'b0, digital_out } :
+		 ~nvram_n ? { 12'b0, nvram_out } :
+		 16'b0;
 
    assign ba = { a[15:1], 1'b0 };
    assign br_w_n = r_w_n;
@@ -163,8 +172,8 @@ module ff(
 	  counterl <= 1'b0;
 	  led2 <= 1'b0;
 	  led1 <= 1'b0;
-	  int4rst_n <= 1'b0/*1'b1*/;
-	  int3rst_n <= 1'b0/*1'b1*/;
+	  int4rst_n <= 1'b0;
+	  int3rst_n <= 1'b0;
 	  update <= 1'b0;
 	  pfflip <= 1'b0;
        end
@@ -186,13 +195,12 @@ if (~s_ctrl)
 //   assign o_hsync = hsync;
    assign o_hsync = hsync_new;
    assign o_vsync = vsync;
+   assign o_blank = ~blank_n;
    assign o_compsync = compsync;
    assign o_rgb = rgb;
 
 
    //
-   wire [3:0] nvram_out;
-   
    nvram_x2212 nvram(
 		     .a(ba[8:1]),
 		     .i(bd_out[3:0]),
@@ -206,9 +214,8 @@ if (~s_ctrl)
    
 // page 19 - sheet 5B
 
-   wire nvram_n, audio2_n, audio1_n, audio0_n, dtack_n, vpa_n;
    wire rom0_n, rom1_n, rom2_n, rom3_n, ram0_n, ram1_n, objram_n;
-   wire watchdog_n, recall_n, coloram_n, digitalin_n, analogout_n, analogin_n;
+   wire watchdog_n, coloram_n, digitalin_n, analogout_n, analogin_n;
    wire i_o_n, pf_n;
    
    pal pal(
@@ -267,12 +274,12 @@ if (~s_ctrl)
 
 // page 21 - sheet 6A
 
-`include "../roms/v3/rom_code.v"
-   
    wire [15:0] 	 mb_out_rom;
    wire [15:0] 	 mb_out_ram;
 
-   coderom coderom_h(
+`ifdef never
+   coderom #(1) coderom_h (
+		     .clk(mpuclk),
 		     .a(ba[13:1]),
 		     .out(mb_out_rom[15:8]),
 		     .ce0(rom0_n),
@@ -281,7 +288,8 @@ if (~s_ctrl)
 		     .ce3(rom3_n)
 		     );
 
-   coderom coderom_l(
+   coderom #(0) coderom_l (
+		     .clk(mpuclk),
 		     .a(ba[13:1]),
 		     .out(mb_out_rom[7:0]),
 		     .ce0(rom0_n),
@@ -290,15 +298,30 @@ if (~s_ctrl)
 		     .ce3(rom3_n)
 		     );
 
+//`include "../roms/v3/rom_code.v"
+`else
+   coderom16 coderom (
+		     .clk(mpuclk),
+		     .a(ba[13:1]),
+		     .out(mb_out_rom),
+		     .ce0(rom0_n),
+		     .ce1(rom1_n),
+		     .ce2(rom2_n),
+		     .ce3(rom3_n)
+		     );
+`endif
+   
    coderam coderam_h(
+		     .clk(mpuclk),
 		     .a(ba[13:1]),
 		     .out(mb_out_ram[15:8]),
 		     .in(bd_out[15:8]),
 		     .cs(ram0_n & ram1_n),
 		     .we(r_w_u_n)
 		     );
-   
+
    coderam coderam_l(
+		     .clk(mpuclk),
 		     .a(ba[13:1]),
 		     .out(mb_out_ram[7:0]),
 		     .in(bd_out[7:0]),
@@ -335,7 +358,7 @@ if (~s_ctrl)
        if (cnt_h == `CNT_H_MAX)
 	 cnt_h <= 0;
        else
-	 cnt_h <= cnt_h + 1;
+	 cnt_h <= cnt_h + 12'd1;
 
    /* verilator lint_off UNOPTFLAT */
    reg [11:0] counter_h;
@@ -356,7 +379,7 @@ if (~s_ctrl)
 	 counter_h <= { 11'b000_1111_1000, ~counter_h[0] };
        else
 	 if (counter_h_counting)
-	   counter_h <= counter_h + 1;
+	   counter_h <= counter_h + 12'd1;
 
    wire       hsync_new_on;
 
@@ -420,6 +443,7 @@ if (~s_ctrl)
    assign prom_2b_addr = { vblank, s_64v, s_32v, s_16v, s_8v, s_4v, s_2v, s_1v };
    
    prom_2b prom_2b(
+		   .clk(clk_12mhz),
 		   .a(prom_2b_addr),
 		   .d(prom_out),
 		   .e1(1'b0),
@@ -456,7 +480,6 @@ if (~s_ctrl)
    wire hsync_clr;
    wire compsync;
    wire s_256h_n;
-   wire mpuclk;
    wire blank_n;
    
    always @(posedge s_32h)
@@ -515,6 +538,7 @@ if (~s_ctrl)
    assign pfwr_n = br_w_n | u_n_v_d;
 
    ram_907036 chip_3n_3m(
+			 .clk(s_6mhz),
 			 .a(pfa),
 			 .cs_n(csu_n),
 			 .we_n(pfwr_n),
@@ -523,6 +547,7 @@ if (~s_ctrl)
 			 );
 
    ram_907036 chip_3l_3k(
+			 .clk(s_6mhz),
 			 .a(pfa),
 			 .cs_n(csl_n),
 			 .we_n(pfwr_n),
@@ -556,6 +581,7 @@ if (~s_ctrl)
    assign pf_rom_addr = { pf_out_h_hold[7], pf_rom_a, s_4hf, s_4vf, s_2vf, s_1vf };
 
    rom_6lm rom_6lm(
+		   .clk(s_6m_n),
 		   .a(pf_rom_addr),
 		   .d(pf_data),
 		   .ce(1'b0),
@@ -600,47 +626,51 @@ if (~s_ctrl)
 
    assign lwr_n = lds_n | (~objram_n ? br_w_n : 1'b1);
    assign uwr_n = uds_n | (~objram_n ? br_w_n : 1'b1);
-	       
+
    ram_137250 chip_6c(
-		 .a({1'b0, moram_addr}),
-		 .i(bd_out[15:12]),
-		 .d(mod[15:12]),
-		 .cs2(1'b1),
-		 .cs1(1'b0),
-		 .w(uwr_n),
-		 .oe(1'b0)
-		 );
+		      .clk(s_6mhz),
+		      .a({1'b0, moram_addr}),
+		      .i(bd_out[15:12]),
+		      .d(mod[15:12]),
+		      .cs2(1'b1),
+		      .cs1(1'b0),
+		      .w(uwr_n),
+		      .oe(1'b0)
+		      );
 
 
    ram_137250 chip_6d(
-		 .a({1'b0, moram_addr}),
-		 .i(bd_out[11:8]),
-		 .d(mod[11:8]),
-		 .cs2(1'b1),
-		 .cs1(1'b0),
-		 .w(uwr_n),
-		 .oe(1'b0)
-		 );
+		      .clk(s_6mhz),
+		      .a({1'b0, moram_addr}),
+		      .i(bd_out[11:8]),
+		      .d(mod[11:8]),
+		      .cs2(1'b1),
+		      .cs1(1'b0),
+		      .w(uwr_n),
+		      .oe(1'b0)
+		      );
 
    ram_137250 chip_6e(
-		 .a({1'b0, moram_addr}),
-		 .i(bd_out[7:4]),
-		 .d(mod[7:4]),
-		 .cs2(1'b1),
-		 .cs1(1'b0),
-		 .w(lwr_n),
-		 .oe(1'b0)
-		 );
+		      .clk(s_6mhz),
+		      .a({1'b0, moram_addr}),
+		      .i(bd_out[7:4]),
+		      .d(mod[7:4]),
+		      .cs2(1'b1),
+		      .cs1(1'b0),
+		      .w(lwr_n),
+		      .oe(1'b0)
+		      );
 
    ram_137250 chip_6f(
-		 .a({1'b0, moram_addr}),
-		 .i(bd_out[3:0]),
-		 .d(mod[3:0]),
-		 .cs2(1'b1),
-		 .cs1(1'b0),
-		 .w(lwr_n),
-		 .oe(1'b0)
-		 );
+		      .clk(s_6mhz),
+		      .a({1'b0, moram_addr}),
+		      .i(bd_out[3:0]),
+		      .d(mod[3:0]),
+		      .cs2(1'b1),
+		      .cs1(1'b0),
+		      .w(lwr_n),
+		      .oe(1'b0)
+		      );
 
 
 // page 29 - sheet 8A - vertical position
@@ -758,22 +788,35 @@ if (~s_ctrl)
    assign rom_addr_4 = hflip ^ s_4h;
    assign rom_addr = { rom_addr_hold_d, rom_addr_4, ol[3:0] };
 
-`include "../roms/v3/rom_4d4e.v"
-   
-   rom_136020 chip_4e(
+`ifdef never
+   rom_136020 #(1) chip_4e(
+		      .clk(clk_12mhz),
 		      .a(rom_addr),
 		      .d(rom_data[15:8]),
 		      .ce(1'b0),
 		      .oe(1'b0)
 		      );
 
-   rom_136020 chip_4d(
+   rom_136020 #(0) chip_4d(
+		      .clk(clk_12mhz),
 		      .a(rom_addr),
 		      .d(rom_data[7:0]),
 		      .ce(1'b0),
 		      .oe(1'b0)
 		      );
 
+//`include "../roms/v3/rom_4d4e.v"
+`else
+   rom_136020_16 chip_4e4d(
+		      .clk(clk_12mhz),
+		      .a(rom_addr),
+		      .d(rom_data),
+		      .ce(1'b0),
+		      .oe(1'b0)
+		      );
+`endif
+   
+   //
    wire [1:0] s1s0;
    assign s1s0 = {s_3y, s_4y};
    
@@ -1055,9 +1098,13 @@ hsync ? 8'hff :
 // c0122294-01
 
    wire       vma;
-   wire [7:0] pokey_out;
-   
    assign vma = ~vma_n;
+
+   wire [7:0] audout;
+   wire [5:0] audout0, audout1, audout2;
+
+   assign audout = {2'b0, audout0} + {2'b0, audout1} + {2'b0, audout2};
+   assign o_audio = audout;
    
    pokey pokey_2(
 		 .phi2(e),
@@ -1069,7 +1116,7 @@ hsync ? 8'hff :
 		 .d_in(bd_out[7:0]),
 		 .d_out(),
 		 .p(),
-		 .aud()
+		 .aud(audout2)
 		 );
 
    pokey pokey_1(
@@ -1082,7 +1129,7 @@ hsync ? 8'hff :
 		 .d_in(bd_out[7:0]),
 		 .d_out(),
 		 .p(),
-		 .aud()
+		 .aud(audout1)
 		 );
 
    pokey pokey_0(
@@ -1095,7 +1142,7 @@ hsync ? 8'hff :
 		 .d_in(bd_out[7:0]),
 		 .d_out(pokey_out),
 		 .p(sw1),
-		 .aud()
+		 .aud(audout0)
 		 );
 
 
@@ -1103,7 +1150,6 @@ hsync ? 8'hff :
 
 // analogout_n drive STRT on ADC0809
 // analogin enables LS244 -> bd[7:0]
-   wire [15:0] analog_out;
    
    assign analog_out = 16'b0;
    

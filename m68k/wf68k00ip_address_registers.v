@@ -328,7 +328,7 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
 			   
    always @ (ar_nr_i or i_d_a or i_w_l or
 	     ar[0] or ar[1] or ar[2] or ar[3] or ar[4] or ar[5] or ar[6] or
-	     op or index_d_in or i_scale)
+	     op or index_d_in or i_scale or index_tmp or ar_sel)
      begin 
         iwl_ida = {i_w_l,i_d_a};
 

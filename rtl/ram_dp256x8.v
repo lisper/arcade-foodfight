@@ -19,6 +19,7 @@ module ram_dp256x8(input rclk,
 	for (j = 0; j < 256; j = j + 1)
 	  ram[j] = 0;
      end
+`endif
 
    wire ram_read;
    wire ram_write;
@@ -34,6 +35,5 @@ module ram_dp256x8(input rclk,
    always @(posedge wclk)
      if (ram_write)
        ram[a] <= i;
-`endif
    
 endmodule // ram_dp256x8

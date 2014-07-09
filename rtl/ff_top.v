@@ -11,7 +11,9 @@ module ff_top(
 	      output 	   led2,
 	      output 	   hsync,
 	      output 	   vsync,
+	      output 	   blank,
 	      output [7:0] rgb,
+	      output [7:0] audio,
 	      input [9:0]  sw,
 	      input [8:1]  sw1
 	      );
@@ -35,7 +37,9 @@ module ff_top(
 	 .o_hsync(hsync),
 	 .o_compsync(),
 	 .o_vsync(vsync),
-	 .o_rgb(rgb)
+	 .o_blank(blank),
+	 .o_rgb(rgb),
+	 .o_audio(audio)
 	 );
    
 endmodule // ff_top

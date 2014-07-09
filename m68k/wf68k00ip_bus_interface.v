@@ -609,7 +609,9 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
          else 
            next_arb_state = WAIT_RELEASE_3WIRE;
 
-       default: ;
+       default:
+	 next_arb_state = IDLE;
+       
      endcase
    
    // RESET logic:

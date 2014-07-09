@@ -464,9 +464,9 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
                   (exec_state == FETCH_DEST_EXT & data_valid) ? 1'b1 :
                   1'b0;
    
-   assign iw_adr = (exec_state == FETCH_BIW_3) ? 2 :
-                   (exec_state == FETCH_BIW_2) ? 1 :
-                   0; // Default during FETCH_BIW_1.
+   assign iw_adr = (exec_state == FETCH_BIW_3) ? 2'd2 :
+                   (exec_state == FETCH_BIW_2) ? 2'd1 :
+                   2'd0; // Default during FETCH_BIW_1.
    
    assign iw_wr = (exec_state == FETCH_BIW_1 & data_valid) ? 1'b1 :
                   (exec_state == FETCH_BIW_2 & data_valid) ? 1'b1 :
@@ -1704,7 +1704,9 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
             else // CPY = '0', modify the bit pointer in the MOVEM control logic.
               next_exec_state = MOVEM_TST; // No transfer.
 
-	  default: ;
+	  default:
+	    next_exec_state = IDLE;
+	  
 	endcase
      end
 

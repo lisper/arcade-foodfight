@@ -339,7 +339,7 @@ module  wf68k00ip_alu ( resetn, clk, adr_mode, op_size, op, xnzvc_in, xnzvc_out,
      end 
    
    // The BCD operations are all byte wide and unsigned.
-   always @(op or xnzvc_in or op_in_s or op_in_d_lo ) 
+   always @(op or xnzvc_in or op_in_s or op_in_d_lo or c_0)
      begin 
         x_in_i = xnzvc_in[4]; // Extended Flag.
         case (op)
@@ -412,7 +412,8 @@ module  wf68k00ip_alu ( resetn, clk, adr_mode, op_size, op, xnzvc_in, xnzvc_out,
    
    always @(op or result_bcd or cb_bcd or result_logop or result_intop or op_size or
 	    xnzvc_in or result_special or op_in_d_lo or chk_cond or op_in_d_sign_lo or op_in_s_sign or
-	    result_i or result_i_out or result_ii or mul_state or div_mul_32n64 or ov_div_mul ) 
+	    result_i or result_i_out or result_ii or mul_state or div_mul_32n64 or ov_div_mul or
+	    rm or sm or dm) 
      begin 
 	//RM_SM_DM := To_Bit(RM) & To_Bit(SM) & To_Bit(DM);
 	rm_sm_dm = { rm, sm, dm };

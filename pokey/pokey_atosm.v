@@ -40,7 +40,7 @@ module pokey_counter(clk_i, dat_i,
      if (start)
        out <= freq;
      else if (cnt_en)
-       out <= out - 1;
+       out <= out - 8'd1;
 
    always @ (posedge clk_i)
      if (freq_ld)
@@ -378,7 +378,9 @@ module pokey_atosm(rst_i,
        dat_o = 'hff;
 `else // !`ifdef never
    always @ (adr_i or key_code or random or serin or irqst or irqen or
-	     key_shift or key_pressed)
+	     key_shift or key_pressed or pot_done or
+	     pot_cntr[0] or pot_cntr[1] or pot_cntr[2] or pot_cntr[3] or
+     	     pot_cntr[4] or pot_cntr[5] or pot_cntr[6] or pot_cntr[7])
      case (adr_i)
        4'h0, 4'h1, 4'h2, 4'h3, 4'h4, 4'h5, 4'h6, 4'h7:
 	 dat_o = pot_cntr[adr_i[2:0]];
@@ -410,7 +412,7 @@ module pokey_atosm(rst_i,
       for (i = 0; i < 4; i = i + 1)
 	audf_we[i] = {28'b0, adr_i} == (i << 1);
       for (i = 0; i < 4; i = i + 1)
-	audc_we[i] = {28'b0, adr_i} == ((i << 1) + 1);
+	audc_we[i] = {28'b0, adr_i} == ((i << 1) + 32'd1);
    end
 
    assign start_timer = (we_i && stb_i && adr_i == 9);
@@ -500,9 +502,9 @@ module pokey_atosm(rst_i,
       poly17_shift <= {poly17_shift[2:1], poly17};
    end
 
-   assign cnt_en[0] = fast_ch0 ? 1 : base;
+   assign cnt_en[0] = fast_ch0 ? 1'b1 : base;
    assign cnt_en[1] = ch01 ? borrow[0] : base;
-   assign cnt_en[2] = fast_ch2 ? 1 : base;
+   assign cnt_en[2] = fast_ch2 ? 1'b1 : base;
    assign cnt_en[3] = ch23 ? borrow[2] : base;
 
    assign start[0] = start_timer | (ch01 ? borrow[1] : borrow[0]);

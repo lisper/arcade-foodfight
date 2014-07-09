@@ -123,8 +123,8 @@ module wf68k00ip_top(
    wire        resetn;
    wire        haltn;
    
-   assign adr = adr_en ? adr_out : 0;
-//   assign data = data_en ? data_out : 0;
+   assign adr = adr_en ? adr_out : 23'b0;
+//   assign data = data_en ? data_out : 23'b0;
 
    assign data_in = datain;
    assign dataout = data_out;
@@ -135,32 +135,32 @@ module wf68k00ip_top(
    assign avec_in = avecn & vpan; // Wired or, use respective weak pull ups.
 
    // Open drain outputs:
-   assign resetn = reset_en ? 0 : 1;
-   assign haltn = halt_en ? 0 : 1;
+   assign resetn = reset_en ? 1'b0 : 1'b1;
+   assign haltn = halt_en ? 1'b0 : 1'b1;
 
    // Bus controls:
-   assign asn	= ( as_outn & as_en) ? 1 :
-		  (~as_outn & as_en) ? 0 :
-		  0;
+   assign asn	= ( as_outn & as_en) ? 1'b1 :
+		  (~as_outn & as_en) ? 1'b0 :
+		  1'b0;
 
-   assign udsn = ( uds_outn & uds_en) ? 1 :
-		  (~uds_outn & uds_en) ? 0 :
-		  0;
+   assign udsn = ( uds_outn & uds_en) ? 1'b1 :
+		  (~uds_outn & uds_en) ? 1'b0 :
+		  1'b0;
    
-   assign ldsn = ( lds_outn & lds_en) ? 1 :
-		  (~lds_outn & lds_en) ? 0 :
-		  0;
+   assign ldsn = ( lds_outn & lds_en) ? 1'b1 :
+		  (~lds_outn & lds_en) ? 1'b0 :
+		  1'b0;
 
-   assign rwn = ( rwn_out & rw_en) ? 1 :
-		 (~rwn_out & rw_en) ? 0 :
-		 0;
+   assign rwn = ( rwn_out & rw_en) ? 1'b1 :
+		 (~rwn_out & rw_en) ? 1'b0 :
+		 1'b0;
 
-   assign vman = ( vma_outn & vma_en) ? 1 :
-		  (~vma_outn & vma_en) ? 0 :
-		  0;
+   assign vman = ( vma_outn & vma_en) ? 1'b1 :
+		  (~vma_outn & vma_en) ? 1'b0 :
+		  1'b0;
 
    // The function code:
-   assign fc = fc_en ? fc_out : 0;
+   assign fc = fc_en ? fc_out : 3'b000;
 
    wf68k00ip_top_soc i_68k00(
 			     .clk             (clk),

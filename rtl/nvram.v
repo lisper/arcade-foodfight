@@ -14,8 +14,6 @@ module nvram_x2212(
 
    reg [3:0] ram[0:255];
 
-//   assign o = 0;
-
 `ifdef debug
    integer    j;
    
@@ -24,15 +22,14 @@ module nvram_x2212(
 	for (j = 0; j < 256; j = j + 1)
 	  ram[j] = 4'b1111/*0*/;
      end
-
+`endif
+   
    assign o = ram[a];
 
-   always @(a or ce_n or rw_n)
+   always @(a or ce_n or rw_n or i)
      if (rw_n == 0 & ce_n == 0)
        ram[a] = i;
    
-`endif
-  
 endmodule
 
 

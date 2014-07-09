@@ -21,16 +21,15 @@ module ram_93422(
 	for (j = 0; j < 256; j = j + 1)
 	  ram[j] = 0;
      end
-
+`endif
+   
    assign d = ram[a];
 
    wire ram_write;
    assign ram_write = ~cs1 & ~w;
    
-   always @(a or cs2 or cs1 or w)
+   always @(a or cs2 or cs1 or w or i)
      if (ram_write)
        ram[a] = i;
-   
-`endif
    
 endmodule // ram_93422

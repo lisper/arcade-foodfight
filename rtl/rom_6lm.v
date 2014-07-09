@@ -2,6 +2,7 @@
 //
 //
 module rom_6lm(
+	       input        clk,
 	       input [12:0] a,
 	       output [7:0] d,
 	       input 	    ce,
@@ -16,9 +17,13 @@ module rom_6lm(
    // 684
    
    reg [7:0] rom[0:8191];
+   reg [7:0] data;
 
 `include "../roms/v3/rom_6lm.v"
+
+   assign d = data;
    
-   assign d = rom[a];
+   always @(posedge clk)
+     data <= rom[a];
 
 endmodule // rom_6lm

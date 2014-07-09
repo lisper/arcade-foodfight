@@ -20,7 +20,7 @@ module pokey(
 	     input [7:0]  d_in,
 	     output [7:0] d_out,
 	     input [7:0]  p,
-	     output 	  aud
+	     output [5:0] aud
 	     );
 
 `ifdef POKEY_ATOSM
@@ -28,7 +28,7 @@ module pokey(
    wire [5:0] audout;
    
    assign stb = ~cs0_n & ~cs1_n;
-   assign aud = audout[0];
+   assign aud = audout;
    
    pokey_atosm pokey(.rst_i(reset),
 		     .clk_i(phi2),
