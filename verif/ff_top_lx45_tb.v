@@ -7,6 +7,7 @@ module ff_top_lx45_tb;
    wire [5:1] led;
    wire       vga_hsync;
    wire       vga_vsync;
+   wire       vga_blank;
    wire       vga_r;
    wire       vga_g;
    wire       vga_b;
@@ -23,6 +24,7 @@ module ff_top_lx45_tb;
 
 		    .vga_hsync(vga_hsync),
 		    .vga_vsync(vga_vsync),
+		    .vga_blank(vga_blank),
 		    .vga_r(vga_r),
 		    .vga_g(vga_g),
 		    .vga_b(vga_b),
