@@ -1,0 +1,67 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Tue Jul 15 13:22:11 2014
+[*]
+[dumpfile] "/files/code/foodfight/video/chain.vcd"
+[dumpfile_mtime] "Tue Jul 15 13:19:10 2014"
+[dumpfile_size] 91393846
+[savefile] "/files/code/foodfight/video/chain.gtkw"
+[timestart] 0
+[size] 1259 600
+[pos] -52 48
+*-20.944256 280000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[sst_width] 224
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 151
+@28
+tb.clk
+tb.reset_n
+@22
+tb.counter_h[11:0]
+@28
+tb.s_1h
+tb.s_2h
+tb.s_4h
+tb.s_8h
+tb.s_16h
+tb.s_32h
+tb.s_64h
+tb.s_128h
+tb.s_256h
+tb.hsync
+tb.hsync_clr
+tb.s_32h_rise
+@200
+-
+@22
+tb.h[11:0]
+@28
+tb.ss_1h
+tb.ss_2h
+tb.ss_4h
+tb.ss_6mhz
+@29
+tb.clk_12mhz
+@28
+tb.ss_8h
+tb.ss_16h
+tb.ss_32h
+tb.ss_64h
+tb.ss_128h
+tb.ss_256h
+@200
+-
+-
+@22
+tb.counter_v[7:0]
+tb.prom_2b_addr[7:0]
+tb.prom_out[3:0]
+@28
+tb.s_256h_n_rise
+tb.vblank
+tb.vpreset
+tb.vsync
+[pattern_trace] 1
+[pattern_trace] 0
