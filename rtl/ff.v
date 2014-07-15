@@ -7,9 +7,10 @@
 //`define debug_color
 //`define debug_h
 //`define debug_h_lines
-`define normal_video
 //`define debug_stamps
 //`define debug_stamps_color
+`define normal_video
+`define orig_video_timing
 
 module ff(
 	  input        clk_12mhz,
@@ -192,8 +193,11 @@ if (~s_ctrl)
 
    assign o_led1 = led1;
    assign o_led2 = led2;
-//   assign o_hsync = hsync;
+`ifdef orig_video_timing
+   assign o_hsync = hsync;
+`else
    assign o_hsync = hsync_new;
+`endif
    assign o_vsync = vsync;
    assign o_blank = ~blank_n;
    assign o_compsync = compsync;
@@ -298,7 +302,7 @@ if (~s_ctrl)
 		     .ce3(rom3_n)
 		     );
 
-//`include "../roms/v3/rom_code.v"
+`include "../roms/v3/rom_code.v"
 `else
    coderom16 coderom (
 		     .clk(mpuclk),
@@ -333,7 +337,7 @@ if (~s_ctrl)
 
 // page 23 - sheet 6B - sync
 
-`ifdef never
+`ifdef orig_video_timing
    /* verilator lint_off UNOPTFLAT */
    reg [11:0] counter_h;
    /* verilator lint_on UNOPTFLAT */
@@ -343,7 +347,7 @@ if (~s_ctrl)
        counter_h <= 12'b1101_0000_0000;
      else
        begin
-	  if (counter_h[11:8] == 4'b1111)
+	  if (counter_h == 12'b1111_1111_1111)
 	    counter_h <= 12'b1101_0000_0000;
 	  else
 	    counter_h <= counter_h + 12'd1;
@@ -363,8 +367,8 @@ if (~s_ctrl)
    /* verilator lint_off UNOPTFLAT */
    reg [11:0] counter_h;
    /* verilator lint_on UNOPTFLAT */
-   wire       counter_h_clr;
-   wire       counter_h_counting;
+   wire       counter_h_clr/*verilator public_flat_rd*/;
+   wire       counter_h_counting/*verilator public_flat_rd*/;
 
    assign counter_h_clr = cnt_h < 256 || cnt_h > (256+`CNT_H_MAX);
    assign counter_h_counting = cnt_h >= 256 && cnt_h <= (256+`CNT_H_MAX);
@@ -413,18 +417,23 @@ if (~s_ctrl)
    assign s_2h_n = ~s_2h;
    assign s_4h_n = ~s_4h;
 
+   // debug
+   wire [8:0] offset_h;
+   assign offset_h = { s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_4h, s_2h, s_1h };
+
    //
    reg [7:0]  counter_v;
    
-   always @(posedge s_256h_n or posedge reset)
+   always @(negedge clk_12mhz)
      if (reset)
 	 counter_v <= 0;
      else
        if (~vpreset_n)
-	 counter_v <= 8'b11011100;
+	 counter_v <= 8'hdc;
        else
-	 counter_v <= counter_v + 8'd1;
-
+	 if (s_256h_n_rise)
+	   counter_v <= counter_v + 8'd1;
+   
    wire       s_1v, s_2v, s_4v, s_8v, s_16v, s_32v, s_64v, s_128v;
 
    assign s_1v    = counter_v[0];
@@ -454,8 +463,9 @@ if (~s_ctrl)
    reg vsync, vsync_n;
    reg vpreset, vpreset_n;
 
-   always @(posedge s_256h_n or negedge s_128v)
-     if (~s_128v)
+//   always @(posedge s_256h_n or negedge s_128v)
+   always @(negedge clk_12mhz)
+     if (~s_128v | ~reset_n)
        begin
 	  vblank <= 1'b0;
 	  vblank_n <= 1'b1;
@@ -465,6 +475,7 @@ if (~s_ctrl)
 	  vpreset_n <= 1'b1;
        end
      else
+       if (s_256h_n_rise)
        begin
 	  vblank    <=  prom_out[2];
 	  vblank_n  <= ~prom_out[2];
@@ -476,34 +487,53 @@ if (~s_ctrl)
    
 // page 24 - sheet 6B - sync
 
+   //
+   reg 	s_8h_d, s_32h_d, s_256h_n_d;
+   wire s_8h_rise, s_32h_rise, s_256h_n_rise;
+   
+   always @(posedge s_6mhz)
+     if (~reset_n)
+       begin
+	  s_8h_d <= 0;
+	  s_32h_d <= 0;
+	  s_256h_n_d <= 0;
+       end
+     else
+       begin
+	  s_8h_d <= s_8h;
+	  s_32h_d <= s_32h;
+	  s_256h_n_d <= s_256h_n;
+       end
+   
+   assign s_8h_rise = ~s_8h_d & s_8h;
+   assign s_32h_rise = ~s_32h_d & s_32h;
+   assign s_256h_n_rise = ~s_256h_n_d & s_256h_n;
+
+   //
    reg hsync, hsync_clr_n;
    wire hsync_clr;
    wire compsync;
    wire s_256h_n;
    wire blank_n;
    
-   always @(posedge s_32h)
+   always @(posedge s_6mhz/*clk_12mhz*/)
      if (reset)
        hsync_clr_n <= 1'b1;
      else
-       hsync_clr_n <= s_64h;
+       if (s_256h)
+	 hsync_clr_n <= 1'b0;
+       else
+	 if (s_32h_rise)
+	   hsync_clr_n <= ~s_64h;
 
    assign hsync_clr = ~hsync_clr_n;
 
-//   always @(posedge s_8h or posedge hsync_clr)
-//     if (hsync_clr)
-//       hsync <= 1'b0;
-//     else
-//       hsync <= s_32h;
-
    always @(posedge s_6mhz/*clk_12mhz*/)
-     if (s_8h)
-       begin
-	  if (s_256h)
-	    hsync <= 1'b0;
-	  else
-	    hsync <= s_32h;
-       end
+     if (hsync_clr)
+       hsync <= 1'b0;
+     else
+       if (s_8h_rise)
+	 hsync <= s_32h;
 
    assign s_256h_n = 1'b1 ^ s_256h;   
    
