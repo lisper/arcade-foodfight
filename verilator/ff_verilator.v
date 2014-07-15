@@ -50,8 +50,7 @@ module ff_verilator;
 
    initial
      begin
-	dpi_vga_init(680, 260);
-//	dpi_vga_init(480, 640);
+	dpi_vga_init(700, 300);
      end
 
    wire [31:0] pxd;
@@ -71,7 +70,6 @@ module ff_verilator;
 
    assign vs = {31'b0, ~vsync};
    assign hs = {31'b0, ~hsync};
-//   assign hs = {31'b0, hsync};
    
    always @(posedge pixclk)
      dpi_vga_display(vs, hs, pxd);
