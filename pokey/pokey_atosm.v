@@ -159,7 +159,7 @@ module pokey_audout(rst, clk_i, dat_i,
 //   wire       in, filter_en, filter_in;
 
 //   wire [3:0] out;
-   assign out = (ch_out | vol_only) ? vol : 0;
+   assign out = (ch_out | vol_only) ? vol : 4'b0;
    
    reg [3:0]  vol;
    reg 	      vol_only;
