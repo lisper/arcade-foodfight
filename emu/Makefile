@@ -1,14 +1,14 @@
 
 TARGET = emu
-OBJS = emu.o
+OBJS = emu.o video.o
 CFLAGS = -O2 -Ifame/include -g
 LDFLAGS = -Lfame/x86/linux
 CC = gcc
 STRIP = strip
 
 $(TARGET) : $(OBJS)
-			$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET) -lfame
-#			$(STRIP) $(TARGET)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET) -lfame -lSDL
+#	$(STRIP) $(TARGET)
 
 all: $(TARGET)
 
