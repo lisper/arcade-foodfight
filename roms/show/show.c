@@ -18,6 +18,7 @@ int screen_cols;
 int debug;
 
 unsigned char stamp_rom[2][8192];
+unsigned char pf_rom[8192];
 
 int
 read_stamp_rom(int index, char *fn)
@@ -39,12 +40,35 @@ read_stamp_rom(int index, char *fn)
 }
 
 int
+read_pf_rom(char *fn)
+{
+	int f, r;
+
+	f = open(fn, O_RDONLY);
+	if (f <= 0) {
+		perror(fn);
+		exit(2);
+	}
+
+	r = read(f, pf_rom, 8192);
+	if (r != 8192) {
+		perror(fn);
+		exit(1);
+	}
+	close(f);
+	return 0;
+}
+
+int
 read_roms(void)
 {
 	if (read_stamp_rom(0, stamp_rom_filename[0]))
 		return -1;
 
 	if (read_stamp_rom(1, stamp_rom_filename[1]))
+		return -1;
+
+	if (read_pf_rom(pf_rom_filename))
 		return -1;
 
 	return 0;
@@ -257,6 +281,69 @@ display_stamps(void)
 	return 0;
 }
 
+
+void display_pf_tile(int tile, int color, int h, int v, int hflip, int vflip)
+{
+	int hh, vv, offset, base, rgb8, c;
+	unsigned char b, p;
+
+	h *= 2;
+	v *= 2;
+
+	// 0,0 8,8
+	base = (tile * 16);
+	for (vv = 0; vv < 8; vv++) {
+
+		offset = base + vv;
+		for (hh = 0; hh < 8; hh++) {
+			if ((hh == 0 && hflip) || (hh == 4 && !hflip)) {
+				b = pf_rom[offset];
+			}
+			if ((hh == 4 && hflip) || (hh == 0 && !hflip)) {
+				b = pf_rom[offset+8];
+			}
+
+			// 76543210
+			if (hflip == 0) {
+				p = ((b & 0x80) >> 6) | ((b & 0x08) >> 3);
+				b <<= 1;
+			} else {
+				p = ((b & 0x10) >> 3) | (b & 1);
+				b >>= 1;
+			}
+
+			c = p * 2;
+			rgb8 = rgb(c, c, c);
+
+			set_pixel(h+(hh*2),   v+(vv*2),   rgb8);
+			set_pixel(h+(hh*2),   v+(vv*2)+1, rgb8);
+			set_pixel(h+(hh*2)+1, v+(vv*2),   rgb8);
+			set_pixel(h+(hh*2)+1, v+(vv*2)+1, rgb8);
+		}
+	}
+}
+
+int
+display_pf(void)
+{
+	int h, v;
+	unsigned char b0, b1;
+	int tile, color, offset;
+	tile = 0;
+	for (v = 0; v < 32; v++) {
+tile = 0x40;
+		for (h = 0; h < 64; h++) {
+			color = 1;
+			display_pf_tile(tile, color, h*8, v*8, v & 1, 0);
+
+			tile++;
+			if (tile > 511)
+				tile = 0;
+		}
+//		if (v == 1) break;
+	}
+}
+
 void
 fatal(void)
 {
@@ -269,7 +356,7 @@ main(int argc, char *arv[])
 
 	stamp_rom_filename[0] = "../v3/136020-111.4d";
 	stamp_rom_filename[1] = "../v3/136020-110.4e";
-	pf_rom_filename = "136020-109.6lm";
+	pf_rom_filename = "../v3/136020-109.6lm";
 	pf_map_filename = "pfmap.txt";
 
 	while ((c = getopt(argc, argc)) != -1) {
@@ -289,10 +376,12 @@ main(int argc, char *arv[])
 	if (init_display())
 		fatal();
 
+	if (0)
 	if (display_stamps())
 		fatal();
 
-//	display_pf();
+	if (display_pf())
+		fatal;
 
 	while (1) {
 		sleep(1);

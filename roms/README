@@ -1,0 +1,14 @@
+Foodfight roms
+
+Directories:
+
+v3
+	directory contains the current/latest versions with convertion programs
+	to create the appropriate source files.
+
+dis2
+	an m68k disassembler and a disassembly of the FF code roms
+
+dis
+	previous attempt at disassembler with too many flaws.
+
