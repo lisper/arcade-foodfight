@@ -643,8 +643,8 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
    always @ (posedge clk)
      if (resetn)
        begin
-	  if (pc_init)
-	    $display("PC <- %x (init)", adata_in);
+//	  if (pc_init)
+//	    $display("PC <- %x (init)", adata_in);
 	  if (ssp_init && 0)
 	    $display("SSP <- %x (init)", adata_in);
 

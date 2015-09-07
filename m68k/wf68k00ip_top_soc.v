@@ -1117,5 +1117,47 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
    //$display("m68k: ipl_in %b, ipln %b, ipl_tmpn %b; %t", ipl_in, ipln, ipl_tmpn, $time);
    
 `endif
+
+`define CHIPSCOPE_M68K
+
+`ifdef __CVER__
+ `ifdef CHIPSCOPE_M68K
+  `undef CHIPSCOPE_M68K
+ `endif
+`endif
+
+`ifdef SIMULATION
+ `ifdef CHIPSCOPE_M68K
+  `undef CHIPSCOPE_M68K
+ `endif
+`endif
+   
+`ifdef CHIPSCOPE_M68K
+   // chipscope
+   wire [35:0] control1;
+   wire [99:0] trig1;
+   wire        mclk_en;
+   wire        mclk;
+        
+   assign trig1 = {
+		   reset_coren, //1
+		   reset_inn,   //1
+		   dtackn,      //1
+		   as_outn,     //1
+		   rwn_out,     //1
+		   uds_outn,    //1
+		   lds_outn,    //1
+		   fc_out,      //3
+		   ipln,        //3
+                   pc_out,      //32
+		   data_in,     //16
+		   data_out,    //16
+		   adr_out      //23
+                   };
+
+   chipscope_icon_m68k icon1 (.CONTROL0(control1));
+   chipscope_ila_m68k ila1 (.CONTROL(control1), .CLK(clk), .TRIG0(trig1));
+`endif
+
    
 endmodule

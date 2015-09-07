@@ -879,14 +879,14 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
 	   // For the extensions:
            else if (exec_state == FETCH_EXT & ~bus_cyc_rdy & ~exword_counter_lock)
              begin 
-                src_tmp <= src_tmp + 1;
+                src_tmp <= src_tmp + 2'd1;
                 exword_counter_lock <= 1'b1;
              end
            else if (exec_state == FETCH_EXT & bus_cyc_rdy)
              exword_counter_lock <= 1'b0;
            else if (exec_state == FETCH_DEST_EXT & ~bus_cyc_rdy & ~exword_counter_lock)
              begin 
-                dest_tmp <= dest_tmp + 1;
+                dest_tmp <= dest_tmp + 2'd1;
                 exword_counter_lock <= 1'b1;
              end
 	   // And for the destination extensions:

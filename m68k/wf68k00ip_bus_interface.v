@@ -195,14 +195,10 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
    parameter WAIT_RELEASE_3WIRE=2'd2;
    
    //type time_slices
-   parameter S0=3'd0;
-   parameter S1=3'd1;
-   parameter S2=3'd2;
-   parameter S3=3'd3;
-   parameter S4=3'd4;
-   parameter S5=3'd5;
-   parameter S6=3'd6;
-   parameter S7=3'd7;
+   parameter S0S1=3'd0;
+   parameter S2S3=3'd2;
+   parameter S4S5=3'd4;
+   parameter S6S7=3'd6;
    
    reg 		 reset_out_en_i; 
    reg 		 reset_cpu_in; 
@@ -213,28 +209,37 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
    wire 	 berr;
    wire 	 fc_enab;
    reg 		 vma_in; 
-   reg 		 uds_rd_en_n; 
-   reg 		 uds_rd_en_p; 
+
+   reg 		 uds_rd_en_assert;
+   reg 		 uds_rd_en_deassert;
    wire 	 uds_rd_en;
-   reg 		 lds_rd_en_n; 
-   reg 		 lds_rd_en_p; 
+   
+   reg 		 lds_rd_en_assert;
+   reg 		 lds_rd_en_deassert;
    wire 	 lds_rd_en;
-   reg 		 uds_wr_en_n; 
-   reg 		 uds_wr_en_p; 
+   
+   reg 		 uds_wr_en_assert;
+   reg 		 uds_wr_en_deassert;
    wire 	 uds_wr_en;
-   reg 		 lds_wr_en_n; 
-   reg 		 lds_wr_en_p; 
+   
+   reg 		 lds_wr_en_assert;
+   reg 		 lds_wr_en_deassert;
    wire 	 lds_wr_en;
-   reg 		 as_enab_n; 
-   reg 		 as_enab_p; 
+
+   reg 		 as_enab_assert;
+   reg 		 as_enab_deassert;
    wire 	 as_enab;
-   reg 		 adr_en_n; 
-   reg 		 adr_en_p; 
-   reg 		 data_en_n; 
-   reg 		 data_en_p; 
+
+   reg 		 adr_en_assert;
+   reg 		 adr_en_deassert;
+
+   reg 		 data_en_assert;
+   reg 		 data_en_deassert;
    wire 	 data_en;
-   reg 		 wr_enab_p; 
+
+   reg 		 wr_enab_assert;
    wire 	 wr_enab;
+
    reg 		 waitstates; 
    reg 		 syncn; 
    wire 	 reset_out_en;
@@ -266,43 +271,46 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
 
    
    // Three state controls:
-   assign uds_en = (t_slice == S0 & ~haltn) ? 1'b0 : // During halt or retry.
+   assign uds_en = (t_slice == S0S1 & ~haltn) ? 1'b0 : // During halt or retry.
                    (arb_state == IDLE) ? 1'b1 : // Hi-Z during arbitration.
                    1'b0;
    
-   assign lds_en = (t_slice == S0 & ~haltn) ? 1'b0 : // During halt or retry.
+   assign lds_en = (t_slice == S0S1 & ~haltn) ? 1'b0 : // During halt or retry.
                    (arb_state == IDLE) ? 1'b1 : // Hi-Z during arbitration.
                    1'b0;
    
-   assign as_en = (t_slice == S0 & ~haltn) ? 1'b0 :  // During halt or retry.
+   assign as_en = (t_slice == S0S1 & ~haltn) ? 1'b0 :  // During halt or retry.
                   (arb_state == IDLE) ? 1'b1 : // Hi-Z during arbitration.
                   1'b0;
    
-   assign rw_en = (t_slice == S0 & ~haltn) ? 1'b0 :  // During halt or retry.
+   assign rw_en = (t_slice == S0S1 & ~haltn) ? 1'b0 :  // During halt or retry.
                   (arb_state == IDLE) ? 1'b1 : // Hi-Z during arbitration.
                   1'b0;
    
-   assign fc_en = (t_slice == S0 & ~haltn) ? 1'b0 :  // During halt or retry.
+   assign fc_en = (t_slice == S0S1 & ~haltn) ? 1'b0 :  // During halt or retry.
                   (tas_lock) ? 1'b1 :
                   fc_enab;
    
    // Read and write timing:
-   assign uds_wr_en = uds_wr_en_n | uds_wr_en_p; // '1' when           S4 | S5 | S6.
-   assign lds_wr_en = lds_wr_en_n | lds_wr_en_p; // '1' when           S4 | S5 | S6.
-   assign uds_rd_en = uds_rd_en_n | uds_rd_en_p; // '1' when S2 | S3 | S4 | S5 | S6.
-   assign lds_rd_en = lds_rd_en_n | lds_rd_en_p; // '1' when S2 | S3 | S4 | S5 | S6.
-   assign as_enab = as_enab_n | as_enab_p;       // '1' when S2 | S3 | S4 | S5 | S6.
-   assign wr_enab = wr_enab_p;                   // '1' when S2 | S3 | S4 | S5 | S6 | S7.
-   assign data_en = data_en_n | data_en_p;       // '1' when      S3 | S4 | S5 | S6 | S7.
+   assign uds_wr_en = uds_wr_en_assert & ~uds_wr_en_deassert; // '1' when S4 | S5 | S6.
+   assign lds_wr_en = lds_wr_en_assert & ~lds_wr_en_deassert; // '1' when S4 | S5 | S6.
+
+   assign uds_rd_en = uds_rd_en_assert & ~uds_rd_en_deassert; // '1' when S2 | S3 | S4 | S5 | S6.
+   assign lds_rd_en = lds_rd_en_assert & ~lds_rd_en_deassert; // '1' when S2 | S3 | S4 | S5 | S6.
+
+   assign as_enab = as_enab_assert & ~as_enab_deassert;       // '1' when S2 | S3 | S4 | S5 | S6.
+   assign wr_enab = wr_enab_assert;                           // '1' when S2 | S3 | S4 | S5 | S6 | S7.
+   assign data_en = data_en_assert & ~data_en_deassert;       // '1' when      S3 | S4 | S5 | S6 | S7.
+
    assign adr_en = (arb_state != IDLE) ? 1'b0 :
-                   ((t_slice == S0) & (~haltn)) ? 1'b0 : // During HALT or retry.o
+                   ((t_slice == S0S1) & (~haltn)) ? 1'b0 : // During HALT or retry.o
                    (tas_lock) ? 1'b1 :
-                   (adr_en_n | adr_en_p);        // '1' when S1 | S2 | S3 | S4 | S5 | S6 | S7.
+                   (adr_en_assert & ~adr_en_deassert);        // '1' when S1 | S2 | S3 | S4 | S5 | S6 | S7.
    
    // Timing valid for all modes:
    assign fc_enab = (arb_state != IDLE) ? 1'b0 : // During arbitration.
                     (tas_lock) ? 1'b1 :
-                    (((rd_bus == 1'b0) & (wr_bus == 1'b0)) & (t_slice == S0)) ? 1'b0 : // Normal operation.
+                    (((rd_bus == 1'b0) & (wr_bus == 1'b0)) & (t_slice == S0S1)) ? 1'b0 : // Normal operation.
                     1'b1;
    
    assign vma_en = (arb_state != IDLE) ? 1'b0 : 1'b1;
@@ -310,7 +318,7 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
    
    assign bgn = (arb_state == GRANT) ? 1'b0 : 1'b1;
    
-   assign data_valid = (t_slice == S6 || t_slice == S7) ? 1'b1 : 1'b0; // Sample the data during S6.
+   assign data_valid = t_slice == S6S7 ? 1'b1 : 1'b0; // Sample the data during S6.
    
    // This process samples the data from the data bus during the bus phase S6.
    // During S6 the received data from the bus is valid depending on the selection
@@ -325,7 +333,7 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
           buffer_b <= 32'b0;
        end
      else 
-       if (t_slice == S7) 
+       if (t_slice == S6S7)
 	 begin 
             if (sel_a_hi & a0 == 1'b0 & rd_bus) // Read Byte from even address.
               buffer_a[31:24] <= data_in[15:8];
@@ -371,13 +379,13 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
 
    
    // For the condition of the bus error see the 68K family user manual.
-   // Bus errors does not occur during S0, S1 and S2.
+   // Bus errors does not occur during S0S1, S1 and S2.
    // There are no retry cycles in the read modify write mode (during TAS).
-   assign berr = (berrn == 1'b0 &  haltn & t_slice != S0 & t_slice != S1 & t_slice != S2) ? 1'b1 :
-                 (berrn == 1'b0 & ~haltn & tas_lock & t_slice != S0 & t_slice != S1 & t_slice != S2) ? 1'b1 :
+   assign berr = (berrn == 1'b0 &  haltn & t_slice != S0S1 & t_slice != S2S3) ? 1'b1 :
+                 (berrn == 1'b0 & ~haltn & tas_lock & t_slice != S0S1 & t_slice != S2S3) ? 1'b1 :
                  1'b0;
    
-   assign bus_cyc_rdy = ((t_slice == S6 | t_slice == S7) & (haltn | berrn)) ? 1'b1 : 1'b0;
+   assign bus_cyc_rdy = ((t_slice == S6S7) & (haltn | berrn)) ? 1'b1 : 1'b0;
    
    assign asn = (as_enab) ? 1'b0 : 1'b1;
    
@@ -421,7 +429,7 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
    // This synchronous process provides clock cycle accurate switching of the T_SLICE information.
    always @ (negedge clk)
      begin 
-	if (t_slice == S4 /**/|| t_slice == S5)
+	if (t_slice == S4S5)
           waitstates <= (dtackn & syncn & avecn & ~berr) & reset_cpu_in;
 	else 
           waitstates <= 1'b0;
@@ -446,89 +454,104 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
          slice_cnt <= slice_cnt + 1'b1; // Cycle active.
    
    
-   assign t_slice = (rd_bus == 1'b0 & wr_bus == 1'b0) ? S0 : // IDLE Mode.
-                    (slice_cnt == 2'b00 & clk == 1'b1) ? S0 :
-                    (slice_cnt == 2'b00 & clk == 1'b0 & ~haltn) ? S0 : // Stay in IDLE when HALTn asserted (Retry or halt operation).
-                    (slice_cnt == 2'b00 & clk == 1'b0) ? S1 :
-                    (slice_cnt == 2'b01 & clk == 1'b1) ? S2 :
-                    (slice_cnt == 2'b01 & clk == 1'b0) ? S3 :
-                    (slice_cnt == 2'b10 & clk == 1'b1) ? S4 :
-                    (waitstates == 1'b1 & slice_cnt == 2'b10 & clk == 1'b0) ? S4 :
-                    (waitstates == 1'b0 & slice_cnt == 2'b10 & clk == 1'b0) ? S5 :
-                    (slice_cnt == 2'b11 & clk == 1'b1) ? S6 :
-                    S7;
+   assign t_slice = (rd_bus == 1'b0 & wr_bus == 1'b0) ? S0S1 : // IDLE Mode.
+		    (slice_cnt == 2'b00) ? S0S1 :
+                    (slice_cnt == 2'b01) ? S2S3 :
+                    (slice_cnt == 2'b10) ? S4S5 :
+                    (slice_cnt == 2'b11) ? S6S7 :
+                    S6S7;
 
    // The modelling with the two processes working on the positive and negative clock edge
    // is a bit complicated. But it results in rather 'clean' (glitch free) bus control
    // signals. Every signal is modelled with it's own timing to give the core a high degree
    // of freedom.
-   always @(negedge clk) 
-     begin 
+   always @(negedge clk)
+     if (~resetn)
+       begin
+          uds_rd_en_deassert <= 1'b0;
+          lds_rd_en_deassert <= 1'b0;
+          uds_wr_en_deassert <= 1'b0;
+          lds_wr_en_deassert <= 1'b0;
+          as_enab_deassert <= 1'b0;
+          data_en_deassert <= 1'b0;
+	  adr_en_deassert <= 1'b0;
+       end
+     else
+       begin 
         case (t_slice)
-          S3,S5 :   uds_rd_en_n <= 1'b1;
-          default : uds_rd_en_n <= 1'b0;
+          S6S7 :    uds_rd_en_deassert <= 1'b1;
+          default : uds_rd_en_deassert <= 1'b0;
         endcase
         case (t_slice)
-          S3,S5 :   lds_rd_en_n <= 1'b1;
-          default : lds_rd_en_n <= 1'b0;
+          S6S7 :    lds_rd_en_deassert <= 1'b1;
+          default : lds_rd_en_deassert <= 1'b0;
         endcase
         case (t_slice)
-          S5 :      uds_wr_en_n <= 1'b1;
-          default : uds_wr_en_n <= 1'b0;
+          S0S1,S6S7 : uds_wr_en_deassert <= 1'b1;
+          default :   uds_wr_en_deassert <= 1'b0;
         endcase
         case (t_slice)
-          S5 :      lds_wr_en_n <= 1'b1;
-          default : lds_wr_en_n <= 1'b0;
+          S0S1,S6S7 : lds_wr_en_deassert <= 1'b1;
+          default :   lds_wr_en_deassert <= 1'b0;
         endcase
         case (t_slice)
-          S3,S5 :   as_enab_n <= 1'b1;
-          default : as_enab_n <= 1'b0;
+          S6S7 :    as_enab_deassert <= 1'b1;
+          default : as_enab_deassert <= 1'b0;
         endcase
         case (t_slice)
-          S3,S5 :   data_en_n <= 1'b1;
-          default : data_en_n <= 1'b0;
-        endcase
+          S6S7 :    data_en_deassert <= 1'b1;
+          default : data_en_deassert <= 1'b0;
+        endcase // case (t_slice)
 
-        if (t_slice == S0 & (rd_bus | wr_bus) & haltn & arb_state == IDLE)
-          adr_en_n <= 1'b1;
-        else 
-          adr_en_n <= 1'b0;
+	adr_en_deassert <= 1'b0;
      end
 
-   
    always @(posedge clk)
-     begin 
+     if (~resetn)
+       begin
+          uds_rd_en_assert <= 1'b0;
+          lds_rd_en_assert <= 1'b0;
+          uds_wr_en_assert <= 1'b0;
+          lds_wr_en_assert <= 1'b0;
+          as_enab_assert <= 1'b0;
+          data_en_assert <= 1'b0;
+          wr_enab_assert <= 1'b0;
+          adr_en_assert <= 1'b0;
+       end
+     else
+       begin 
         case (t_slice)
-          S2 :      uds_rd_en_p <= 1'b1;
-          default : uds_rd_en_p <= 1'b0;
+          S0S1,S2S3,S4S5,S6S7 : uds_rd_en_assert <= 1'b1;
+          default :             uds_rd_en_assert <= 1'b0;
         endcase
         case (t_slice)
-          S2 :      lds_rd_en_p <= 1'b1;
-          default : lds_rd_en_p <= 1'b0;
+          S0S1,S2S3,S4S5,S6S7 : lds_rd_en_assert <= 1'b1;
+          default :             lds_rd_en_assert <= 1'b0;
         endcase
         case (t_slice)
-          S2 :      uds_wr_en_p <= 1'b1; // S4 due to wait states.
-          default : uds_wr_en_p <= 1'b0;
+          S2S3,S4S5,S6S7 :      uds_wr_en_assert <= 1'b1; // S4 due to wait states.
+          default :             uds_wr_en_assert <= 1'b0;
         endcase
         case (t_slice)
-          S2 :      lds_wr_en_p <= 1'b1; // S4 due to wait states.
-          default : lds_wr_en_p <= 1'b0;
+          S2S3,S4S5,S6S7 :      lds_wr_en_assert <= 1'b1; // S4 due to wait states.
+          default :             lds_wr_en_assert <= 1'b0;
         endcase
         case (t_slice)
-          S2,S3 :   as_enab_p <= 1'b1;
-          default : as_enab_p <= 1'b0;
+          S0S1,S2S3,S4S5,S6S7:  as_enab_assert <= 1'b1;
+          default :             as_enab_assert <= 1'b0;
         endcase
         case (t_slice)
-          S3,S4,S5 : data_en_p <= 1'b1; // S4 due to wait states.
-          default :  data_en_p <= 1'b0;
+          S2S3,S4S5 :           data_en_assert <= 1'b1; // S4 due to wait states.
+          default :             data_en_assert <= 1'b0;
         endcase
         case (t_slice)
-          S0,S1,S2,S3,S4,S5 : wr_enab_p <= 1'b1; // S4 due to wait states.
-          default :           wr_enab_p <= 1'b0;
+          S0S1,S2S3,S4S5,S6S7 : wr_enab_assert <= 1'b1; // S4 due to wait states.
+          default :             wr_enab_assert <= 1'b0;
         endcase
         case (t_slice)
-          S0,S1,S2,S3,S4,S5 : adr_en_p <= 1'b1; // S4 due to wait states.
-          default :           adr_en_p <= 1'b0;
+          S0S1:                 if ((rd_bus | wr_bus) & haltn & arb_state == IDLE) adr_en_assert <= 1'b1;
+	  S2S3,S4S5,S6S7 :      adr_en_assert <= 1'b1; // S4 due to wait states.
+          default :             adr_en_assert <= 1'b0;
         endcase
      end
 
@@ -704,13 +727,14 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
    always @ (negedge clk)
      if (resetn && 0)
        begin
-	  if (t_slice == S6) $display("negedge is S6; %t", $time);
-	  if (t_slice == S7) $display("negedge is S7; %t", $time);
-
-	  if (t_slice == S6/* & sys_init & sel_buff_a_hi*/)
+	  if (t_slice == S6S7 & sys_init & sel_buff_a_hi)
 	    $display("buffer_a hi <- %x", data_in);
-          if (t_slice == S7 & sys_init & sel_buff_a_lo)
+          if (t_slice == S6S7 & sys_init & sel_buff_a_lo)
 	    $display("buffer_a lo <- %x", data_in);
        end
+
+   always @ (posedge clk)
+     if (waitstates && 0) $display("waitstates");
+   
 `endif
 endmodule
