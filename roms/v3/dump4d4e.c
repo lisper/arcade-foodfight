@@ -46,6 +46,20 @@ main(int argc, char *argv[])
 		}
 
 		printf("end\n");
+	} else
+	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'c') {
+		// for xst
+		for (i = 0; i < 2; i++) {
+			read_rom(i, argv[2+i]);
+		}
+
+		printf("  case (a)\n");
+		printf("\t// foodfight %s, %s\n", argv[2], argv[3]);
+		for (i = 0; i < 8192; i++) {
+			printf("\t13'h%04x: q = 16'h%02x%02x; // 0x%04x\n", i, roms[1][i], roms[0][i], i);
+		}
+		printf("  endcase\n");
+
 	} else {
 		// this works in sim, but xst barfs
 		printf("initial begin\n");
