@@ -28,7 +28,7 @@ module ram_93422(
    wire ram_write;
    assign ram_write = ~cs1 & ~w;
    
-   always @(a or cs2 or cs1 or w or i)
+   always @(a or ram_write or i)
      if (ram_write)
        ram[a] = i;
    

@@ -14,7 +14,7 @@ module rom_136020(
    reg [7:0] rom[0:8191];
    reg [7:0] data;
 
-`include "../roms/v3/rom_4d4e_alt.v"
+`include "../roms/v3/rom_4d4e_init.v"
    
    initial
      begin
