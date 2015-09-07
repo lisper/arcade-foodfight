@@ -1,175 +1,2891 @@
-+ V=/usr/local/bin/verilator
-+ TOP='--top-module ff_verilator'
-+ RTL=../rtl
-+ CPU=../m68k
-+ ROM=../roms/v3
-+ INC='+incdir+../rtl +incdir+../m68k +incdir+../roms/v3'
-+ /usr/local/bin/verilator -cc -LDFLAGS '-lSDL -lpthread' -exe --trace --Mdir ./tmp +define+debug=1 +incdir+../rtl +incdir+../m68k +incdir+../roms/v3 --top-module ff_verilator ff_verilator.v ../rtl/ff.v ../rtl/ff_top.v ../rtl/m68000.v ../rtl/pokey.v ../rtl/pal.v ../rtl/prom_2b.v ../rtl/coderom.v ../rtl/coderam.v ../rtl/ram_907036.v ../rtl/rom_6lm.v ../rtl/ram_137250.v ../rtl/rom_136020.v ../rtl/ram_93422.v
-%Warning-VARHIDDEN: ff_verilator.v:35: Declaration of signal hides declaration in upper scope: vsync
-%Warning-VARHIDDEN: Use "/* verilator lint_off VARHIDDEN */" and lint_on around source to disable this message.
-%Warning-VARHIDDEN: ff_verilator.v:8: ... Location of original declaration
-%Warning-VARHIDDEN: ff_verilator.v:36: Declaration of signal hides declaration in upper scope: hsync
-%Warning-VARHIDDEN: ff_verilator.v:7: ... Location of original declaration
-%Warning-IMPLICIT: ../rtl/ff.v:477: Signal definition not found, creating implicitly: pfwr_n
-%Warning-IMPLICIT: ../rtl/m68000.v:138: Signal definition not found, creating implicitly: haltn
-%Warning-IMPLICIT: ff_verilator.v:26: Signal definition not found, creating implicitly: sw
-%Warning-IMPLICIT: ../rtl/ff.v:66: Signal definition not found, creating implicitly: e
-%Warning-IMPLICIT: ../rtl/ff.v:194: Signal definition not found, creating implicitly: i_o_n
-%Warning-IMPLICIT: ../rtl/ff.v:196: Signal definition not found, creating implicitly: pf_n
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:196: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_a' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:197: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_b' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:198: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_index' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:224: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_tmp' generates 5 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:441: Operator ADD expects 6 bits on the RHS, but RHS's CONST '2'h1' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:443: Operator ADD expects 6 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:455: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:523: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_offset' generates 4 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:528: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_offset' generates 4 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:537: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'adr_tmp' generates 6 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:564: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:567: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:570: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:573: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:576: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:579: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'ar_step' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:596: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:599: Operator SUB expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:605: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:608: Operator SUB expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:663: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:666: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'pc_tmp' generates 5 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_address_registers.v:666: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:272: Operator ADD expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:285: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:289: Operator SUB expects 32 bits on the RHS, but RHS's VARREF 'p_intop__x_in_i' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:646: Operator EQ expects 65 bits on the RHS, but RHS's CONST '64'h0' generates 64 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:682: Operator ASSIGNDLY expects 33 bits on the Assign RHS, but Assign RHS's CONST '32'h0' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:693: Operator ASSIGNDLY expects 33 bits on the Assign RHS, but Assign RHS's CONST '32'h0' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:717: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:721: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:724: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'op_in_d_lo' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'mul_div_op_s' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:744: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:746: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'op_in_d_lo' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:746: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:748: Operator NOT expects 33 bits on the LHS, but LHS's VARREF 'mul_div_op_s' generates 32 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:748: Operator ADD expects 33 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:776: Operator ADD expects 64 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:794: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:796: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:800: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:803: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:805: Operator ADD expects 32 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_alu.v:828: Operator SUB expects 6 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:550: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:629: Operator ADD expects 4 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_bus_interface.v:661: Operator SUB expects 7 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:903: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's SUB generates 32 or 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:905: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's SUB generates 32 or 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:965: Operator SUB expects 3 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:967: Operator ADD expects 3 bits on the RHS, but RHS's CONST '1'h1' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:985: Bit extraction of var[15:0] requires 4 bit index, not 5 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1017: Bit extraction of var[15:0] requires 4 bit index, not 5 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1434: Operator AND expects 2 bits on the LHS, but LHS's VARREF 'movem_cpy' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1434: Logical Operator IF expects 1 bit on the If, but If's AND generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Operator AND expects 2 bits on the LHS, but LHS's VARREF 'movem_cpy' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Operator AND expects 2 bits on the RHS, but RHS's VARREF 'dr' generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_control.v:1432: Logical Operator IF expects 1 bit on the If, but If's AND generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:95: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_a' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:96: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_b' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:97: Operator ASSIGNW expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'regsel_c' generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_data_registers.v:194: Operator ASSIGNDLY expects 32 bits on the Assign RHS, but Assign RHS's CONCAT generates 16 bits.
-%Warning-WIDTHCONCAT: ../m68k/wf68k00ip_data_registers.v:209: Unsized numbers/parameters not allowed in concatenations.
-%Warning-WIDTH: ../rtl/m68000.v:551: Operator ADD expects 8 bits on the RHS, but RHS's SEL generates 3 bits.
-%Warning-WIDTH: ../rtl/m68000.v:570: Operator ADD expects 10 bits on the RHS, but RHS's CONCAT generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:477: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:488: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Logical Operator LOGNOT expects 1 bit on the LHS, but LHS's SEL generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Operator EQ expects 3 bits on the LHS, but LHS's LOGNOT generates 1 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Logical Operator LOGNOT expects 1 bit on the LHS, but LHS's SEL generates 3 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_opcode_decoder.v:596: Operator EQ expects 3 bits on the LHS, but LHS's LOGNOT generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:37: Operator ASSIGNDLY expects 1 bits on the Assign RHS, but Assign RHS's VARREF 'freq' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:43: Operator ASSIGNDLY expects 8 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:106: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's SEL generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:141: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's COND generates 32 or 4 bits.
-%Error: ../rtl/pokey.v:156: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:156: Illegal range select; variable already selected, or bad dimension
-%Warning-WIDTH: ../rtl/pokey.v:156: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
-%Error: ../rtl/pokey.v:157: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:157: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:158: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:158: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:159: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:159: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:160: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:160: Illegal bit or array select; variable already selected, or bad dimension
-%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:577: Operator ADD expects 32 bits on the RHS, but RHS's CONST '2'h2' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:885: Output port connection ext_cnt expects 1 bits but connection's VARREF 'ext_cnt_i' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:886: Output port connection dest_ext_cnt expects 1 bits but connection's VARREF 'dest_ext_cnt_i' generates 2 bits.
-%Warning-WIDTH: ../m68k/wf68k00ip_top_soc.v:1100: Operator EQ expects 5 bits on the RHS, but RHS's CONST '4'h1' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:221: Operator ASSIGNW expects 1 bits on the Assign RHS, but Assign RHS's ADD generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:288: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's VARREF 'random' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:294: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's NOT generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:297: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:306: Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS's CONST '?32?hff' generates 32 or 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:295: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:292: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:289: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:286: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:283: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:310: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:312: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:315: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Error: ../rtl/pokey.v:319: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:319: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:320: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:320: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:321: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:321: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:322: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:322: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:323: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:323: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:324: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:324: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:325: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:325: Illegal bit or array select; variable already selected, or bad dimension
-%Error: ../rtl/pokey.v:326: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:326: Illegal bit or array select; variable already selected, or bad dimension
-%Warning-WIDTH: ../rtl/pokey.v:318: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:331: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:339: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:350: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:360: Operator ASSIGNDLY expects 8 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:359: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Error: ../rtl/pokey.v:364: Illegal bit or array select; variable already selected, or bad dimension: dat_i
-%Error: ../rtl/pokey.v:364: Illegal range select; variable already selected, or bad dimension
-%Warning-WIDTH: ../rtl/pokey.v:364: Operator ASSIGNDLY expects 2 bits on the Assign RHS, but Assign RHS's VARREF 'dat_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:363: Operator EQ expects 32 or 4 bits on the LHS, but LHS's VARREF 'adr_i' generates 1 bits.
-%Warning-WIDTH: ../rtl/pokey.v:394: Output port connection __pinNumber5 expects 1 bits but connection's VARREF 'random' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:417: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:420: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:423: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:426: Output port connection __pinNumber6 expects 1 bits but connection's SEL generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:431: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout0' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:436: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout1' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:441: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout2' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:446: Output port connection __pinNumber11 expects 1 bits but connection's VARREF 'audout3' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:35: Input port connection adr_i expects 1 bits but connection's VARREF 'a' generates 4 bits.
-%Warning-WIDTH: ../rtl/pokey.v:36: Input port connection dat_i expects 1 bits but connection's VARREF 'd_in' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:37: Output port connection dat_o expects 1 bits but connection's VARREF 'd_out' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:42: Output port connection audout expects 1 bits but connection's VARREF 'audout' generates 6 bits.
-%Warning-WIDTH: ../rtl/pokey.v:43: Input port connection key_code expects 1 bits but connection's CONST '8'h0' generates 8 bits.
-%Warning-WIDTH: ../rtl/pokey.v:45: Input port connection serin expects 1 bits but connection's CONST '8'h0' generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:484: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONST '8'h0' generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:485: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's VARREF 'pf_data' generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:486: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:487: Operator ASSIGNDLY expects 9 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:659: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONST '8'h0' generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:661: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
-%Warning-WIDTH: ../rtl/ff.v:662: Operator ASSIGNDLY expects 16 bits on the Assign RHS, but Assign RHS's CONCAT generates 8 bits.
-%Warning-WIDTH: ff_verilator.v:26: Input port connection sw expects 10 bits but connection's VARREF 'sw' generates 1 bits.
-%Error: Exiting due to 165 warning(s)
-%Error: Command Failed verilator_bin -cc -LDFLAGS '-lSDL -lpthread' -exe --trace --Mdir ./tmp '+define+debug=1' +incdir+../rtl +incdir+../m68k +incdir+../roms/v3 --top-module ff_verilator ff_verilator.v ../rtl/ff.v ../rtl/ff_top.v ../rtl/m68000.v ../rtl/pokey.v ../rtl/pal.v ../rtl/prom_2b.v ../rtl/coderom.v ../rtl/coderam.v ../rtl/ram_907036.v ../rtl/rom_6lm.v ../rtl/ram_137250.v ../rtl/rom_136020.v ../rtl/ram_93422.v
+built on: Sep  8 2014 11:29:07
+Initialize display 700x300
+IPL: il4_n 1 il3_n 1
+IPL: il4_n deasserts
+IPL: il3_n deasserts
+                   0; bus: -> GRANT
+m68k: irq_inn 111, irq_in 000, irq_out 000, ex_p_int 0, status_reg_in 0000;                    8
+                   8; bus: -> IDLE
+                  16; bus: -> IDLE
+ex_state -> INIT
+exception: reset
+sr: sreg_mem [7:5] <= 3'b111 (preset_irq_mask)
+ex_state -> VECT_NR
+sr: status_reg <= 2700
+ex_state -> UPDATE_SSP_HI
+m68k: status_reg_in 2700;                   88
+ex_state -> UPDATE_SSP_LO
+ex_state -> UPDATE_PC_HI
+ex_state -> UPDATE_PC_LO
+PC <- 0000008c (init)
+ex_state -> IDLE
+sr: sreg_mem <= 1e0 (sr_wr)
+color: write 00 <- 0000
+color: write 01 <- 0052
+color: write 02 <- 00ac
+color: write 03 <- 00ff
+digital: write 948000 <- 0000 (0000)
+control: in=0000;                 2752
+digital: write 948000 <- 0030 (0030)
+control: in=0030;                25792
+led: led1 on
+led: led2 on
+digital: write 948000 <- 0000 (0000)
+control: in=0000;                26624
+led: led1 off
+led: led2 off
+digital: write 948000 <- 0020 (0020)
+control: in=0020;                28096
+led: led2 on
+digital: write 948000 <- 0000 (0000)
+control: in=0000;                29888
+led: led2 off
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+cycles: 10000, time 1086440 (pc=204)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+cycles: 20000, time 2158568 (pc=368)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+PC <- 00000212 (init)
+PC <- 000002c0 (init)
+cycles: 30000, time 3224808 (pc=376)
+PC <- 00000212 (init)
+PC <- 0000023c (init)
+PC <- 000003b4 (init)
+PC <- 000002c0 (init)
+PC <- 000003d2 (init)
+PC <- 000002c0 (init)
+PC <- 000003f6 (init)
+PC <- 00000728 (init)
+digital: write 948000 <- 000c (000c)
+control: in=000c;              3444032
+pokey1: a=0, in=00              3448704
+pokey1: a=1, in=00              3450272
+pokey1: a=2, in=00              3451840
+pokey1: a=3, in=00              3453408
+pokey1: a=4, in=00              3454976
+pokey1: a=5, in=00              3456544
+pokey1: a=6, in=00              3458112
+pokey1: a=7, in=00              3459680
+pokey1: a=8, in=00              3461248
+pokey1: a=9, in=00              3462816
+pokey1: a=a, in=00              3464384
+pokey1: a=b, in=00              3465952
+pokey1: a=c, in=00              3467520
+pokey1: a=d, in=00              3469088
+pokey1: a=e, in=00              3470656
+pokey1: a=f, in=00              3472224
+pokey1: a=f, in=00              3473376
+PC <- 0000890e (init)
+pokey0: a=0, in=00 out=ff r_w_n=0              3476672
+pokey0: a=1, in=00 out=ff r_w_n=0              3478240
+pokey0: a=2, in=00 out=ff r_w_n=0              3479808
+pokey0: a=3, in=00 out=ff r_w_n=0              3481376
+pokey0: a=4, in=00 out=ff r_w_n=0              3482944
+pokey0: a=5, in=00 out=ff r_w_n=0              3484512
+pokey0: a=6, in=00 out=00 r_w_n=0              3486080
+pokey0: a=7, in=00 out=ff r_w_n=0              3487648
+pokey0: a=8, in=00 out=ff r_w_n=0              3489216
+pokey0: a=9, in=00 out=00 r_w_n=0              3490784
+pokey0: a=a, in=00 out=00 r_w_n=0              3492352
+pokey0: a=b, in=00 out=ff r_w_n=0              3493920
+pokey0: a=c, in=00 out=ff r_w_n=0              3495488
+pokey0: a=d, in=00 out=00 r_w_n=0              3497056
+pokey0: a=e, in=00 out=ff r_w_n=0              3498624
+pokey0: a=f, in=00 out=ff r_w_n=0              3500192
+pokey0: a=f, in=00 out=ff r_w_n=0              3501344
+PC <- 0000891e (init)
+pokey2: a=0, in=00              3504736
+pokey2: a=1, in=00              3506304
+pokey2: a=2, in=00              3507872
+pokey2: a=3, in=00              3509440
+pokey2: a=4, in=00              3511008
+pokey2: a=5, in=00              3512576
+pokey2: a=6, in=00              3514144
+pokey2: a=7, in=00              3515712
+pokey2: a=8, in=00              3517280
+pokey2: a=9, in=00              3518848
+pokey2: a=a, in=00              3520416
+pokey2: a=b, in=00              3521984
+pokey2: a=c, in=00              3523552
+pokey2: a=d, in=00              3525120
+pokey2: a=e, in=00              3526688
+pokey2: a=f, in=00              3528256
+pokey2: a=f, in=00              3529408
+PC <- 00008930 (init)
+PC <- 00008936 (init)
+PC <- 0000893c (init)
+PC <- 00008988 (init)
+IPL: il4_n 1 il3_n 0
+IPL: il3_n asserts
+m68k: irq_inn 110, irq_in 001, irq_out 000, ex_p_int 0, status_reg_in 2700;              3723792
+PC <- 0000898e (init)
+PC <- 00008994 (init)
+nvram: recall_n
+nvram: recall_n
+nvram: recall_n
+nvram: read a=00 d=f
+nvram: read a=00 d=f
+nvram: read a=00 d=f
+nvram: read a=01 d=f
+nvram: read a=01 d=f
+nvram: read a=01 d=f
+nvram: read a=02 d=f
+nvram: read a=02 d=f
+nvram: read a=02 d=f
+nvram: read a=03 d=f
+nvram: read a=03 d=f
+nvram: read a=03 d=f
+nvram: read a=04 d=f
+nvram: read a=04 d=f
+nvram: read a=04 d=f
+nvram: read a=05 d=f
+nvram: read a=05 d=f
+nvram: read a=05 d=f
+nvram: read a=06 d=f
+nvram: read a=06 d=f
+nvram: read a=06 d=f
+nvram: read a=07 d=f
+nvram: read a=07 d=f
+nvram: read a=07 d=f
+nvram: read a=08 d=f
+nvram: read a=08 d=f
+nvram: read a=08 d=f
+nvram: read a=09 d=f
+nvram: read a=09 d=f
+nvram: read a=09 d=f
+nvram: read a=0a d=f
+nvram: read a=0a d=f
+nvram: read a=0a d=f
+nvram: read a=0b d=f
+nvram: read a=0b d=f
+nvram: read a=0b d=f
+nvram: read a=0c d=f
+nvram: read a=0c d=f
+nvram: read a=0c d=f
+nvram: read a=0d d=f
+nvram: read a=0d d=f
+nvram: read a=0d d=f
+nvram: read a=0e d=f
+nvram: read a=0e d=f
+nvram: read a=0e d=f
+nvram: read a=0f d=f
+nvram: read a=0f d=f
+nvram: read a=0f d=f
+nvram: read a=10 d=f
+nvram: read a=10 d=f
+nvram: read a=10 d=f
+nvram: read a=11 d=f
+nvram: read a=11 d=f
+nvram: read a=11 d=f
+nvram: read a=12 d=f
+nvram: read a=12 d=f
+nvram: read a=12 d=f
+nvram: read a=13 d=f
+nvram: read a=13 d=f
+nvram: read a=13 d=f
+nvram: read a=14 d=f
+nvram: read a=14 d=f
+nvram: read a=14 d=f
+nvram: read a=15 d=f
+nvram: read a=15 d=f
+nvram: read a=15 d=f
+nvram: read a=16 d=f
+nvram: read a=16 d=f
+nvram: read a=16 d=f
+nvram: read a=17 d=f
+nvram: read a=17 d=f
+nvram: read a=17 d=f
+nvram: read a=18 d=f
+nvram: read a=18 d=f
+nvram: read a=18 d=f
+nvram: read a=19 d=f
+nvram: read a=19 d=f
+nvram: read a=19 d=f
+nvram: read a=1a d=f
+nvram: read a=1a d=f
+nvram: read a=1a d=f
+nvram: read a=1b d=f
+nvram: read a=1b d=f
+nvram: read a=1b d=f
+nvram: read a=1c d=f
+nvram: read a=1c d=f
+nvram: read a=1c d=f
+nvram: read a=1d d=f
+nvram: read a=1d d=f
+nvram: read a=1d d=f
+nvram: read a=1e d=f
+nvram: read a=1e d=f
+nvram: read a=1e d=f
+nvram: read a=1f d=f
+nvram: read a=1f d=f
+nvram: read a=1f d=f
+nvram: read a=20 d=f
+nvram: read a=20 d=f
+nvram: read a=20 d=f
+nvram: read a=21 d=f
+nvram: read a=21 d=f
+nvram: read a=21 d=f
+nvram: read a=22 d=f
+nvram: read a=22 d=f
+nvram: read a=22 d=f
+nvram: read a=23 d=f
+nvram: read a=23 d=f
+nvram: read a=23 d=f
+nvram: read a=24 d=f
+nvram: read a=24 d=f
+nvram: read a=24 d=f
+nvram: read a=25 d=f
+nvram: read a=25 d=f
+nvram: read a=25 d=f
+nvram: read a=26 d=f
+nvram: read a=26 d=f
+nvram: read a=26 d=f
+nvram: read a=27 d=f
+nvram: read a=27 d=f
+nvram: read a=27 d=f
+nvram: read a=28 d=f
+nvram: read a=28 d=f
+nvram: read a=28 d=f
+nvram: read a=29 d=f
+nvram: read a=29 d=f
+nvram: read a=29 d=f
+nvram: read a=2a d=f
+nvram: read a=2a d=f
+nvram: read a=2a d=f
+nvram: read a=2b d=f
+nvram: read a=2b d=f
+nvram: read a=2b d=f
+nvram: read a=2c d=f
+nvram: read a=2c d=f
+nvram: read a=2c d=f
+nvram: read a=2d d=f
+nvram: read a=2d d=f
+nvram: read a=2d d=f
+nvram: read a=2e d=f
+nvram: read a=2e d=f
+nvram: read a=2e d=f
+nvram: read a=2f d=f
+nvram: read a=2f d=f
+nvram: read a=2f d=f
+nvram: read a=30 d=f
+nvram: read a=30 d=f
+nvram: read a=30 d=f
+nvram: read a=31 d=f
+nvram: read a=31 d=f
+nvram: read a=31 d=f
+nvram: read a=32 d=f
+nvram: read a=32 d=f
+nvram: read a=32 d=f
+nvram: read a=33 d=f
+nvram: read a=33 d=f
+nvram: read a=33 d=f
+nvram: read a=34 d=f
+nvram: read a=34 d=f
+nvram: read a=34 d=f
+nvram: read a=35 d=f
+nvram: read a=35 d=f
+nvram: read a=35 d=f
+nvram: read a=36 d=f
+nvram: read a=36 d=f
+nvram: read a=36 d=f
+nvram: read a=37 d=f
+nvram: read a=37 d=f
+nvram: read a=37 d=f
+nvram: read a=38 d=f
+nvram: read a=38 d=f
+nvram: read a=38 d=f
+nvram: read a=39 d=f
+nvram: read a=39 d=f
+nvram: read a=39 d=f
+nvram: read a=3a d=f
+nvram: read a=3a d=f
+nvram: read a=3a d=f
+nvram: read a=3b d=f
+nvram: read a=3b d=f
+nvram: read a=3b d=f
+nvram: read a=3c d=f
+nvram: read a=3c d=f
+nvram: read a=3c d=f
+nvram: read a=3d d=f
+nvram: read a=3d d=f
+nvram: read a=3d d=f
+nvram: read a=3e d=f
+nvram: read a=3e d=f
+nvram: read a=3e d=f
+nvram: read a=3f d=f
+nvram: read a=3f d=f
+nvram: read a=3f d=f
+nvram: read a=40 d=f
+nvram: read a=40 d=f
+nvram: read a=40 d=f
+nvram: read a=41 d=f
+nvram: read a=41 d=f
+nvram: read a=41 d=f
+nvram: read a=42 d=f
+nvram: read a=42 d=f
+nvram: read a=42 d=f
+nvram: read a=43 d=f
+nvram: read a=43 d=f
+nvram: read a=43 d=f
+nvram: read a=44 d=f
+nvram: read a=44 d=f
+nvram: read a=44 d=f
+nvram: read a=45 d=f
+nvram: read a=45 d=f
+nvram: read a=45 d=f
+nvram: read a=46 d=f
+nvram: read a=46 d=f
+nvram: read a=46 d=f
+nvram: read a=47 d=f
+nvram: read a=47 d=f
+nvram: read a=47 d=f
+nvram: read a=48 d=f
+nvram: read a=48 d=f
+nvram: read a=48 d=f
+nvram: read a=49 d=f
+nvram: read a=49 d=f
+nvram: read a=49 d=f
+nvram: read a=4a d=f
+nvram: read a=4a d=f
+nvram: read a=4a d=f
+nvram: read a=4b d=f
+nvram: read a=4b d=f
+nvram: read a=4b d=f
+nvram: read a=4c d=f
+nvram: read a=4c d=f
+nvram: read a=4c d=f
+nvram: read a=4d d=f
+nvram: read a=4d d=f
+nvram: read a=4d d=f
+nvram: read a=4e d=f
+nvram: read a=4e d=f
+nvram: read a=4e d=f
+nvram: read a=4f d=f
+nvram: read a=4f d=f
+nvram: read a=4f d=f
+nvram: read a=50 d=f
+nvram: read a=50 d=f
+nvram: read a=50 d=f
+nvram: read a=51 d=f
+nvram: read a=51 d=f
+nvram: read a=51 d=f
+nvram: read a=52 d=f
+nvram: read a=52 d=f
+nvram: read a=52 d=f
+nvram: read a=53 d=f
+nvram: read a=53 d=f
+nvram: read a=53 d=f
+nvram: read a=54 d=f
+nvram: read a=54 d=f
+nvram: read a=54 d=f
+nvram: read a=55 d=f
+nvram: read a=55 d=f
+nvram: read a=55 d=f
+nvram: read a=56 d=f
+nvram: read a=56 d=f
+nvram: read a=56 d=f
+nvram: read a=57 d=f
+nvram: read a=57 d=f
+nvram: read a=57 d=f
+nvram: read a=58 d=f
+nvram: read a=58 d=f
+nvram: read a=58 d=f
+nvram: read a=59 d=f
+nvram: read a=59 d=f
+nvram: read a=59 d=f
+nvram: read a=5a d=f
+nvram: read a=5a d=f
+nvram: read a=5a d=f
+nvram: read a=5b d=f
+nvram: read a=5b d=f
+nvram: read a=5b d=f
+nvram: read a=5c d=f
+nvram: read a=5c d=f
+nvram: read a=5c d=f
+nvram: read a=5d d=f
+nvram: read a=5d d=f
+nvram: read a=5d d=f
+nvram: read a=5e d=f
+nvram: read a=5e d=f
+nvram: read a=5e d=f
+nvram: read a=5f d=f
+nvram: read a=5f d=f
+nvram: read a=5f d=f
+nvram: read a=60 d=f
+nvram: read a=60 d=f
+nvram: read a=60 d=f
+nvram: read a=61 d=f
+nvram: read a=61 d=f
+nvram: read a=61 d=f
+nvram: read a=62 d=f
+nvram: read a=62 d=f
+nvram: read a=62 d=f
+nvram: read a=63 d=f
+nvram: read a=63 d=f
+nvram: read a=63 d=f
+nvram: read a=64 d=f
+nvram: read a=64 d=f
+nvram: read a=64 d=f
+nvram: read a=65 d=f
+nvram: read a=65 d=f
+nvram: read a=65 d=f
+nvram: read a=66 d=f
+nvram: read a=66 d=f
+nvram: read a=66 d=f
+nvram: read a=67 d=f
+nvram: read a=67 d=f
+nvram: read a=67 d=f
+nvram: read a=68 d=f
+nvram: read a=68 d=f
+nvram: read a=68 d=f
+nvram: read a=69 d=f
+nvram: read a=69 d=f
+nvram: read a=69 d=f
+nvram: read a=6a d=f
+nvram: read a=6a d=f
+nvram: read a=6a d=f
+nvram: read a=6b d=f
+nvram: read a=6b d=f
+nvram: read a=6b d=f
+nvram: read a=6c d=f
+nvram: read a=6c d=f
+nvram: read a=6c d=f
+nvram: read a=6d d=f
+nvram: read a=6d d=f
+nvram: read a=6d d=f
+nvram: read a=6e d=f
+nvram: read a=6e d=f
+nvram: read a=6e d=f
+nvram: read a=6f d=f
+nvram: read a=6f d=f
+nvram: read a=6f d=f
+nvram: read a=70 d=f
+nvram: read a=70 d=f
+nvram: read a=70 d=f
+nvram: read a=71 d=f
+nvram: read a=71 d=f
+nvram: read a=71 d=f
+nvram: read a=72 d=f
+nvram: read a=72 d=f
+nvram: read a=72 d=f
+nvram: read a=73 d=f
+nvram: read a=73 d=f
+nvram: read a=73 d=f
+nvram: read a=74 d=f
+nvram: read a=74 d=f
+nvram: read a=74 d=f
+nvram: read a=75 d=f
+nvram: read a=75 d=f
+nvram: read a=75 d=f
+nvram: read a=76 d=f
+nvram: read a=76 d=f
+nvram: read a=76 d=f
+nvram: read a=77 d=f
+nvram: read a=77 d=f
+nvram: read a=77 d=f
+nvram: read a=78 d=f
+nvram: read a=78 d=f
+nvram: read a=78 d=f
+nvram: read a=79 d=f
+nvram: read a=79 d=f
+nvram: read a=79 d=f
+nvram: read a=7a d=f
+nvram: read a=7a d=f
+nvram: read a=7a d=f
+nvram: read a=7b d=f
+nvram: read a=7b d=f
+nvram: read a=7b d=f
+nvram: read a=7c d=f
+nvram: read a=7c d=f
+nvram: read a=7c d=f
+nvram: read a=7d d=f
+nvram: read a=7d d=f
+nvram: read a=7d d=f
+nvram: read a=7e d=f
+nvram: read a=7e d=f
+nvram: read a=7e d=f
+nvram: read a=7f d=f
+nvram: read a=7f d=f
+nvram: read a=7f d=f
+nvram: read a=80 d=f
+nvram: read a=80 d=f
+nvram: read a=80 d=f
+nvram: read a=81 d=f
+nvram: read a=81 d=f
+nvram: read a=81 d=f
+nvram: read a=82 d=f
+nvram: read a=82 d=f
+nvram: read a=82 d=f
+nvram: read a=83 d=f
+nvram: read a=83 d=f
+nvram: read a=83 d=f
+nvram: read a=84 d=f
+nvram: read a=84 d=f
+nvram: read a=84 d=f
+nvram: read a=85 d=f
+nvram: read a=85 d=f
+nvram: read a=85 d=f
+nvram: read a=86 d=f
+nvram: read a=86 d=f
+nvram: read a=86 d=f
+nvram: read a=87 d=f
+nvram: read a=87 d=f
+nvram: read a=87 d=f
+nvram: read a=88 d=f
+nvram: read a=88 d=f
+nvram: read a=88 d=f
+nvram: read a=89 d=f
+nvram: read a=89 d=f
+nvram: read a=89 d=f
+nvram: read a=8a d=f
+nvram: read a=8a d=f
+nvram: read a=8a d=f
+nvram: read a=8b d=f
+nvram: read a=8b d=f
+nvram: read a=8b d=f
+nvram: read a=8c d=f
+nvram: read a=8c d=f
+nvram: read a=8c d=f
+nvram: read a=8d d=f
+nvram: read a=8d d=f
+nvram: read a=8d d=f
+nvram: read a=8e d=f
+nvram: read a=8e d=f
+nvram: read a=8e d=f
+nvram: read a=8f d=f
+nvram: read a=8f d=f
+nvram: read a=8f d=f
+nvram: read a=90 d=f
+nvram: read a=90 d=f
+nvram: read a=90 d=f
+nvram: read a=91 d=f
+nvram: read a=91 d=f
+nvram: read a=91 d=f
+nvram: read a=92 d=f
+nvram: read a=92 d=f
+nvram: read a=92 d=f
+nvram: read a=93 d=f
+nvram: read a=93 d=f
+nvram: read a=93 d=f
+nvram: read a=94 d=f
+nvram: read a=94 d=f
+nvram: read a=94 d=f
+nvram: read a=95 d=f
+nvram: read a=95 d=f
+nvram: read a=95 d=f
+nvram: read a=96 d=f
+nvram: read a=96 d=f
+nvram: read a=96 d=f
+nvram: read a=97 d=f
+nvram: read a=97 d=f
+nvram: read a=97 d=f
+nvram: read a=98 d=f
+nvram: read a=98 d=f
+nvram: read a=98 d=f
+nvram: read a=99 d=f
+nvram: read a=99 d=f
+nvram: read a=99 d=f
+nvram: read a=9a d=f
+nvram: read a=9a d=f
+nvram: read a=9a d=f
+nvram: read a=9b d=f
+nvram: read a=9b d=f
+nvram: read a=9b d=f
+nvram: read a=9c d=f
+nvram: read a=9c d=f
+nvram: read a=9c d=f
+nvram: read a=9d d=f
+nvram: read a=9d d=f
+nvram: read a=9d d=f
+nvram: read a=9e d=f
+nvram: read a=9e d=f
+nvram: read a=9e d=f
+nvram: read a=9f d=f
+nvram: read a=9f d=f
+nvram: read a=9f d=f
+nvram: read a=a0 d=f
+nvram: read a=a0 d=f
+nvram: read a=a0 d=f
+nvram: read a=a1 d=f
+nvram: read a=a1 d=f
+nvram: read a=a1 d=f
+nvram: read a=a2 d=f
+nvram: read a=a2 d=f
+nvram: read a=a2 d=f
+nvram: read a=a3 d=f
+nvram: read a=a3 d=f
+nvram: read a=a3 d=f
+nvram: read a=a4 d=f
+nvram: read a=a4 d=f
+nvram: read a=a4 d=f
+nvram: read a=a5 d=f
+nvram: read a=a5 d=f
+nvram: read a=a5 d=f
+nvram: read a=a6 d=f
+nvram: read a=a6 d=f
+nvram: read a=a6 d=f
+nvram: read a=a7 d=f
+nvram: read a=a7 d=f
+nvram: read a=a7 d=f
+nvram: read a=a8 d=f
+nvram: read a=a8 d=f
+nvram: read a=a8 d=f
+nvram: read a=a9 d=f
+nvram: read a=a9 d=f
+nvram: read a=a9 d=f
+nvram: read a=aa d=f
+nvram: read a=aa d=f
+nvram: read a=aa d=f
+nvram: read a=ab d=f
+nvram: read a=ab d=f
+nvram: read a=ab d=f
+nvram: read a=ac d=f
+nvram: read a=ac d=f
+nvram: read a=ac d=f
+nvram: read a=ad d=f
+nvram: read a=ad d=f
+nvram: read a=ad d=f
+nvram: read a=ae d=f
+nvram: read a=ae d=f
+nvram: read a=ae d=f
+nvram: read a=af d=f
+nvram: read a=af d=f
+nvram: read a=af d=f
+nvram: read a=b0 d=f
+nvram: read a=b0 d=f
+nvram: read a=b0 d=f
+nvram: read a=b1 d=f
+nvram: read a=b1 d=f
+nvram: read a=b1 d=f
+nvram: read a=b2 d=f
+nvram: read a=b2 d=f
+nvram: read a=b2 d=f
+nvram: read a=b3 d=f
+nvram: read a=b3 d=f
+nvram: read a=b3 d=f
+nvram: read a=b4 d=f
+nvram: read a=b4 d=f
+nvram: read a=b4 d=f
+nvram: read a=b5 d=f
+nvram: read a=b5 d=f
+nvram: read a=b5 d=f
+nvram: read a=b6 d=f
+nvram: read a=b6 d=f
+nvram: read a=b6 d=f
+nvram: read a=b7 d=f
+nvram: read a=b7 d=f
+nvram: read a=b7 d=f
+nvram: read a=b8 d=f
+nvram: read a=b8 d=f
+nvram: read a=b8 d=f
+nvram: read a=b9 d=f
+nvram: read a=b9 d=f
+nvram: read a=b9 d=f
+nvram: read a=ba d=f
+nvram: read a=ba d=f
+nvram: read a=ba d=f
+nvram: read a=bb d=f
+nvram: read a=bb d=f
+nvram: read a=bb d=f
+nvram: read a=bc d=f
+nvram: read a=bc d=f
+nvram: read a=bc d=f
+nvram: read a=bd d=f
+nvram: read a=bd d=f
+nvram: read a=bd d=f
+nvram: read a=be d=f
+nvram: read a=be d=f
+nvram: read a=be d=f
+nvram: read a=bf d=f
+nvram: read a=bf d=f
+nvram: read a=bf d=f
+nvram: read a=c0 d=f
+nvram: read a=c0 d=f
+nvram: read a=c0 d=f
+nvram: read a=c1 d=f
+nvram: read a=c1 d=f
+nvram: read a=c1 d=f
+nvram: read a=c2 d=f
+nvram: read a=c2 d=f
+nvram: read a=c2 d=f
+nvram: read a=c3 d=f
+nvram: read a=c3 d=f
+nvram: read a=c3 d=f
+nvram: read a=c4 d=f
+nvram: read a=c4 d=f
+nvram: read a=c4 d=f
+nvram: read a=c5 d=f
+nvram: read a=c5 d=f
+nvram: read a=c5 d=f
+nvram: read a=c6 d=f
+nvram: read a=c6 d=f
+nvram: read a=c6 d=f
+nvram: read a=c7 d=f
+nvram: read a=c7 d=f
+nvram: read a=c7 d=f
+nvram: read a=c8 d=f
+nvram: read a=c8 d=f
+nvram: read a=c8 d=f
+nvram: read a=c9 d=f
+nvram: read a=c9 d=f
+nvram: read a=c9 d=f
+nvram: read a=ca d=f
+nvram: read a=ca d=f
+nvram: read a=ca d=f
+nvram: read a=cb d=f
+nvram: read a=cb d=f
+nvram: read a=cb d=f
+nvram: read a=cc d=f
+nvram: read a=cc d=f
+nvram: read a=cc d=f
+nvram: read a=cd d=f
+nvram: read a=cd d=f
+nvram: read a=cd d=f
+nvram: read a=ce d=f
+nvram: read a=ce d=f
+nvram: read a=ce d=f
+nvram: read a=cf d=f
+nvram: read a=cf d=f
+nvram: read a=cf d=f
+nvram: read a=d0 d=f
+nvram: read a=d0 d=f
+nvram: read a=d0 d=f
+nvram: read a=d1 d=f
+nvram: read a=d1 d=f
+nvram: read a=d1 d=f
+nvram: read a=d2 d=f
+nvram: read a=d2 d=f
+nvram: read a=d2 d=f
+nvram: read a=d3 d=f
+nvram: read a=d3 d=f
+nvram: read a=d3 d=f
+nvram: read a=d4 d=f
+nvram: read a=d4 d=f
+nvram: read a=d4 d=f
+nvram: read a=d5 d=f
+nvram: read a=d5 d=f
+nvram: read a=d5 d=f
+nvram: read a=d6 d=f
+nvram: read a=d6 d=f
+nvram: read a=d6 d=f
+nvram: read a=d7 d=f
+nvram: read a=d7 d=f
+nvram: read a=d7 d=f
+nvram: read a=d8 d=f
+nvram: read a=d8 d=f
+nvram: read a=d8 d=f
+nvram: read a=d9 d=f
+nvram: read a=d9 d=f
+nvram: read a=d9 d=f
+nvram: read a=da d=f
+nvram: read a=da d=f
+nvram: read a=da d=f
+nvram: read a=db d=f
+nvram: read a=db d=f
+nvram: read a=db d=f
+nvram: read a=dc d=f
+nvram: read a=dc d=f
+nvram: read a=dc d=f
+nvram: read a=dd d=f
+nvram: read a=dd d=f
+nvram: read a=dd d=f
+nvram: read a=de d=f
+nvram: read a=de d=f
+nvram: read a=de d=f
+nvram: read a=df d=f
+nvram: read a=df d=f
+nvram: read a=df d=f
+nvram: read a=e0 d=f
+nvram: read a=e0 d=f
+nvram: read a=e0 d=f
+nvram: read a=e1 d=f
+nvram: read a=e1 d=f
+nvram: read a=e1 d=f
+nvram: read a=e2 d=f
+nvram: read a=e2 d=f
+nvram: read a=e2 d=f
+nvram: read a=e3 d=f
+nvram: read a=e3 d=f
+nvram: read a=e3 d=f
+nvram: read a=e4 d=f
+nvram: read a=e4 d=f
+nvram: read a=e4 d=f
+nvram: read a=e5 d=f
+nvram: read a=e5 d=f
+nvram: read a=e5 d=f
+nvram: read a=e6 d=f
+nvram: read a=e6 d=f
+nvram: read a=e6 d=f
+nvram: read a=e7 d=f
+nvram: read a=e7 d=f
+nvram: read a=e7 d=f
+nvram: read a=e8 d=f
+nvram: read a=e8 d=f
+nvram: read a=e8 d=f
+nvram: read a=e9 d=f
+nvram: read a=e9 d=f
+nvram: read a=e9 d=f
+nvram: read a=ea d=f
+nvram: read a=ea d=f
+nvram: read a=ea d=f
+nvram: read a=eb d=f
+nvram: read a=eb d=f
+nvram: read a=eb d=f
+nvram: read a=ec d=f
+nvram: read a=ec d=f
+nvram: read a=ec d=f
+nvram: read a=ed d=f
+nvram: read a=ed d=f
+nvram: read a=ed d=f
+nvram: read a=ee d=f
+nvram: read a=ee d=f
+nvram: read a=ee d=f
+nvram: read a=ef d=f
+nvram: read a=ef d=f
+nvram: read a=ef d=f
+nvram: read a=f0 d=f
+nvram: read a=f0 d=f
+nvram: read a=f0 d=f
+nvram: read a=f1 d=f
+nvram: read a=f1 d=f
+nvram: read a=f1 d=f
+nvram: read a=f2 d=f
+nvram: read a=f2 d=f
+nvram: read a=f2 d=f
+nvram: read a=f3 d=f
+nvram: read a=f3 d=f
+nvram: read a=f3 d=f
+nvram: read a=f4 d=f
+nvram: read a=f4 d=f
+nvram: read a=f4 d=f
+nvram: read a=f5 d=f
+nvram: read a=f5 d=f
+nvram: read a=f5 d=f
+nvram: read a=f6 d=f
+nvram: read a=f6 d=f
+nvram: read a=f6 d=f
+nvram: read a=f7 d=f
+nvram: read a=f7 d=f
+nvram: read a=f7 d=f
+nvram: read a=f8 d=f
+nvram: read a=f8 d=f
+nvram: read a=f8 d=f
+nvram: read a=f9 d=f
+nvram: read a=f9 d=f
+nvram: read a=f9 d=f
+nvram: read a=fa d=f
+nvram: read a=fa d=f
+nvram: read a=fa d=f
+nvram: read a=fb d=f
+nvram: read a=fb d=f
+nvram: read a=fb d=f
+nvram: read a=fc d=f
+nvram: read a=fc d=f
+nvram: read a=fc d=f
+nvram: read a=fd d=f
+nvram: read a=fd d=f
+nvram: read a=fd d=f
+nvram: read a=fe d=f
+nvram: read a=fe d=f
+nvram: read a=fe d=f
+nvram: read a=ff d=f
+nvram: read a=ff d=f
+nvram: read a=ff d=f
+cycles: 40000, time 4326568 (pc=2044)
+PC <- 00002100 (init)
+PC <- 000021de (init)
+IPL: il4_n 0 il3_n 0
+IPL: il4_n asserts
+IPL: il3_n asserts
+m68k: irq_inn 111, irq_in 000, irq_out 000, ex_p_int 0, status_reg_in 2700;              4497952
+m68k: irq_inn 100, irq_in 011, irq_out 000, ex_p_int 0, status_reg_in 2700;              4497968
+PC <- 000008c0 (init)
+PC <- 000008d2 (init)
+PC <- 000008c0 (init)
+PC <- 000008d2 (init)
+PC <- 000008c0 (init)
+PC <- 000008d2 (init)
+PC <- 000008fe (init)
+PC <- 00005668 (init)
+PC <- 0000567c (init)
+PC <- 00002204 (init)
+PC <- 00002210 (init)
+PC <- 00002216 (init)
+PC <- 0000225a (init)
+PC <- 000002c0 (init)
+PC <- 00002278 (init)
+PC <- 000022aa (init)
+PC <- 000002c0 (init)
+PC <- 000022c8 (init)
+PC <- 000022aa (init)
+PC <- 000002c0 (init)
+PC <- 000022c8 (init)
+PC <- 000022aa (init)
+PC <- 000002c0 (init)
+PC <- 000022c8 (init)
+PC <- 000022aa (init)
+PC <- 000002c0 (init)
+PC <- 000022c8 (init)
+PC <- 000022aa (init)
+PC <- 000002c0 (init)
+PC <- 000022c8 (init)
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+cycles: 50000, time 5507496 (pc=22ec)
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+cycles: 60000, time 6947240 (pc=22f8)
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+DO START1!
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+digital: read 948000 -> 00fb (fb); select 0
+UNDO START1!
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+cycles: 70000, time 8387176 (pc=22dc)
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: read 948000 -> 00ff (ff); select 0
+digital: 

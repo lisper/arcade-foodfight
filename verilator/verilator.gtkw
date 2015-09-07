@@ -1,20 +1,19 @@
 [*]
 [*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
-[*] Fri Jul  4 22:09:15 2014
+[*] Tue Jul 15 13:41:21 2014
 [*]
 [dumpfile] "/files/code/foodfight/verilator/verilator.vcd"
-[dumpfile_mtime] "Fri Jul  4 22:01:16 2014"
-[dumpfile_size] 36137057
+[dumpfile_mtime] "Tue Jul 15 13:23:37 2014"
+[dumpfile_size] 122538723
 [savefile] "/files/code/foodfight/verilator/verilator.gtkw"
-[timestart] 539117
+[timestart] 1370491
 [size] 1404 738
-[pos] -1 -6
-*-4.990462 539141 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] 77 -1
+*-5.990462 1370612 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.v.
 [treeopen] TOP.v.uut.
 [treeopen] TOP.v.uut.ff.
-[treeopen] TOP.v.uut.ff.cpu.
 [treeopen] TOP.v.uut.ff.cpu.wf68k00ip_top.
 [treeopen] TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.
 [sst_width] 274
@@ -24,14 +23,25 @@
 @28
 TOP.v.reset
 TOP.v.hsync
-TOP.v.vsync
 TOP.v.uut.ff.blank_n
-TOP.v.uut.ff.vblank
 TOP.v.uut.ff.vblank_n
+TOP.v.uut.ff.vpreset_n
+TOP.v.vsync
+TOP.v.uut.ff.vblank
+@29
+TOP.v.uut.ff.vpreset
+@28
+TOP.v.uut.ff.s_256h_n_rise
+TOP.v.uut.ff.clk_12mhz
+TOP.v.uut.ff.prom_2b.clk
+TOP.v.uut.ff.oddclk
 @22
 TOP.v.uut.ff.counter_h[11:0]
 TOP.v.uut.ff.counter_v[7:0]
+TOP.v.uut.ff.prom_2b.a[7:0]
+TOP.v.uut.ff.prom_2b.d[3:0]
 TOP.v.uut.ff.pfa[9:0]
+TOP.v.uut.ff.offset_h[8:0]
 @28
 TOP.v.uut.ff.s_6mhz
 TOP.v.uut.ff.s_1h
@@ -117,31 +127,6 @@ TOP.v.uut.ff.evenld_n
 @22
 TOP.v.uut.ff.mv_addr_odd[7:0]
 TOP.v.uut.ff.mv_addr_even[7:0]
-TOP.v.uut.ff.chip_5c.a[7:0]
-@28
-TOP.v.uut.ff.chip_5c.ram_write
-TOP.v.uut.ff.chip_5c.cs1
-@22
-TOP.v.uut.ff.chip_5c.i[3:0]
-TOP.v.uut.ff.chip_5c.d[3:0]
-TOP.v.uut.ff.chip_5d.a[7:0]
-@28
-TOP.v.uut.ff.chip_5d.ram_write
-TOP.v.uut.ff.chip_5d.cs1
-@22
-TOP.v.uut.ff.chip_5d.i[3:0]
-@28
-TOP.v.uut.ff.chip_5e.ram_write
-@22
-TOP.v.uut.ff.chip_5e.a[7:0]
-@28
-TOP.v.uut.ff.chip_5e.cs1
-@22
-TOP.v.uut.ff.chip_5e.i[3:0]
-TOP.v.uut.ff.chip_5f.i[3:0]
-@28
-TOP.v.uut.ff.chip_5f.ram_write
-TOP.v.uut.ff.chip_5f.cs1
 @200
 -
 @28

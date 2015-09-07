@@ -3,12 +3,15 @@
 //
 
 `define sdl_display
+`define USE_VGA
+//`define USE_CGA
 
 module ff_verilator;
 
    wire CLK;
    wire clk25;
    wire clk12;
+   wire clk6;
    wire reset;
    
    wire       hsync;
@@ -24,17 +27,40 @@ module ff_verilator;
    
    //-------------------------------------------------------------------
 
+   wire       cga_hsync, cga_vsync, cga_blank;
+   wire [7:0] cga_rgb;
+   wire       vga_hsync;
+   wire       vga_vsync;
+   wire       vga_blank;
+   wire [7:0] vga_rgb;
+   
+
    ff_top uut(
 	      .clk12m(clk12),
 	      .reset(reset),
 	      .led1(led1),
 	      .led2(led2),
-	      .hsync(hsync),
-	      .vsync(vsync),
-	      .rgb(rgb),
+	      .hsync(cga_hsync),
+	      .vsync(cga_vsync),
+	      .rgb(cga_rgb),
 	      .sw(sw),
 	      .sw1(sw1)
 	      );
+
+   // cga -> vga
+   scanconvert_lx45 scanconv(
+			     .clk6m(clk6),
+			     .clk12m(clk12),
+			     .reset(reset),
+			     .hsync_i(cga_hsync),
+			     .vsync_i(cga_vsync),
+			     .blank_i(cga_blank),
+			     .rgb_i(cga_rgb),
+			     .hsync_o(vga_hsync),
+			     .vsync_o(vga_vsync),
+			     .blank_o(vga_blank),
+			     .rgb_o(vga_rgb)
+			     );
 
 `ifdef sdl_display
    //
@@ -50,7 +76,7 @@ module ff_verilator;
 
    initial
      begin
-	dpi_vga_init(700, 300);
+	dpi_vga_init(700, 700);
      end
 
    wire [31:0] pxd;
@@ -61,15 +87,28 @@ module ff_verilator;
    wire [2:0]  vgaGreen;
    wire [2:0]  vgaRed;
 
-   assign vgaBlue = { rgb[7:6], 1'b0 };
-   assign vgaGreen = rgb[5:3];
-   assign vgaRed = rgb[2:0];
+`ifdef USE_VGA
+   assign vgaBlue = { vga_rgb[7:6], 1'b0 };
+   assign vgaGreen = vga_rgb[5:3];
+   assign vgaRed = vga_rgb[2:0];
 
    assign pxd = { 24'b0, vgaBlue, vgaGreen[2:1], vgaRed };
 //   assign pxd = { 24'b0, rgb };
 
-   assign vs = {31'b0, ~vsync};
-   assign hs = {31'b0, ~hsync};
+   assign vs = {31'b0, ~vga_vsync};
+   assign hs = {31'b0, ~vga_hsync};
+`endif
+
+`ifdef USE_CGA
+   assign vgaBlue = { cga_rgb[7:6], 1'b0 };
+   assign vgaGreen = cga_rgb[5:3];
+   assign vgaRed = cga_rgb[2:0];
+
+   assign pxd = { 24'b0, vgaBlue, vgaGreen[2:1], vgaRed };
+
+   assign vs = {31'b0, ~cga_vsync};
+   assign hs = {31'b0, ~cga_hsync};
+`endif
    
    always @(posedge pixclk)
      dpi_vga_display(vs, hs, pxd);

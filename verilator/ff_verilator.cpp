@@ -3,6 +3,8 @@
 //
 //
 
+//#define ASYNC_LINE_RAM
+
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 #include "Vff_verilator.h"
@@ -122,8 +124,14 @@ dump_rams(char *filename)
 	for (i = 0; i < 256; i++) {
 		fprintf(f, "co %x %x %x\n", 
 			i,
+#ifdef ASYNC_LINE_RAM
 			top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[i]);
+			top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[i]
+#else
+			(top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[i] >> 4) & 0xf,
+			(top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[i] >> 0) & 0xf
+#endif
+			);
 	}
 
 	fclose(f);
@@ -146,40 +154,6 @@ read_rams(char *filename)
 		perror(filename);
 		return -1;
 	}
-
-#if 0
-	// pf ram - 1kx8
-	for (i = 0; i < 1024; i++) {
-		n = fscanf(f, "pf %x %x %x\n", &a, &v1, &v2);
-		if (0) printf("pf %x (n %d, %x %x %x)\n", i, n, a, v1, v2);
-
-		if (a != i) { printf("mismatch pf %x\n", i); exit(5); }
-		top->v__DOT__uut__DOT__ff__DOT__chip_3n_3m__DOT__ram[i] = v1;
-		top->v__DOT__uut__DOT__ff__DOT__chip_3l_3k__DOT__ram[i] = v2;
-	}
-
-	// moram - 256x4
-	for (i = 0; i < 256; i++) {
-		n = fscanf(f, "mo %x %x %x %x %x\n", &a, &v1, &v2, &v3, &v4);
-		if (0) printf("mo %x (n %d, %x %x %x %x %x)\n", i, n, a, v1, v2, v3, v4);
-
-		if (a != i) { printf("mismatch mo %x\n", i); exit(5); }
-		top->v__DOT__uut__DOT__ff__DOT__chip_6c__DOT__ram[i] = v1;
-		top->v__DOT__uut__DOT__ff__DOT__chip_6d__DOT__ram[i] = v2;
-		top->v__DOT__uut__DOT__ff__DOT__chip_6e__DOT__ram[i] = v3;
-		top->v__DOT__uut__DOT__ff__DOT__chip_6f__DOT__ram[i] = v4;
-	}
-
-	// color ram - 256x4
-	for (i = 0; i < 256; i++) {
-		n = fscanf(f, "co %x %x %x\n", &a, &v1, &v2);
-		if (0) printf("co %x (n %d, %x %x %x)\n", i, n, a, v1, v2);
-
-		if (a != i) { printf("mismatch co %x (n %d, %x %x %x)\n", i, n, a, v1, v2); exit(5); };
-		top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram[i] = v1;
-		top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[i] = v2;
-	}
-#endif
 
 	while (fgets(line, sizeof(line), f)) {
 		if (line[0] == '#')
@@ -207,8 +181,12 @@ read_rams(char *filename)
 			n = sscanf(line, "co %x %x %x\n", &a, &v1, &v2);
 			if (0) printf("co (n %d, %x %x %x)\n", n, a, v1, v2);
 
+#ifdef ASYNC_LINE_RAM
 			top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram[a] = v1;
 			top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[a] = v2;
+#else
+			top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[a] = (v1 << 4) | v2;
+#endif
 		}
 	}
 
@@ -251,6 +229,7 @@ int main(int argc, char** argv)
     int show_max_time = 0;
     int max_time = 0;
     int result = 0;
+    int do_throw1 = 0;
     int do_start1 = 0;
     int do_coin1 = 0;
     int do_cosim = 0;
@@ -280,6 +259,7 @@ int main(int argc, char** argv)
 		    case 'w': show_waves++; break;
 		    case 'H': do_halt++; break;
 		    case 'S': do_start1++; break;
+		    case 'T': do_throw1++; break;
 		    case 'C': do_coin1++; break;
 		    case 'D':
 			    do_ramdump++;
@@ -333,10 +313,12 @@ int main(int argc, char** argv)
 	}
 
 	if (show_loops) {
-		VL_PRINTF("%llu; CLK=%d clk25=%d reset=%x sw=%x sw1=%x\n",
+		VL_PRINTF("%llu; CLK=%d clk25=%d clk12=%d clk6=%d reset=%x sw=%x sw1=%x\n",
 			  main_time,
 			  top->v__DOT__CLK,
 			  top->v__DOT__clk25,
+			  top->v__DOT__clk12,
+			  top->v__DOT__clk6,
 			  RESET,
 			  top->v__DOT__sw,
 			  top->v__DOT__sw1);
@@ -344,7 +326,9 @@ int main(int argc, char** argv)
 
 #define COIN_TIME	0
 #define COIN_DUR	0
-#define START_TIME	65770344
+#define THROW_TIME	2000000
+#define THROW_DUR	  200000
+#define START_TIME	3000000
 #define START_DUR	  200000
 
 	// coin
@@ -363,33 +347,53 @@ int main(int argc, char** argv)
 	if (do_start1) {
 		// start
 		if (START_TIME && main_time >= START_TIME) {
-sw_assert(6);
-sw_assert(4);
 			sw_assert(5);
-top->v__DOT__sw = 0x0001;
 			if (main_time == START_TIME) printf("DO START1!\n");
 		}
 		if (main_time == (START_TIME+START_DUR)) printf("UNDO START1!\n");
 		if (main_time > (START_TIME+START_DUR)) {
-sw_deassert(6);
-sw_deassert(4);
 			sw_deassert(5);
-top->v__DOT__sw = 0xffff;
+		}
+	}
+
+	// throw
+	if (do_throw1) {
+		// start
+		if (THROW_TIME && main_time >= THROW_TIME) {
+			sw_assert(2);
+			if (main_time == THROW_TIME) printf("DO THROW1!\n");
+		}
+		if (main_time == (THROW_TIME+THROW_DUR)) printf("UNDO THROW1!\n");
+		if (main_time > (THROW_TIME+THROW_DUR)) {
+			sw_deassert(2);
 		}
 	}
 
 	// toggle clock(s)
+#if 0
 	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
 	if (top->v__DOT__CLK) {
 		top->v__DOT__clk25 = top->v__DOT__clk25 ? 0 : 1;
 
 		if (top->v__DOT__clk25)
 			top->v__DOT__clk12 = top->v__DOT__clk12 ? 0 : 1;
+
+		if (top->v__DOT__clk12)
+			top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
 	}
+#else
+	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
+
+	top->v__DOT__clk25 = 0;
+	top->v__DOT__clk12 = top->v__DOT__CLK;
+
+	if (top->v__DOT__clk12)
+		top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
+#endif
 
 	if (0)
-		VL_PRINTF("clk %d %d %d\n",
-			  top->v__DOT__CLK, top->v__DOT__clk25, top->v__DOT__clk12);
+		VL_PRINTF("clk 50m %d, 25m %d, 12m %d, 6m %d\n",
+			  top->v__DOT__CLK, top->v__DOT__clk25, top->v__DOT__clk12, top->v__DOT__clk6);
 
 	//
 	if (main_time < 100)

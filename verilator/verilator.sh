@@ -9,11 +9,12 @@ CPU=../m68k
 ROM=../roms/v3
 INC="+incdir+$RTL +incdir+$CPU +incdir+$ROM"
 
-$V -cc -LDFLAGS "-L../../emu/fame/x86/linux -lSDL -lpthread -lfame" -exe --trace --Mdir ./tmp +define+debug=1 $INC $TOP -CFLAGS -DCOSIM=1 \
+$V -cc -LDFLAGS "-L../../emu/fame/x86/linux -lSDL -lpthread -lfame" -exe --trace --Mdir ./tmp +define+debug=1 +define+SIMULATION=1 $INC $TOP -CFLAGS -DCOSIM=1 \
     ff_verilator.v \
     $RTL/ff.v $RTL/ff_top.v $RTL/m68000.v $RTL/pokey.v $RTL/pal.v $RTL/prom_2b.v \
-    $RTL/coderom.v $RTL/coderam.v $RTL/ram_907036.v $RTL/rom_6lm.v $RTL/ram_137250.v $RTL/nvram.v \
-    $RTL/rom_136020.v $RTL/ram_93422.v ff_verilator.cpp cosim.cpp vga.cpp &&
+    $RTL/coderom16.v $RTL/coderam.v $RTL/ram_907036.v $RTL/rom_6lm.v $RTL/ram_137250.v $RTL/nvram.v \
+    $RTL/rom_136020_16.v $RTL/ram_93422.v $RTL/ram_dp256x8.v $RTL/ram_256x8.v $RTL/scanconvert_lx45.v \
+    ff_verilator.cpp cosim.cpp vga.cpp &&
 (cd tmp; make OPT="-fauto-inc-dec -fdce -fdefer-pop -fdse -ftree-ccp -ftree-ch -ftree-fre -ftree-dce -ftree-dse" -f Vff_verilator.mk)
 
 #(cd tmp; make OPT="-O -fno-builtin" -f Vff_verilator.mk)

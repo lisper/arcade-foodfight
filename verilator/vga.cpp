@@ -180,6 +180,7 @@ void dpi_vga_display(int vsync, int hsync, int pixel)
         if (hsync != stats.hpol) {
             /* end of pulse */
             if (show_vis) printf("vga: visable h pixels %d\n", col_sink);
+SDL_UpdateRect(screen, 0, row_sink, cols, 1);
             row_sink++;
             stats.cols_hsync = col_sink - stats.cols_h + 1;
             col_sink = 0;
@@ -243,7 +244,7 @@ void dpi_vga_display(int vsync, int hsync, int pixel)
 
     if (ps[offset] != (unsigned char)pixel) {
         ps[offset] = (unsigned char)pixel;
-        SDL_UpdateRect(screen, col_sink, row_sink, 1, 1);
+//        SDL_UpdateRect(screen, col_sink, row_sink, 1, 1);
     }
 
     col_sink++;
