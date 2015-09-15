@@ -45,7 +45,9 @@ __resethandler         dd 0
 __iackhandler          dd 0
 __icusthandler         dd 0
 __reg:
+global __dreg
 __dreg                 dd 0,0,0,0,0,0,0,0
+global __areg
 __areg                 dd 0,0,0,0,0,0,0
 __a7                   dd 0
 __asp                  dd 0

@@ -1,0 +1,17 @@
+
+
+
+CFLAGS += -DUSE_FAME_CORE -DUSE_FAME_CORE_C -DFAME_INLINE_LOOP -DFAME_CHECK_BRANCHES -DFAME_EMULATE_TRACE -DFAME_BYPASS_TAS_WRITEBACK -DFAME_ACCURATE_TIMING -DFAME_GLOBAL_CONTEXT -DFAME_FETCHBITS=8 -DFAME_DATABITS=8 -DFAME_GOTOS -DFAME_EXTRA_INLINE=__inline__ -DFAME_NO_RESTORE_PC_MASKED_BITS
+
+#CFLAGS += -DFAME_IRQ_CLOCKING
+
+CFLAGS += -g
+
+libfame.a: famec.o
+	ar cur libfame.a famec.o
+
+famec.o: famec.c famec_opcodes.h fame.h Makefile
+	$(CC) -c $(CFLAGS) famec.c
+
+clean:
+	rm -f famec.o libfame.a

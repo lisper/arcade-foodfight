@@ -15,6 +15,8 @@ int do_trace;
 int do_iotrace;
 int do_irqtrace;
 int do_video;
+int do_patch;
+int do_switches;
 
 /* Far enough memory room */
 #define ROM_SIZE (64*1024)
@@ -584,7 +586,10 @@ check_interrupts(unsigned long long cycles)
 	case 1:
 		if (irq3_enabled) {
 			m68k_raise_irq(3, M68K_AUTOVECTORED_IRQ);
-			if (do_irqtrace) printf("irq: level 3\n");
+			if (do_irqtrace) {
+				printf("irq: level 3\n");
+				fflush(stdout);
+			}
 		}
 		do_32v_irq++;
 		break;
@@ -600,8 +605,10 @@ check_interrupts(unsigned long long cycles)
 	case 1:
 		if (irq4_enabled) {
 			m68k_raise_irq(4, M68K_AUTOVECTORED_IRQ);
-			if (do_irqtrace) printf("irq: level 4\n");
-fflush(stdout);
+			if (do_irqtrace) {
+				printf("irq: level 4\n");
+				fflush(stdout);
+			}
 		}
 		do_vblank_irq++;
 		break;
@@ -691,8 +698,11 @@ int main(int argc, char *argv)
 	do_trace = 0;
 	do_iotrace = 0;
 	do_irqtrace = 0;
+	do_switches = 1;
+	do_patch = 0;
+	do_video = 0;
 
-	while ((c = getopt(argc, argv, "iqtm:v")) != -1) {
+	while ((c = getopt(argc, argv, "iqtm:npv")) != -1) {
                switch (c) {
 	       case 'i':
 		       do_iotrace++;
@@ -702,6 +712,12 @@ int main(int argc, char *argv)
 		       break;
                case 'm':
 		       max_cycles = atoll(optarg);
+		       break;
+	       case 'n':
+		       do_switches = 0;
+		       break;
+	       case 'p':
+		       do_patch = 1;
 		       break;
 	       case 't':
 		       do_trace++;
@@ -714,7 +730,10 @@ int main(int argc, char *argv)
 	
 	setup_context();
 	read_code_rom();
-//	patch_code_rom();
+
+	if (do_patch) {
+		patch_code_rom();
+	}
 
 	{
 		int i;
@@ -749,11 +768,19 @@ int main(int argc, char *argv)
 	while (1) {
 		int ret;
 
-		set_switches(cycles);
+		if (do_switches) {
+			set_switches(cycles);
+		}
 		check_interrupts(cycles);
 
 #if 0
 		if (cycles == 2977513) {
+			do_trace = 2;
+		}
+#endif
+
+#if 0
+		if (m68k_get_pc() == 0xf4) {
 			do_trace = 2;
 		}
 #endif
