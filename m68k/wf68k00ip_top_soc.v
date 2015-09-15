@@ -1118,7 +1118,7 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
    
 `endif
 
-`define CHIPSCOPE_M68K
+//`define CHIPSCOPE_M68K
 
 `ifdef __CVER__
  `ifdef CHIPSCOPE_M68K

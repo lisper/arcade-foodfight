@@ -178,6 +178,7 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
 
    reg 		 chk_adr_strb_lock;
    reg 		 predec_ctrl_lock;
+   wire [9:0] 	 sreg_new;
    reg [9:0] 	 sreg_mem;
    reg [9:0] 	 sreg_mem_tmp;
 
@@ -807,22 +808,34 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
    
    // This process is the status register with
    // it's related logic.
+
+   assign sreg_new[9:8] =
+			 init_status ? 2'b01 :
+			 (sr_wr & op == RTE) ? sreg_mem_tmp[9:8] :
+			 sr_wr ? {sr_ccr_in[15],sr_ccr_in[13]} :
+			 sreg_mem[9:8];
+
+   assign sreg_new[7:5] = 
+			  preset_irq_mask ? 3'b111 :
+			  irq_save ? irq :
+			  (sr_wr & op == RTE) ? sreg_mem_tmp[7:5] :
+			  sr_wr ? sr_ccr_in[10:8] :
+			  sreg_mem[7:5];
+
+   assign sreg_new[4:0] = cc_updt ? xnzvc_in :
+			  (sr_wr & op == RTE) ? sreg_mem_tmp[4:0] :
+			  sr_wr ? sr_ccr_in[4:0] :
+			  ccr_wr ? sr_ccr_in[4:0] :
+			  sreg_mem[4:0];
+	  
    always @(posedge clk or negedge resetn)
      if (~resetn)
        begin
-`ifdef fix_init_sr
 	  sreg_mem <= 10'h0f0;
           sreg_mem_tmp <= 10'b0;
 
 	  status_reg <= 16'h2700;
 	  status_reg_out <= 16'h2700;
-`else
-	  sreg_mem <= 10'b0;
-          sreg_mem_tmp <= 10'b0;
-
-	  status_reg <= 16'b0;
-	  status_reg_out <= 16'b0;
-`endif
        end
      else 
        begin 
@@ -832,28 +845,11 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
           // in the trap handler routine.
           if (op == RTE & exec_state == RD_SP & bus_cyc_rdy)
             sreg_mem_tmp <= {sr_ccr_in[15],sr_ccr_in[13],sr_ccr_in[10:8],sr_ccr_in[4:0]};
-          
-          if (init_status)
-            sreg_mem[9:8] <= 2'b01;
-          
-          if (preset_irq_mask)
-            sreg_mem[7:5] <= 3'b111;
-          
-          if (irq_save)
-            sreg_mem[7:5] <= irq;
-          
-          if (cc_updt == 1'b1) 
-            sreg_mem[4:0] <= xnzvc_in;
-          
-          if (sr_wr & op == RTE)
-            sreg_mem <= sreg_mem_tmp;
-          else if (sr_wr)
-            sreg_mem <= {sr_ccr_in[15],sr_ccr_in[13],sr_ccr_in[10:8],sr_ccr_in[4:0]};
-          else if (ccr_wr)
-            sreg_mem[4:0] <= sr_ccr_in[4:0];
 
-           status_reg <= {sreg_mem[9],1'b0,sreg_mem[8],2'b00,sreg_mem[7:5],3'b000,sreg_mem[4:0]};
-           status_reg_out <= status_reg;
+	  sreg_mem <= sreg_new;
+
+          status_reg <= {sreg_new[9],1'b0,sreg_new[8],2'b00,sreg_new[7:5],3'b000,sreg_new[4:0]};
+          status_reg_out <= status_reg;
        end
        
    // This process provides the temporary counting of the already read extension words.
@@ -1767,6 +1763,44 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
 	if (status_reg[10:8] != sreg_mem[7:5])
           $display("sr: status_reg <= %x", {sreg_mem[9],1'b0,sreg_mem[8],2'b00,sreg_mem[7:5],3'b000,sreg_mem[4:0]});
      end
+`endif
+
+//brad
+`ifdef never
+/* verilator lint_off CASEINCOMPLETE */
+   always @(posedge clk)
+     if (exec_state != next_exec_state && resetn && $time > 5747100)
+       case (next_exec_state)
+	 IDLE: $display("exec_state: -> IDLE");
+	 FETCH_BIW_1: $display("exec_state: -> FETCH_BIW_1");
+	 FETCH_BIW_2: $display("exec_state: -> FETCH_BIW_2");
+	 FETCH_BIW_3: $display("exec_state: -> FETCH_BIW_3");
+	 FETCH_EXT: $display("exec_state: -> FETCH_EXT");
+	 FETCH_DEST_EXT: $display("exec_state: -> FETCH_DEST_EXT");
+	 RD_SRC_1: $display("exec_state: -> RD_SRC_1");
+	 RD_SRC_1_LO: $display("exec_state: -> RD_SRC_1_LO");
+	 RD_SRC_1_HI: $display("exec_state: -> RD_SRC_1_HI");
+	 RD_SRC_2: $display("exec_state: -> RD_SRC_2");
+	 RD_SRC_2_LO: $display("exec_state: -> RD_SRC_2_LO");
+	 RD_SRC_2_HI: $display("exec_state: -> RD_SRC_2_HI");
+	 WR_DEST_1: $display("exec_state: -> WR_DEST_1");
+	 WR_DEST_1_LO: $display("exec_state: -> WR_DEST_1_LO");
+	 WR_DEST_1_HI: $display("exec_state: -> WR_DEST_1_HI");
+	 WR_DEST_2_LO: $display("exec_state: -> WR_DEST_2_LO");
+	 WR_DEST_2_HI: $display("exec_state: -> WR_DEST_2_HI");
+	 RD_SP_HI: $display("exec_state: -> RD_SP_HI");
+	 RD_SP: $display("exec_state: -> RD_SP");
+	 RD_SP_LO: $display("exec_state: -> RD_SP_LO");
+	 WR_SP_HI: $display("exec_state: -> WR_SP_HI");
+	 WR_SP_LO: $display("exec_state: -> WR_SP_LO");
+	 WAIT_OPERATION: $display("exec_state: -> WAIT_OPERATION");
+	 MOVEM_TST: $display("exec_state: -> MOVEM_TST");
+       endcase // case (next_exec_state)
+/* verilator lint_on CASEINCOMPLETE */
+
+   always @(posedge clk)
+     if (cc_updt == 1'b1)
+       $display("sreg_mem[4:0] <= %x", xnzvc_in);
 `endif
 
 endmodule

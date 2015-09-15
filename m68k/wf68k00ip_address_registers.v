@@ -548,7 +548,7 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
              
              else if (ar_dec & sbit)
                ssp <= ssp - {29'b0, ar_step};
-             
+
              else if (ar_dec) 
                usp <= usp - {29'b0, ar_step};
              
@@ -680,5 +680,6 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
 	  $display("dest_exword0 %x, dest_exword1 %x",
 		   dest_exword0, dest_exword1);
        end
-`endif
+`endif //  `ifdef debug
+
 endmodule
