@@ -182,14 +182,16 @@ module tb;
    //
    reg [7:0]  counter_v;
    
-   always @(posedge s_256h_n or negedge reset_n)
+   always @(negedge clk_12mhz)
+//   always @(posedge s_256h_n or negedge reset_n)
      if (~reset_n)
 	 counter_v <= 0;
      else
        if (~vpreset_n)
-	 counter_v <= 8'hdc/*8'hdf*/;
+	 counter_v <= /*8'hdc*/8'hdf;
        else
-	 counter_v <= counter_v + 8'd1;
+	 if (s_256h_n_rise)
+	   counter_v <= counter_v + 8'd1;
 
    wire       s_1v, s_2v, s_4v, s_8v, s_16v, s_32v, s_64v, s_128v;
 
@@ -230,7 +232,7 @@ module tb;
 	  vpreset_n <= 1'b1;
        end
      else
-       if (s_256h_n_rise)
+       if (s_256h_n/*_rise*/)
        begin
 	  vblank    <=  prom_out[2];
 	  vblank_n  <= ~prom_out[2];
@@ -250,17 +252,17 @@ module tb;
 
    always
      begin
-        clk = 1'b0; #5;
-        clk = 1'b1; #5;
+        clk = 1'b0; #41;
+        clk = 1'b1; #41;
      end
 
    initial
      begin
 	reset_n = 0;
-	#40;
+	#500;
 	reset_n = 1;
 	
-	#8000000;
+	#64000000;
 	$finish;
      end
    
