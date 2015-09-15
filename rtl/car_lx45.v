@@ -6,6 +6,9 @@ module car_lx45(
 		input  clk_pix,
 		input  dcm_reset,
 		input  button,
+		output auto_coin_n,
+		output auto_start_n,
+		output auto_throw_n,
 		output clk6m,
 		output clk12m,
 		output clk25m,
@@ -27,6 +30,25 @@ module car_lx45(
    assign reset = r_count < 16'h0fff;
 `endif
 
+`ifndef SIMULATION
+   reg [23:0] a_count;
+
+   always @(posedge clk_pix)
+     if (reset)
+       a_count <= 24'd0;
+     else
+       if (a_count != 24'hffffff)
+	 a_count <= a_count + 24'd1;
+   
+   assign auto_coin_n = 1;
+   assign auto_start_n = 1;
+   assign auto_throw_n = a_count >= 2000000 && a_count < 2200000;
+`else
+   assign auto_coin_n = 1;
+   assign auto_start_n = 1;
+   assign auto_throw_n = 1;
+`endif
+   
    assign clk6m  = clk_pix;
    assign clk12m = clk_cpu;
    assign clk25m = clk_vga;

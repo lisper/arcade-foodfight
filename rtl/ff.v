@@ -1238,8 +1238,8 @@ hsync ? 8'hff :
      begin
 	if (nvram_n == 0 && br_w_n == 0)
 	  $display("nvram: write a=%x d=%x", ba[8:1], bd_out[3:0]);
-	if (nvram_n == 0 && br_w_n == 1)
-	  $display("nvram: read a=%x d=%x", ba[8:1], nvram_out);
+//	if (nvram_n == 0 && br_w_n == 1)
+//	  $display("nvram: read a=%x d=%x", ba[8:1], nvram_out);
 	if (recall_n == 0)
 	  $display("nvram: recall_n");
 //	if (update)
@@ -1283,24 +1283,23 @@ hsync ? 8'hff :
 `endif //  `ifdef debug
 
 `ifdef debug_ram   
-//   always @(posedge mpuclk)
-//   always @(negedge r_w_u_n or negedge r_w_l_n)
-//   always @(ram0_n or ram1_n or r_w_u_n or r_w_l_n or uds_n or lds_n)
+//   always @(negedge mpuclk)
    always @(posedge uds_n or posedge lds_n)
      begin
-	if ((~ram0_n | ~ram1_n) && (~r_w_u_n | ~r_w_l_n) && (~uds_n | ~lds_n))
+	if ((~ram0_n | ~ram1_n) && (~r_w_u_n | ~r_w_l_n) /*&& (~uds_n | ~lds_n)*/)
 	  $display("ram: write %x <- %x (%b%b); pc=%x",
 		   ba, bd_out, ~r_w_u_n, ~r_w_l_n, cpu.wf68k00ip_top.i_68k00.pc_out);
      end
 
-//   always @(negedge ram0_n or negedge ram1_n)
-//   always @(ram0_n or ram1_n or r_w_u_n or r_w_l_n or uds_n or lds_n)
+//   always @(negedge mpuclk)
    always @(posedge uds_n or posedge lds_n)
      begin
-	if ((~ram0_n | ~ram1_n) && (r_w_u_n & r_w_l_n) && (~uds_n | ~lds_n))
+	if ((~ram0_n | ~ram1_n) && (r_w_u_n & r_w_l_n) /*&& (~uds_n | ~lds_n)*/)
 	  $display("ram: read %x -> %x; pc=%x", ba, mb_out_ram, cpu.wf68k00ip_top.i_68k00.pc_out);
      end
+`endif
    
+`ifdef debug_ram   
 //   always @(negedge ram0_n or negedge ram1_n)
 //     always @(ram0_n or ram1_n or r_w_u_n or r_w_l_n or uds_n or lds_n)
    always @(posedge uds_n or posedge lds_n)

@@ -53,13 +53,14 @@ module ff_top_lx45(
 
    wire       sw_coin1, sw_coin2, sw_start1, sw_start2;
    wire       sw_coinaux, sw_throw1, sw_throw2, sw_test;
-
-   assign sw_coin1 = ~button1;
+   wire       auto_throw_n, auto_start_n, auto_coin_n;
+       
+   assign sw_coin1 = ~button1 & auto_coin_n;
    assign sw_coin2 = 1'b1;
-   assign sw_start1 = ~button2;
+   assign sw_start1 = ~button2 & auto_start_n;
    assign sw_start2 = 1'b1;
    assign sw_coinaux = 1'b1;
-   assign sw_throw1 = ~button3;
+   assign sw_throw1 = ~button3 & auto_throw_n;
    assign sw_throw2 = 1'b1;
    assign sw_test = 1'b1;
 
@@ -92,7 +93,7 @@ module ff_top_lx45(
 //   assign vga_b = vga_rgb[0] | vga_rgb[1] | vga_rgb[2];
 assign vga_b = 1;
 
-   wire clk6m, clk12m;
+   wire clk6m, clk12m, clk25m;
 
    // game & cpu
    ff_top ff_top(
@@ -119,25 +120,29 @@ assign vga_b = 1;
 		.dcm_reset(dcm_reset),
 		.button(switch),
 		.reset(reset),
+		.auto_coin_n(auto_coin_n),
+		.auto_start_n(auto_start_n),
+		.auto_throw_n(auto_throw_n),
 		.clk6m(clk6m),
 		.clk12m(clk12m),
-		.clk25m()
+		.clk25m(clk25m)
 		);
 
    // cga -> vga
-   scanconvert_lx45 scanconv(
-			     .clk6m(clk6m),
-			     .clk12m(clk12m),
-			     .reset(reset),
-			     .hsync_i(cga_hsync),
-			     .vsync_i(cga_vsync),
-			     .blank_i(cga_blank),
-			     .rgb_i(cga_rgb),
-			     .hsync_o(vga_hsync),
-			     .vsync_o(vga_vsync),
-			     .blank_o(vga_blank),
-			     .rgb_o(vga_rgb)
-			     );
+   scanconvert2_lx45 scanconv(
+			      .clk6m(clk6m),
+			      .clk12m(clk12m),
+			      .clk25m(clk25m),
+			      .reset(reset),
+			      .hsync_i(cga_hsync),
+			      .vsync_i(cga_vsync),
+			      .blank_i(cga_blank),
+			      .rgb_i(cga_rgb),
+			      .hsync_o(vga_hsync),
+			      .vsync_o(vga_vsync),
+			      .blank_o(vga_blank),
+			      .rgb_o(vga_rgb)
+			      );
    
 `ifdef sound
    //
