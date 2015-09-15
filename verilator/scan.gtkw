@@ -1,0 +1,56 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Tue Sep  8 11:17:46 2015
+[*]
+[dumpfile] "/files/code/foodfight/verilator/verilator.vcd"
+[dumpfile_mtime] "Tue Sep  8 11:06:54 2015"
+[dumpfile_size] 57418252
+[savefile] "/files/code/foodfight/verilator/scan.gtkw"
+[timestart] 170312
+[size] 1000 600
+[pos] 49 -72
+*-3.204737 170317 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.v.
+[treeopen] TOP.v.scanconv.
+[sst_width] 224
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 151
+@28
+TOP.v.clk25
+TOP.v.clk12
+TOP.v.clk6
+TOP.v.scanconv.clk25m
+TOP.v.scanconv.clk12m
+TOP.v.scanconv.clk6m
+TOP.v.scanconv.hsync_i
+TOP.v.scanconv.hsync_i_fall
+TOP.v.scanconv.vsync_i
+TOP.v.scanconv.vsync_i_fall
+@22
+TOP.v.scanconv.vga_hcount[10:0]
+@28
+TOP.v.scanconv.cga_visable
+@22
+TOP.v.scanconv.cga_vcount[10:0]
+TOP.v.scanconv.cga_hcount[10:0]
+TOP.v.scanconv.vga_vcount[10:0]
+@28
+TOP.v.scanconv.vga_visable
+TOP.v.scanconv.vga_vsync
+TOP.v.scanconv.vga_hsync
+@22
+TOP.v.scanconv.vga_hcount[10:0]
+TOP.v.scanconv.vga_vcount[10:0]
+TOP.v.scanconv.vga_ram_addr[16:0]
+TOP.v.scanconv.vga_data[7:0]
+@28
+TOP.v.scanconv.scan_ram.r
+TOP.v.scanconv.scan_ram.ram_read
+@23
+TOP.v.scanconv.scan_ram.ao[16:0]
+@22
+TOP.v.scanconv.scan_ram.d[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

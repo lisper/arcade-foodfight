@@ -13,9 +13,10 @@ ROM = ../roms/v3
 INC = +incdir+$(RTL) +incdir+$(CPU) +incdir+$(ROM)
 
 DEFINE = +define+debug=1 +define+SIMULATION=1
-LDFLAGS = "-L../../emu/fame/x86/linux -lSDL -lpthread -lfame"
+LDFLAGS = "-L../../emu/famec -lSDL -lpthread -lfame"
 EXE = ./tmp/Vff_verilator
-OPT = -O2
+OPT = -O2 
+CFLAGS = "-O -DCOSIM=1 -I../../emu/famec"
 
 V_SRC = \
 	ff_verilator.v \
@@ -23,7 +24,19 @@ V_SRC = \
 	$(RTL)/coderom16.v $(RTL)/coderam.v $(RTL)/ram_907036.v $(RTL)/rom_6lm.v $(RTL)/ram_137250.v \
 	$(RTL)/nvram.v $(RTL)/rom_136020_16.v $(RTL)/ram_93422.v \
 	$(RTL)/ram_dp256x8.v $(RTL)/ram_256x8.v \
-	$(RTL)/scanconvert_lx45.v
+	$(RTL)/scanconvert2_lx45.v
+
+V_DEP = \
+	$(CPU)/wf68k00ip_address_registers.v \
+	$(CPU)/wf68k00ip_alu.v \
+	$(CPU)/wf68k00ip_bus_interface.v \
+	$(CPU)/wf68k00ip_control.v \
+	$(CPU)/wf68k00ip_data_registers.v \
+	$(CPU)/wf68k00ip_interrupt_controller.v \
+	$(CPU)/wf68k00ip_opcode_decoder.v \
+	$(CPU)/wf68k00ip_shifter.v \
+	$(CPU)/wf68k00ip_top_soc.v \
+	$(CPU)/wf68k00ip_top.v
 
 C_SRC = \
 	ff_verilator.cpp cosim.cpp vga.cpp
@@ -32,8 +45,8 @@ VOUT = tmp/Vff_verilator.cpp
 
 all: $(EXE)
 
-$(VOUT): $(V_SRC)
-	$V -cc $(OPT) -LDFLAGS $(LDFLAGS) -exe --trace --Mdir ./tmp $(DEFINE) $(INC) $(TOP) -CFLAGS -DCOSIM=1 $(V_SRC) $(C_SRC)
+$(VOUT): $(V_SRC) $(V_DEP) Makefile
+	$V -cc $(OPT) -LDFLAGS $(LDFLAGS) -exe --trace --Mdir ./tmp $(DEFINE) $(INC) $(TOP) -CFLAGS $(CFLAGS) $(V_SRC) $(C_SRC)
 
 $(EXE): $(VOUT) $(C_SRC)
 #	(cd tmp; make OPT="-fauto-inc-dec -fdce -fdefer-pop -fdse -ftree-ccp -ftree-ch -ftree-fre -ftree-dce -ftree-dse" -f Vff_verilator.mk)

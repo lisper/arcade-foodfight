@@ -48,19 +48,20 @@ module ff_verilator;
 	      );
 
    // cga -> vga
-   scanconvert_lx45 scanconv(
-			     .clk6m(clk6),
-			     .clk12m(clk12),
-			     .reset(reset),
-			     .hsync_i(cga_hsync),
-			     .vsync_i(cga_vsync),
-			     .blank_i(cga_blank),
-			     .rgb_i(cga_rgb),
-			     .hsync_o(vga_hsync),
-			     .vsync_o(vga_vsync),
-			     .blank_o(vga_blank),
-			     .rgb_o(vga_rgb)
-			     );
+   scanconvert2_lx45 scanconv(
+			      .clk6m(clk6),
+			      .clk12m(clk12),
+			      .clk25m(clk25),
+			      .reset(reset),
+			      .hsync_i(cga_hsync),
+			      .vsync_i(cga_vsync),
+			      .blank_i(cga_blank),
+			      .rgb_i(cga_rgb),
+			      .hsync_o(vga_hsync),
+			      .vsync_o(vga_vsync),
+			      .blank_o(vga_blank),
+			      .rgb_o(vga_rgb)
+			      );
 
 `ifdef sdl_display
    //
@@ -72,11 +73,11 @@ module ff_verilator;
     						input integer pixel_);
 
    wire      pixclk;
-   assign pixclk = clk12/*clk25*//*CLK*/;
+   assign pixclk = /*clk12*/clk25/*CLK*/;
 
    initial
      begin
-	dpi_vga_init(700, 700);
+	dpi_vga_init(800, 600);
      end
 
    wire [31:0] pxd;

@@ -26,7 +26,7 @@ double sc_time_stamp () {       // Called by $time in Verilog
 }
 
 #define MAX_LAST_PC 128
-struct {
+struct last_pc_s {
 	uint32_t pc;
 	uint32_t fill;
 	unsigned long long t;
@@ -63,6 +63,7 @@ dump_last_pc(void)
 #define DR	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_datareg__DOT__dr
 #define AR	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_adrreg__DOT__ar
 #define SSP	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_adrreg__DOT__ssp
+#define USP	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_adrreg__DOT__usp
 
 #define FC_OUT_I   top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__fc_out_i
 #define EXEC_STATE top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_ctrl__DOT__exec_state
@@ -224,6 +225,8 @@ int main(int argc, char** argv)
     int show_pc = 0;
     int show_regs = 0;
     int show_loops = 0;
+    int show_ram = 0;
+    int show_rom = 0;
 
     int show_min_time = 0;
     int show_max_time = 0;
@@ -295,11 +298,19 @@ int main(int argc, char** argv)
     int old_6mhz = 1;
     int old_led1 = 0;
     int old_led2 = 0;
+    int old_as_n = 0;
+    int old_ram0_n = 0;
+    int old_ram1_n = 0;
+
+    int drop_as_n = 0;
+    int drop_ram0_n = 0;
+    int drop_ram1_n = 0;
+    int falling_clk;
 
     init_roms();
 
-    top->v__DOT__sw  = 0xffffU /*0x3ff*/;
-    top->v__DOT__sw1 = 0xffbfU /*0xffff*/ /*0x0*/;
+    top->v__DOT__sw  = 0xffff /*0x3ff*/;
+    top->v__DOT__sw1 = 0xbf /*0xffff*/ /*0x0*/;
 
     // main loop
     while (!Verilated::gotFinish()) {
@@ -310,6 +321,12 @@ int main(int argc, char** argv)
 
 	if (do_ramload && main_time == 1) {
 		read_rams(filename);
+	}
+
+	if (main_time == 1) {
+		int i;
+		for (i = 0; i < 129072; i++)
+			top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[i] = rand() & 0xff;
 	}
 
 	if (show_loops) {
@@ -326,10 +343,10 @@ int main(int argc, char** argv)
 
 #define COIN_TIME	0
 #define COIN_DUR	0
-#define THROW_TIME	2000000
-#define THROW_DUR	  200000
-#define START_TIME	3000000
-#define START_DUR	  200000
+#define THROW_TIME	(2000000*2) //25mhz = *2
+#define THROW_DUR	(200000*2)
+#define START_TIME	(3000000*2)
+#define START_DUR	(200000*2)
 
 	// coin
 	if (do_coin1) {
@@ -370,7 +387,7 @@ int main(int argc, char** argv)
 	}
 
 	// toggle clock(s)
-#if 0
+#if 0 // 50mhz
 	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
 	if (top->v__DOT__CLK) {
 		top->v__DOT__clk25 = top->v__DOT__clk25 ? 0 : 1;
@@ -381,7 +398,18 @@ int main(int argc, char** argv)
 		if (top->v__DOT__clk12)
 			top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
 	}
-#else
+#endif
+#if 1 // 25mhz
+	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
+	top->v__DOT__clk25 = top->v__DOT__CLK;
+
+	if (top->v__DOT__clk25)
+		top->v__DOT__clk12 = top->v__DOT__clk12 ? 0 : 1;
+
+	if (top->v__DOT__clk12)
+		top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
+#endif
+#if 0 // 12mhz
 	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
 
 	top->v__DOT__clk25 = 0;
@@ -390,6 +418,16 @@ int main(int argc, char** argv)
 	if (top->v__DOT__clk12)
 		top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
 #endif
+
+	if (0) {
+		VL_PRINTF("c %d %d %d %d; r %x %x\n",
+			  top->v__DOT__CLK,
+			  top->v__DOT__clk25,
+			  top->v__DOT__clk12,
+			  top->v__DOT__clk6,
+			  top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[0],
+			  top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[1]);
+	}
 
 	if (0)
 		VL_PRINTF("clk 50m %d, 25m %d, 12m %d, 6m %d\n",
@@ -534,17 +572,78 @@ int main(int argc, char** argv)
 		old_led2 = LED2;
 	}
 
+	falling_clk = S_6MHZ == 0 && old_6mhz == 1;
+
+	if (falling_clk && show_rom) {
+		if (drop_as_n) {
+			drop_as_n = 0;
+			if ((top->v__DOT__uut__DOT__ff__DOT__uds_n == 0 ||
+			     top->v__DOT__uut__DOT__ff__DOT__lds_n == 0) &&
+			    ADR_I < 0x14000)
+			{
+				printf("rtl rom: %x -> %04x; pc=%x\n",
+				       ADR_I,
+				       top->v__DOT__uut__DOT__ff__DOT__mb_out_rom,
+				       PC_OUT);
+			}
+		}
+
+		if (top->__VinpClk__TOP__v__DOT__uut__DOT__ff__DOT__as_n == 0 && old_as_n == 1)
+			drop_as_n = 1;
+
+		old_as_n = top->__VinpClk__TOP__v__DOT__uut__DOT__ff__DOT__as_n;
+	}
+
+	if (falling_clk && show_ram) {
+		if (drop_ram0_n || drop_ram1_n) {
+			drop_ram0_n = 0;
+			drop_ram1_n = 0;
+			if (top->v__DOT__uut__DOT__ff__DOT__uds_n == 0 ||
+			    top->v__DOT__uut__DOT__ff__DOT__lds_n == 0)
+			{
+				if (top->v__DOT__uut__DOT__ff__DOT__r_w_n == 0)
+					printf("rtl ram: %x <- %x; pc=%x\n",
+					       ADR_I,
+					       top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__data_out,
+					       PC_OUT);
+				else
+					printf("rtl ram: %x -> %x; pc=%x\n",
+					       ADR_I,
+					       top->v__DOT__uut__DOT__ff__DOT__mb_out_ram,
+					       PC_OUT);
+			}
+		}
+
+		if (top->v__DOT__uut__DOT__ff__DOT__ram0_n == 0 && old_ram0_n == 1)
+			drop_ram0_n = 1;
+		old_ram0_n = top->v__DOT__uut__DOT__ff__DOT__ram0_n;
+
+		if (top->v__DOT__uut__DOT__ff__DOT__ram1_n == 0 && old_ram1_n == 1)
+			drop_ram1_n = 1;
+		old_ram1_n = top->v__DOT__uut__DOT__ff__DOT__ram1_n;
+	}
+
+
 #ifdef COSIM
+	if (S_6MHZ == 1 && old_6mhz == 0 &&
+	    top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__ex_state== 9/*STACK_STATUS*/) {
+		printf("rtl: vector_no %x\n",
+		       top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no);
+
+		cosim_int_event(PC_OUT,
+				top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no);
+	}
+
 	if (S_6MHZ && old_6mhz == 0 &&
 	    FC_OUT_I == 0x6 &&
 	    EXEC_STATE == 1 &&
 	    CHK_PC_I &&
 	    do_cosim)
 	{
-		cosim_m68k(main_time,
-			   RESET, PC_OUT,
+		cosim_m68k(top, main_time,
+			   RESET, PC_OUT, STATUS_REG_I,
 			   DR[0], DR[1], DR[2], DR[3], DR[4], DR[5], DR[6], DR[7],
-			   AR[0], AR[1], AR[2], AR[3], AR[4], AR[5], AR[6], SSP);
+			   AR[0], AR[1], AR[2], AR[3], AR[4], AR[5], AR[6], SSP, USP);
 
 	}
 #endif

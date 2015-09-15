@@ -35,11 +35,11 @@ VM_PREFIX = Vff_verilator
 VM_MODPREFIX = Vff_verilator
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-	-DCOSIM=1 \
+	-O -DCOSIM=1 -I../../emu/famec \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-	-L../../emu/fame/x86/linux -lSDL -lpthread -lfame \
+	-L../../emu/famec -lSDL -lpthread -lfame \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \

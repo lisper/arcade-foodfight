@@ -93,6 +93,8 @@ void dpi_vga_init(int h, int v)
     col_sink = 0;
 //    col_hsync = 0;
 //    row_vsync = 0;
+
+    init_stats();
 }
 
 
