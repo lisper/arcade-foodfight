@@ -8,6 +8,7 @@
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 #include "Vff_verilator.h"
+#include "Vff_verilator_ff_verilator.h"
 
 #include <iostream>
 
@@ -15,14 +16,15 @@
 #include "cosim.h"
 #endif
 
-Vff_verilator *top;                      // Instantiation of module
+Vff_verilator *top;                     	  // Instantiation of module
+//Vff_verilator_ff_verilator *topv;
 
-static unsigned long long main_time = 0;     // Current simulation time
+static unsigned long long main_time = 0;  // Current simulation time
 
 void init_roms(void);
 
 double sc_time_stamp () {       // Called by $time in Verilog
-    return main_time;
+	return main_time;
 }
 
 #define MAX_LAST_PC 128
@@ -52,13 +54,54 @@ dump_last_pc(void)
 	printf("------\n");
 }
 
+/* public */
 #define RESET	top->v__DOT__reset
-#define PC	top->v__DOT__cpu__DOT__pc
+#define vsw	top->v__DOT__sw
+#define vsw1	top->v__DOT__sw1
 
+#define vCLK	top->v__DOT__CLK
+#define vclk25	top->v__DOT__clk25
+#define vclk12  top->v__DOT__clk12
+#define vclk6   top->v__DOT__clk6
+
+/* private */
 #define LED1 	top->v__DOT__uut__DOT__ff__DOT__led1
 #define LED2	top->v__DOT__uut__DOT__ff__DOT__led2
 #define S_6MHZ	top->v__DOT__uut__DOT__ff__DOT__s_6mhz
-#define PC_OUT	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__pc_out
+
+#define UDS_N	top->v__DOT__uut__DOT__ff__DOT__uds_n
+#define LDS_N	top->v__DOT__uut__DOT__ff__DOT__lds_n
+#define AS_N	top->v__DOT__uut__DOT__ff__DOT__as_n
+#define R_W_N	top->v__DOT__uut__DOT__ff__DOT__r_w_n
+#define RAM0_N	top->v__DOT__uut__DOT__ff__DOT__ram0_n
+#define RAM1_N	top->v__DOT__uut__DOT__ff__DOT__ram1_n
+#define ROM_OUT	top->v__DOT__uut__DOT__ff__DOT__mb_out_rom
+#define OUT_RAM top->v__DOT__uut__DOT__ff__DOT__mb_out_ram
+
+#define ROM_PIA_CS    top->v__DOT__uut__DOT__rom_pia_cs
+#define ROM_PIA_RS    top->v__DOT__uut__DOT__rom_pia_rs
+#define ROM_PIA_WRITE top->v__DOT__uut__DOT__rom_pia_write
+#define MPU_DATA_OUT  top->v__DOT__uut__DOT__mpu_data_out
+
+#define SCAN_RAM    top->v__DOT__scanconv__DOT__scan_ram__DOT__ram
+
+#define CHIP_3N_3M_RAM top->v__DOT__uut__DOT__ff__DOT__chip_3n_3m__DOT__ram
+#define CHIP_3L_3K_RAM top->v__DOT__uut__DOT__ff__DOT__chip_3l_3k__DOT__ram
+
+#define CHIP_6C_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6c__DOT__ram
+#define CHIP_6D_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6d__DOT__ram
+#define CHIP_6E_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6e__DOT__ram
+#define CHIP_6F_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6f__DOT__ram
+
+#define CHIP_7P_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram
+#define CHIP_7N_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram
+
+#define CHIP_7N7P_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram
+
+#ifndef no_cpu
+#define PC	 top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__pc_out
+#define PC_OUT	 top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__pc_out
+#define DATA_OUT top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__data_out
 
 #define DR	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_datareg__DOT__dr
 #define AR	top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_adrreg__DOT__ar
@@ -74,9 +117,14 @@ dump_last_pc(void)
 #define HALT_IN	    top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__halt_in
 #define STATUS_REG_I top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__status_reg_i
 
+#define EX_STATE    top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__ex_state
+#define VECTOR_NO   top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no
+#endif // no_cpu
+
 void
 dump_regs(void)
 {
+#ifndef no_cpu
 	VL_PRINTF("%10llu; pc=%04x sr=%04x\n",
 		  main_time, PC_OUT, STATUS_REG_I);
 
@@ -86,6 +134,7 @@ dump_regs(void)
 
 	VL_PRINTF("            a0=%08x a1=%08x a2=%08x a3=%08x a4=%08x a5=%08x a6=%08x ssp=%08x\n",
 		  AR[0], AR[1], AR[2], AR[3], AR[4], AR[5], AR[6], SSP);
+#endif
 }
 
 int
@@ -107,18 +156,18 @@ dump_rams(char *filename)
 	for (i = 0; i < 1024; i++) {
 		fprintf(f, "pf %x %x %x\n", 
 			i,
-			top->v__DOT__uut__DOT__ff__DOT__chip_3n_3m__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_3l_3k__DOT__ram[i]);
+			CHIP_3N_3M_RAM[i],
+			CHIP_3L_3K_RAM[i]);
 	}
 
 	// moram - 256x4
 	for (i = 0; i < 256; i++) {
 		fprintf(f, "mo %x %x %x %x %x\n", 
 			i,
-			top->v__DOT__uut__DOT__ff__DOT__chip_6e__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_6f__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_6c__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_6d__DOT__ram[i]);
+			CHIP_6E_RAM[i],
+			CHIP_6F_RAM[i],
+			CHIP_6C_RAM[i],
+			CHIP_6D_RAM[i]);
 	}
 
 	// color ram - 256x4
@@ -126,11 +175,11 @@ dump_rams(char *filename)
 		fprintf(f, "co %x %x %x\n", 
 			i,
 #ifdef ASYNC_LINE_RAM
-			top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram[i],
-			top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[i]
+			CHIP_7P_RAM[i],
+			CHIP_7N_RAM[i]
 #else
-			(top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[i] >> 4) & 0xf,
-			(top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[i] >> 0) & 0xf
+			(CHIP_7N7P_RAM[i] >> 4) & 0xf,
+			(CHIP_7N7P_RAM[i] >> 0) & 0xf
 #endif
 			);
 	}
@@ -164,18 +213,18 @@ read_rams(char *filename)
 			n = sscanf(line, "pf %x %x %x\n", &a, &v1, &v2);
 			if (0) printf("pf (n %d, %x %x %x)\n", n, a, v1, v2);
 
-			top->v__DOT__uut__DOT__ff__DOT__chip_3n_3m__DOT__ram[a] = v1;
-			top->v__DOT__uut__DOT__ff__DOT__chip_3l_3k__DOT__ram[a] = v2;
+			CHIP_3N_3M_RAM[a] = v1;
+			CHIP_3L_3K_RAM[a] = v2;
 		}
 
 		if (line[0] == 'm' && line[1] == 'o') {
 			n = sscanf(line, "mo %x %x %x %x %x\n", &a, &v1, &v2, &v3, &v4);
 			if (0) printf("mo (n %d, %x %x %x %x %x)\n", n, a, v1, v2, v3, v4);
 
-			top->v__DOT__uut__DOT__ff__DOT__chip_6c__DOT__ram[a] = v1;
-			top->v__DOT__uut__DOT__ff__DOT__chip_6d__DOT__ram[a] = v2;
-			top->v__DOT__uut__DOT__ff__DOT__chip_6e__DOT__ram[a] = v3;
-			top->v__DOT__uut__DOT__ff__DOT__chip_6f__DOT__ram[a] = v4;
+			CHIP_6C_RAM[a] = v1;
+			CHIP_6D_RAM[a] = v2;
+			CHIP_6E_RAM[a] = v3;
+			CHIP_6F_RAM[a] = v4;
 		}
 
 		if (line[0] == 'c' && line[1] == 'o') {
@@ -183,10 +232,10 @@ read_rams(char *filename)
 			if (0) printf("co (n %d, %x %x %x)\n", n, a, v1, v2);
 
 #ifdef ASYNC_LINE_RAM
-			top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram[a] = v1;
-			top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram[a] = v2;
+			CHIP_7P_RAM[a] = v1;
+			CHIP_7N_RAM[a] = v2;
 #else
-			top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram[a] = (v1 << 4) | v2;
+			CHIP_7N7P_RAM[a] = (v1 << 4) | v2;
 #endif
 		}
 	}
@@ -204,13 +253,13 @@ void init_roms(void)
 void
 sw_assert(int s)
 {
-	top->v__DOT__sw &= ~(1<<s);
+	vsw &= ~(1<<s);
 }
 
 void
 sw_deassert(int s)
 {
-	top->v__DOT__sw |= 1<<s;
+	vsw |= 1<<s;
 }
 
 
@@ -244,6 +293,7 @@ int main(int argc, char** argv)
     char *filename = (char *)"ramdump.txt";
 
     top = new Vff_verilator;             // Create instance
+//    topv = top->v;
 
     printf("built on: %s %s\n", __DATE__, __TIME__);
 
@@ -309,8 +359,8 @@ int main(int argc, char** argv)
 
     init_roms();
 
-    top->v__DOT__sw  = 0xffff /*0x3ff*/;
-    top->v__DOT__sw1 = 0xbf /*0xffff*/ /*0x0*/;
+    vsw  = 0xffff /*0x3ff*/;
+    vsw1 = 0xbf /*0xffff*/ /*0x0*/;
 
     // main loop
     while (!Verilated::gotFinish()) {
@@ -326,19 +376,19 @@ int main(int argc, char** argv)
 	if (main_time == 1) {
 		int i;
 		for (i = 0; i < 129072; i++)
-			top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[i] = rand() & 0xff;
+			SCAN_RAM[i] = rand() & 0xff;
 	}
 
 	if (show_loops) {
 		VL_PRINTF("%llu; CLK=%d clk25=%d clk12=%d clk6=%d reset=%x sw=%x sw1=%x\n",
 			  main_time,
-			  top->v__DOT__CLK,
-			  top->v__DOT__clk25,
-			  top->v__DOT__clk12,
-			  top->v__DOT__clk6,
+			  vCLK,
+			  vclk25,
+			  vclk12,
+			  vclk6,
 			  RESET,
-			  top->v__DOT__sw,
-			  top->v__DOT__sw1);
+			  vsw,
+			  vsw1);
 	}
 
 #define COIN_TIME	0
@@ -388,50 +438,40 @@ int main(int argc, char** argv)
 
 	// toggle clock(s)
 #if 0 // 50mhz
-	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
-	if (top->v__DOT__CLK) {
-		top->v__DOT__clk25 = top->v__DOT__clk25 ? 0 : 1;
+	vCLK = vCLK ? 0 : 1;
+	if (vCLK) {
+		vclk25 = vclk25 ? 0 : 1;
 
-		if (top->v__DOT__clk25)
-			top->v__DOT__clk12 = top->v__DOT__clk12 ? 0 : 1;
+		if (vclk25)
+			vclk12 = vclk12 ? 0 : 1;
 
-		if (top->v__DOT__clk12)
-			top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
+		if (vclk12)
+			vclk6 = vclk6 ? 0 : 1;
 	}
 #endif
 #if 1 // 25mhz
-	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
-	top->v__DOT__clk25 = top->v__DOT__CLK;
+	vCLK = vCLK ? 0 : 1;
+	vclk25 = vCLK;
 
-	if (top->v__DOT__clk25)
-		top->v__DOT__clk12 = top->v__DOT__clk12 ? 0 : 1;
+	if (vclk25)
+		vclk12 = vclk12 ? 0 : 1;
 
-	if (top->v__DOT__clk12)
-		top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
+	if (vclk12)
+		vclk6 = vclk6 ? 0 : 1;
 #endif
 #if 0 // 12mhz
-	top->v__DOT__CLK = top->v__DOT__CLK ? 0 : 1;
+	vCLK = vCLK ? 0 : 1;
 
-	top->v__DOT__clk25 = 0;
-	top->v__DOT__clk12 = top->v__DOT__CLK;
+	vclk25 = 0;
+	vclk12 = vCLK;
 
-	if (top->v__DOT__clk12)
-		top->v__DOT__clk6 = top->v__DOT__clk6 ? 0 : 1;
+	if (vclk12)
+		vclk6 = vclk6 ? 0 : 1;
 #endif
-
-	if (0) {
-		VL_PRINTF("c %d %d %d %d; r %x %x\n",
-			  top->v__DOT__CLK,
-			  top->v__DOT__clk25,
-			  top->v__DOT__clk12,
-			  top->v__DOT__clk6,
-			  top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[0],
-			  top->v__DOT__scanconv__DOT__scan_ram__DOT__ram[1]);
-	}
 
 	if (0)
 		VL_PRINTF("clk 50m %d, 25m %d, 12m %d, 6m %d\n",
-			  top->v__DOT__CLK, top->v__DOT__clk25, top->v__DOT__clk12, top->v__DOT__clk6);
+			  vCLK, vclk25, vclk12, vclk6);
 
 	//
 	if (main_time < 100)
@@ -442,22 +482,26 @@ int main(int argc, char** argv)
 		else
 			RESET = 0;
 
+//?
+top->v__DOT__uut__DOT__ff__DOT__reset_n = RESET ? 0 : 1;
+
 	// evaluate model
         top->eval();
 
 #if 0
 	//
-	if (top->v__DOT__uut__DOT__rom_pia_cs &&
-	    top->v__DOT__uut__DOT__rom_pia_write)
+	if (ROM_PIA_CS &&
+	    ROM_PIA_WRITE)
 	{
 		VL_PRINTF("%llu; pc=%04x rom_pia write %x %02x\n",
 			  main_time,
 			  PC,
-			  top->v__DOT__uut__DOT__rom_pia_rs,
-			  top->v__DOT__uut__DOT__mpu_data_out);
+			  ROM_PIA_RS,
+			  MPU_DATA_OUT);
 	}
 #endif
 
+#ifndef no_cpu
 	if (S_6MHZ && old_6mhz == 0 &&
 	    TRAP_AERR_I)
 	{
@@ -547,11 +591,7 @@ int main(int argc, char** argv)
 			last_pc_index = 0;
 
 		if (show_pc) {
-			VL_PRINTF("%llu; pc=%04x a0=%08x a1=%08x d0=%08x d1=%08x %s\n",
-				  main_time, PC_OUT,
-				  AR[0], AR[1],
-				  DR[0], DR[7],
-				  RESET ? "(reset)" : "");	
+			dump_regs();
 		}
 
 		if (show_regs) {
@@ -577,61 +617,58 @@ int main(int argc, char** argv)
 	if (falling_clk && show_rom) {
 		if (drop_as_n) {
 			drop_as_n = 0;
-			if ((top->v__DOT__uut__DOT__ff__DOT__uds_n == 0 ||
-			     top->v__DOT__uut__DOT__ff__DOT__lds_n == 0) &&
+			if ((UDS_N == 0 ||
+			     LDS_N == 0) &&
 			    ADR_I < 0x14000)
 			{
 				printf("rtl rom: %x -> %04x; pc=%x\n",
 				       ADR_I,
-				       top->v__DOT__uut__DOT__ff__DOT__mb_out_rom,
+				       ROM_OUT,
 				       PC_OUT);
 			}
 		}
 
-		if (top->__VinpClk__TOP__v__DOT__uut__DOT__ff__DOT__as_n == 0 && old_as_n == 1)
+		if (AS_N == 0 && old_as_n == 1)
 			drop_as_n = 1;
 
-		old_as_n = top->__VinpClk__TOP__v__DOT__uut__DOT__ff__DOT__as_n;
+		old_as_n = AS_N;
 	}
 
 	if (falling_clk && show_ram) {
 		if (drop_ram0_n || drop_ram1_n) {
 			drop_ram0_n = 0;
 			drop_ram1_n = 0;
-			if (top->v__DOT__uut__DOT__ff__DOT__uds_n == 0 ||
-			    top->v__DOT__uut__DOT__ff__DOT__lds_n == 0)
+			if (UDS_N == 0 ||
+			    LDS_N == 0)
 			{
-				if (top->v__DOT__uut__DOT__ff__DOT__r_w_n == 0)
+				if (R_W_N == 0)
 					printf("rtl ram: %x <- %x; pc=%x\n",
 					       ADR_I,
-					       top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__data_out,
+					       DATA_OUT,
 					       PC_OUT);
 				else
 					printf("rtl ram: %x -> %x; pc=%x\n",
 					       ADR_I,
-					       top->v__DOT__uut__DOT__ff__DOT__mb_out_ram,
+					       OUT_RAM,
 					       PC_OUT);
 			}
 		}
 
-		if (top->v__DOT__uut__DOT__ff__DOT__ram0_n == 0 && old_ram0_n == 1)
+		if (RAM0_N == 0 && old_ram0_n == 1)
 			drop_ram0_n = 1;
-		old_ram0_n = top->v__DOT__uut__DOT__ff__DOT__ram0_n;
+		old_ram0_n = RAM0_N;
 
-		if (top->v__DOT__uut__DOT__ff__DOT__ram1_n == 0 && old_ram1_n == 1)
+		if (RAM1_N == 0 && old_ram1_n == 1)
 			drop_ram1_n = 1;
-		old_ram1_n = top->v__DOT__uut__DOT__ff__DOT__ram1_n;
+		old_ram1_n = RAM1_N;
 	}
 
 
 #ifdef COSIM
 	if (S_6MHZ == 1 && old_6mhz == 0 &&
-	    top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__ex_state== 9/*STACK_STATUS*/) {
-		printf("rtl: vector_no %x\n",
-		       top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no);
-
-		cosim_int_event(PC_OUT,
-				top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no);
+	    EX_STATE== 9/*STACK_STATUS*/) {
+		printf("rtl: vector_no %x\n", VECTOR_NO);
+		cosim_int_event(PC_OUT, VECTOR_NO);
 	}
 
 	if (S_6MHZ && old_6mhz == 0 &&
@@ -647,6 +684,7 @@ int main(int argc, char** argv)
 
 	}
 #endif
+#endif // no_cpu
 
 	old_6mhz = S_6MHZ;
 

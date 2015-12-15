@@ -5,6 +5,7 @@
 #V = verilator
 #V = /usr/local/bin/verilator
 V = /usr/local/src/verilator-3.876/bin/verilator
+COSIM = n
 
 TOP = --top-module ff_verilator
 RTL = ../rtl
@@ -16,7 +17,16 @@ DEFINE = +define+debug=1 +define+SIMULATION=1
 LDFLAGS = "-L../../emu/famec -lSDL -lpthread -lfame"
 EXE = ./tmp/Vff_verilator
 OPT = -O2 
+
+ifeq ($(COSIM),y)
 CFLAGS = "-O -DCOSIM=1 -I../../emu/famec"
+COSIM_SRC = cosim.cpp
+else
+#CFLAGS = "-O -Dnocpu=1 -I../../emu/famec"
+CFLAGS = "-O -I../../emu/famec"
+#CFLAGS = "-I../../emu/famec"
+COSIM_SRC =
+endif
 
 V_SRC = \
 	ff_verilator.v \
@@ -39,7 +49,7 @@ V_DEP = \
 	$(CPU)/wf68k00ip_top.v
 
 C_SRC = \
-	ff_verilator.cpp cosim.cpp vga.cpp
+	ff_verilator.cpp $(COSIM_SRC) vga.cpp
 
 VOUT = tmp/Vff_verilator.cpp
 

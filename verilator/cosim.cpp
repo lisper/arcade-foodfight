@@ -5,11 +5,27 @@
 #include <fcntl.h>
 
 #include "Vff_verilator.h"
+#include "Vff_verilator_ff_verilator.h"
+
 #include "cosim.h"
 
 extern int show_cosim_io;
 
-extern "C" {
+#define vsw	_top->v__DOT__sw
+
+#define IL3_N	_top->v__DOT__uut__DOT__ff__DOT__il3_n
+#define IL4_N	_top->v__DOT__uut__DOT__ff__DOT__il4_n
+
+#define CODEROM_Q0 _top->__Vtable6_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q0
+#define CODEROM_Q1 _top->__Vtable7_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q1
+#define CODEROM_Q2 _top->__Vtable8_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q2
+#define CODEROM_Q3 _top->__Vtable9_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q3
+
+#define POKEY0_IRQST	_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__irqst
+#define POKEY0_IRQEN	_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__irqen
+#define POKEY0_POLY17_SHIFT _top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__u_poly17__DOT__shift
+#define POKEY0_POT_DONE _top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__pot_done
+#define POKEY0_POT_CNTR	_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__pot_cntr
 
 #include "fame.h"
 
@@ -164,20 +180,20 @@ int rdioword(int addr)
 		break;
 	case 0x948000:
 		digital_out =
-			(0x80 & ((_top->v__DOT__sw) << 7)) |
-			(0x40 & ((_top->v__DOT__sw) << 5)) |
-			(0x20 & ((_top->v__DOT__sw) << 3)) |
-			(0x10 & ((_top->v__DOT__sw) << 1)) | 
-			(0x08 & ((_top->v__DOT__sw) >> 1)) |
-			(0x04 & ((_top->v__DOT__sw) >> 3)) |
-			(0x02 & ((_top->v__DOT__sw) >> 5)) |
-			(0x01 & ((_top->v__DOT__sw) >> 7));
+			(0x80 & ((vsw) << 7)) |
+			(0x40 & ((vsw) << 5)) |
+			(0x20 & ((vsw) << 3)) |
+			(0x10 & ((vsw) << 1)) | 
+			(0x08 & ((vsw) >> 1)) |
+			(0x04 & ((vsw) >> 3)) |
+			(0x02 & ((vsw) >> 5)) |
+			(0x01 & ((vsw) >> 7));
 
 		data = digital_out;
 
 		if (0) printf("io: read control 0x%02x\n", data);
 		if (data != old_control) {
-			printf("io: read control 0x%02x (sw 0x%02x)\n", data, _top->v__DOT__sw);
+			printf("io: read control 0x%02x (sw 0x%02x)\n", data, vsw);
 			old_control = data;
 		}
 		break;
@@ -254,16 +270,14 @@ int rdpokeyword(int addr)
 			 ((4 & adr) ?
 			  ((2 & adr) ?
 			   ((1 & adr) ?
-			    0xff : (~ ((vuint32)(_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__irqst) 
-				       & (vuint32)(_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__irqen))))
+			    0xff : (~ ((vuint32)(POKEY0_IRQST) & (vuint32)(POKEY0_IRQEN))))
 			   : ((1 & adr) ? 0 :
 			      0xff)) :
 			  ((2 & adr) ?
 			   ((1 & adr) ?
-			    0xff : (_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__u_poly17__DOT__shift >> 9)) :
+			    0xff : (POKEY0_POLY17_SHIFT >> 9)) :
 			   ((1 & adr) ? 0 :
-			    (vuint32)(_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__pot_done)))) :
-			 (vuint32)(_top->v__DOT__uut__DOT__ff__DOT__pokey_0__DOT__pokey__DOT__pot_cntr) [(7 & adr)]));
+			    (vuint32)(POKEY0_POT_DONE)))) : (vuint32)(POKEY0_POT_CNTR) [(7 & adr)]));
 
 	return data;
 }
@@ -415,25 +429,25 @@ copy_rom(void)
 	unsigned short w;
 
 	for (i = 0; i < 8192; i++) {
-		w = _top->__Vtable6_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q0[i];
+		w = CODEROM_Q0[i];
 		rom[i*2+0] = w >> 8;
 		rom[i*2+1] = w & 0xff;
 	}
 
 	for (i = 0; i < 8192; i++) {
-		w = _top->__Vtable7_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q1[i];
+		w = CODEROM_Q1[i];
 		rom[i*2+16384*1+0] = w >> 8;
 		rom[i*2+16384*1+1] = w & 0xff;
 	}
 
 	for (i = 0; i < 8192; i++) {
-		w = _top->__Vtable8_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q2[i];
+		w = CODEROM_Q2[i];
 		rom[i*2+16384*2+0] = w >> 8;
 		rom[i*2+16384*2+1] = w & 0xff;
 	}
 
 	for (i = 0; i < 8192; i++) {
-		w = _top->__Vtable9_v__DOT__uut__DOT__ff__DOT__coderom__DOT__q3[i];
+		w = CODEROM_Q3[i];
 		rom[i*2+16384*3+0] = w >> 8;
 		rom[i*2+16384*3+1] = w & 0xff;
 	}
@@ -563,8 +577,8 @@ check_interrupts(void)
 	}
 #endif
 
-	il3n = _top->v__DOT__uut__DOT__ff__DOT__il3_n;
-	il4n = _top->v__DOT__uut__DOT__ff__DOT__il4_n;
+	il3n = IL3_N;
+	il4n = IL4_N;
 
 	set_irq1 = set_irq2 = set_irq3 = 0;
 	clr_irq1 = clr_irq2 = clr_irq3 = 0;
@@ -930,6 +944,4 @@ if (rtl_sr != 0x2000) {
 
 		if (pc == 0xf6) stoppoint();
 	}
-}
-
 }

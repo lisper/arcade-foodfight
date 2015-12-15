@@ -8,11 +8,11 @@
 
 module ff_verilator;
 
-   wire CLK;
-   wire clk25;
-   wire clk12;
-   wire clk6;
-   wire reset;
+   wire CLK/*verilator public_flat*/;
+   wire clk25/*verilator public_flat*/;
+   wire clk12/*verilator public_flat*/;
+   wire clk6/*verilator public_flat*/;
+   wire reset/*verilator public_flat*/;
    
    wire       hsync;
    wire       vsync;
@@ -20,8 +20,8 @@ module ff_verilator;
    
    wire       led1;
    wire       led2;
-   wire [9:0] sw;
-   wire [8:1] sw1;
+   wire [9:0] sw/*verilator public_flat*/;
+   wire [8:1] sw1/*verilator public_flat*/;
    
 
    
