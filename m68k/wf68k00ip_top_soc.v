@@ -505,7 +505,12 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
    // Address select stuff:
    // The internal address space is 32 bit long. The 68K00 has 23 addresslines.
    // The internal address space is therefore limited to 24 bit.
+`ifdef SIMULATION
+   assign adr_out = (^adr_i === 1'bX) ? 23'b0 :
+		    adr_i[23:1];
+`else
    assign adr_out = adr_i[23:1];
+`endif
    assign adr_en = adr_en_i;
    assign adr_i = (adr_en_vector_i) ? {{28'hFFFFFFF,status_reg_i[10:8]},1'b1} :
                   (use_ssp_adr_i) ? ssp_out :
@@ -929,7 +934,11 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
 				     .ext_dsize(ext_dsize_i),
 				     .sel_displace_biw(sel_displace_biw_i),
 				     .displace_biw(displace_biw_i));
-   
+
+`ifdef CHIPSCOPE_M68K
+   wire [255:0] ar_all, dr_all;
+`endif
+
    wf68k00ip_address_registers i_adrreg(.clk(clk),
 					.resetn(reset_coren),
 					.adata_in(areg_data_in),
@@ -984,7 +993,11 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
 					.chk_pc(chk_pc_i),
 					.chk_adr(chk_adr_i),
 					.trap_aerr(trap_aerr_i),
-					.adr_eff(adr_eff_i));
+					.adr_eff(adr_eff_i)
+`ifdef CHIPSCOPE_M68K
+					,.ar_all(ar_all)
+`endif
+);
    
    wf68k00ip_data_registers i_datareg(.clk(clk),
 				      .resetn(reset_coren),
@@ -1003,7 +1016,11 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
 				      .op(op_i),
 				      .op_size(op_size_i),
 				      .op_mode(op_mode_i),
-				      .dbcc_cond(dbcc_cond_i));
+				      .dbcc_cond(dbcc_cond_i)
+`ifdef CHIPSCOPE_M68K
+				      ,.dr_all(dr_all)
+`endif
+				      );
    
    wf68k00ip_alu i_alu(.resetn(reset_coren),
 		       .clk(clk),
@@ -1118,8 +1135,6 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
    
 `endif
 
-//`define CHIPSCOPE_M68K
-
 `ifdef __CVER__
  `ifdef CHIPSCOPE_M68K
   `undef CHIPSCOPE_M68K
@@ -1134,12 +1149,45 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
    
 `ifdef CHIPSCOPE_M68K
    // chipscope
-   wire [35:0] control1;
-   wire [99:0] trig1;
+   wire [35:0] control0;
+   wire [39:0] trig0;
+   wire [611:0] data;
    wire        mclk_en;
    wire        mclk;
         
-   assign trig1 = {
+   assign trig0 = {
+		   reset_coren, //1
+		   reset_inn,   //1
+		   ipln,        //3
+		   fc_out,      //3
+                   pc_out       //32
+                   };
+
+   // for chipscope:
+   // ssp 0 - 31
+   // a6 32 - 63
+   // a5 64 - 95
+   // a4 96 - 127
+   // a3 128 - 159
+   // a2 160 - 191
+   // a1 192 - 223
+   // a0 224 - 255
+   // d7 256 - 287
+   // d6 288 - 319
+   // d5 320 - 351
+   // d4 352 - 383
+   // d3 384 - 415
+   // d2 416 - 447
+   // d1 448 - 479
+   // d0 480 - 511
+   // adr_out 512 - 534
+   // data_out 535 - 550
+   // data_in 551 - 566
+   // pc_out 567 - 598
+   // ipln 599 - 601
+   // fc_out 602 - 604
+   
+   assign data = {
 		   reset_coren, //1
 		   reset_inn,   //1
 		   dtackn,      //1
@@ -1152,11 +1200,13 @@ module  wf68k00ip_top_soc ( clk, reset_coren, adr_out, adr_en, data_in, data_out
                    pc_out,      //32
 		   data_in,     //16
 		   data_out,    //16
-		   adr_out      //23
+		   adr_out,     //23
+ 		   dr_all,
+		   ar_all
                    };
 
-   chipscope_icon_m68k icon1 (.CONTROL0(control1));
-   chipscope_ila_m68k ila1 (.CONTROL(control1), .CLK(clk), .TRIG0(trig1));
+   chipscope_icon_m68k icon1 (.CONTROL0(control0));
+   chipscope_ila_m68k ila1 (.CONTROL(control0), .CLK(clk), .TRIG0(trig0), .DATA(data));
 `endif
 
    

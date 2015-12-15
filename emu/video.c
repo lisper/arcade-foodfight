@@ -122,7 +122,7 @@ rgb(int r, int g, int b)
 }
 
 void
-display_stamp(int s, int h, int v, int pri)
+display_stamp(int s, int h, int v, int hflip, int vflip, int pri)
 {
 	int hh, vv, offset, base, rgb8, c;
 	unsigned char b0, b1, p;
@@ -136,17 +136,23 @@ display_stamp(int s, int h, int v, int pri)
 
 		for (hh = 0; hh < 16; hh++) {
 			if (hh == 0) {
-				offset = base + vv + 16;
+				if (hflip)
+					offset = base + vv;
+				else
+					offset = base + vv + 16;
 				b0 = stamp_rom[0][offset];
 				b1 = stamp_rom[1][offset];
 			}
 			if (hh == 8) {
-				offset = base + vv;
+				if (hflip)
+					offset = base + vv + 16;
+				else
+					offset = base + vv;
 				b0 = stamp_rom[0][offset];
 				b1 = stamp_rom[1][offset];
 			}
 
-			if (0) {
+			if (hflip) {
 				p = ((b0 & 1) << 1) | (b1 & 1);
 				b0 >>= 1;
 				b1 >>= 1;
@@ -188,7 +194,7 @@ display_stamps(void)
 	h = coff;
 	c = 0;
 	for (s = 0; s < 256; s++) {
-		display_stamp(s, h, v, 1);
+		display_stamp(s, h, v, 0, 0, 1);
 		h += 16*2 + 1;
 		if (++c >= 16) {
 			c = 0;
@@ -231,7 +237,7 @@ void video_update_stamps(void)
 				      i, b0, b1, b2, b3,
 				      stampnum, hflip, vflip, color, hpos, vpos);
 
-			display_stamp(stampnum, rhpos, rvpos, prio);
+			display_stamp(stampnum, rhpos, rvpos, hflip, vflip, prio);
 		}
 
 	}

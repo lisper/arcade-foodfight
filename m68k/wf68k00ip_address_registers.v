@@ -71,7 +71,11 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
 				      pc_wr, pc_inc, pc_tmp_clr, pc_tmp_inc, pc_init, pc_add_displ,
 				      src_destn, sbit, op, op_size, op_mode, op_start, adr_mode,
 				      move_d_am, force_biw2, force_biw3, ext_dsize, sel_displace_biw, displace_biw,
-				      regsel_index, index_d_in, chk_pc, chk_adr, trap_aerr, adr_eff );
+				      regsel_index, index_d_in, chk_pc, chk_adr, trap_aerr, adr_eff
+`ifdef CHIPSCOPE_M68K
+				      , ar_all
+`endif
+				      );
 
    input        clk;
    input        resetn;
@@ -143,8 +147,11 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
    output        trap_aerr; // Address error indication.
 
    // Effective address (result of the address logic):
-   output [31:0] adr_eff ; // This is the effective address.
-
+   output [31:0] adr_eff; // This is the effective address.
+`ifdef CHIPSCOPE_M68K
+   output [255:0] ar_all;
+`endif
+   
 `include "wf68k00ip_parms.h"
 
    reg [31:0] 	 index_tmp;
@@ -315,6 +322,8 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
    // calculation. During the MOVEM operation, the INDEX needs to be registered
    // since the respective address or data register is a matter of change.
 
+   wire [31:0] ar_sel = ar[ar_nr_i];
+			   
    always @ (posedge clk or negedge resetn)
      if (~resetn)
        index_tmp <= 0;
@@ -324,8 +333,6 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
        else if (op == MOVEM & op_start) 
          index_tmp <= index_d_in;
 
-   wire [31:0] ar_sel = ar[ar_nr_i];
-			   
    always @ (ar_nr_i or i_d_a or i_w_l or
 	     ar[0] or ar[1] or ar[2] or ar[3] or ar[4] or ar[5] or ar[6] or
 	     op or index_d_in or i_scale or index_tmp or ar_sel)
@@ -397,7 +404,11 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
        LONG : 
          displ_ext = displace;
        default:
+`ifdef SIMULATION
          displ_ext = 32'bx;
+`else
+         displ_ext = 32'b0;
+`endif
      endcase
 
    // This process provides a temporary address offset during
@@ -501,10 +512,18 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
 		// contains the PC offset plus two.
                 adr_eff_tmp = ((pc + {28'b0, pc_offset}) + displ_ext) + index_scaled;
               default : 
+`ifdef SIMULATION
                 adr_eff_tmp = 32'bx; // Don't care, not used dummy.
+`else
+                adr_eff_tmp = 32'b0;
+`endif
             endcase
           default : 
-            adr_eff_tmp = 32'bx; // Result not required.
+`ifdef SIMULATION
+            adr_eff_tmp = 32'bx;
+`else
+            adr_eff_tmp = 32'b0; // Result not required.
+`endif
         endcase
         adr_eff_i = adr_eff_tmp;
 	// Copy of the effective address plus offsets:
@@ -682,4 +701,23 @@ module  wf68k00ip_address_registers ( clk, resetn, adata_in, regsel_b, regsel_a,
        end
 `endif //  `ifdef debug
 
+`ifdef SIMULATION_XXX
+   //xxxx
+   always @(posedge clk)
+     if (pc_out >= 32'h2aa2 && pc <= 32'h2aa6)
+       begin
+	  $display("XXX: %t; pc %x, ar_nr_b %x, adr_mode_i %b, areg %x, adr_eff_tmp %x, adr_eff_i %x, adr_eff %x, trap_aerr %b exec_state=%x, biw %x %x %x",
+		   $time, pc_out, ar_nr_b, adr_mode_i, areg, adr_eff_tmp, adr_eff_i, adr_eff, trap_aerr,
+		   uut.ff.cpu.wf68k00ip_top.i_68k00.i_ctrl.exec_state,
+    		   uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw[0],
+		   uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw[1],
+	           uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw[2]);
+       end
+   //xxxx
+`endif
+   
+`ifdef CHIPSCOPE_M68K
+   assign ar_all = { ar[0], ar[1], ar[2], ar[3], ar[4], ar[5], ar[6], ssp };
+`endif
+   
 endmodule

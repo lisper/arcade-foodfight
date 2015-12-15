@@ -58,7 +58,11 @@
 
 module  wf68k00ip_data_registers ( clk, resetn, data_in_a, data_in_b, regsel_a, regsel_b, regsel_c,
 				   div_mul_32n64, data_out_a, data_out_b, data_out_c,
-				   dr_exg, dr_dec, dr_wr, op, op_size, op_mode, dbcc_cond );
+				   dr_exg, dr_dec, dr_wr, op, op_size, op_mode, dbcc_cond
+`ifdef CHIPSCOPE_M68K
+				   , dr_all
+`endif
+				   );
 
    input        clk;
    input        resetn;
@@ -78,7 +82,10 @@ module  wf68k00ip_data_registers ( clk, resetn, data_in_a, data_in_b, regsel_a, 
    input [1:0] 	 op_size;
    input [4:0] 	 op_mode ;
    output        dbcc_cond;
-
+`ifdef CHIPSCOPE_M68K
+   output [255:0] dr_all;
+`endif
+   
 `include "wf68k00ip_parms.h"
 
    reg [31:0] 	 dr[0:7];
@@ -155,7 +162,11 @@ module  wf68k00ip_data_registers ( clk, resetn, data_in_a, data_in_b, regsel_a, 
                   BYTE : 
                     dr[dr_nr_a] <= {dr_sel_a[31:8], data_in_a[7:0]};
 		  default :
+`ifdef SIMULATION
                     dr[dr_nr_a] <= 32'bx;
+`else
+		    dr[dr_nr_a] <= 32'b0;
+`endif
                 endcase
               else if (op == MOVEQ) 
                 begin 
@@ -195,7 +206,11 @@ module  wf68k00ip_data_registers ( clk, resetn, data_in_a, data_in_b, regsel_a, 
 //                    dr[dr_nr_b][7:0] <= data_in_b[7:0];
 		    dr[dr_nr_b] <= { dr_sel_b[31:8], data_in_b[7:0] };
 		  default:
+`ifdef SIMULATION
                     dr[dr_nr_b] <= 32'bx;
+`else
+                    dr[dr_nr_b] <= 32'b0;
+`endif
                 endcase
            end
 	//-- Exchange the content of data registers:
@@ -253,6 +268,10 @@ module  wf68k00ip_data_registers ( clk, resetn, data_in_a, data_in_b, regsel_a, 
 	    endcase
        end
 
+`endif
+
+`ifdef CHIPSCOPE_M68K
+   assign dr_all = { dr[0], dr[1], dr[2], dr[3], dr[4], dr[5], dr[6], dr[7] };
 `endif
 
 endmodule

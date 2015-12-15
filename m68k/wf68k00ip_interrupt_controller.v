@@ -561,7 +561,11 @@ wire [15:0] 	 status_reg_tmp;
                  EX_TRAP : 
                    vector_no = {4'h2,trap_vector};
                  default : 
+`ifdef SIMULATION
                    vector_no = {8'bx}; // Don't care.
+`else
+                   vector_no = {8'b0}; // Don't care.
+`endif
                endcase
                vect_tmp = 2'b00;
             end
@@ -643,7 +647,11 @@ wire [15:0] 	 status_reg_tmp;
             EX_TRAP : 
               vector_no = {4'h2,trap_vector};
             default : 
+`ifdef SIMULATION
               vector_no = {8'bx}; // Don't care.
+`else
+              vector_no = {8'b0}; // Don't care.
+`endif
           endcase
        end // if ((ex_state == VECT_NR ) | (ex_state == GET_VECTOR))
      else 

@@ -1,3 +1,27 @@
+/files/code/pipistrello/fpgaprog/fpgaprog -v -f /files/code/foodfight/ise/ff_top_lx45.bit
+
+Memory map
+----------
+0000_0000 0000_ffff	rom
+0001_4000 0001_bfff	ram
+0001_c000 0001_c0ff	motion object ram
+
+0080_0000 0080_07ff	playfield
+0090_0000 0001_01ff	nvram
+0094_0000 0094_0007	analog in
+0094_4000 0094_4007	analog out
+
+0094_8000 		digial in
+0095_0000 0095_03ff	color ram
+0095_4000		recall
+0095_8000		watchdog
+00A4_0000 00a4_001f	pokey0
+00A8_0000 00a8_001f	pokey1
+00Ac_0000 00ac_001f	pokey2
+00A4_0000
+
+
+
 
 Playfield
 ---------

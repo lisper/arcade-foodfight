@@ -753,7 +753,7 @@ module  wf68k00ip_control ( clk, resetn, c_code, reglistmask, ctrl_en, exec_abor
    
    // Enables the reset counter in the bus interface.
    // Assert the RESET_EN before WAIT_OPERATION to initialise the reset logic in the bus controller unit by time.
-   assign reset_en = (op == RESET & next_exec_state == WAIT_OPERATION | exec_state == WAIT_OPERATION) ? 1'b1 : 1'b0;
+   assign reset_en = (op == RESET & (next_exec_state == WAIT_OPERATION | exec_state == WAIT_OPERATION)) ? 1'b1 : 1'b0;
    
    assign updt_cc = (adr_mode != 3'b001) ? op_end_i : 1'b0; // Valid for ADDQ and SUBQ.
    

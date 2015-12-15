@@ -55,12 +55,12 @@ module pokey_basefreq(rst, clk_i, base15, out);
    input base15;
    output out;
    
-//   wire rst, clk_i, base15;
-   assign out = (div57 == 0) && (!base15 || div4 == 0);
-   
    reg [5:0] div57;
    reg [1:0] div4;
 
+//   wire rst, clk_i, base15;
+   assign out = (div57 == 0) && (!base15 || div4 == 0);
+   
    always @ (posedge clk_i)
      if (rst) begin
 	div57 <= 6'b0;
@@ -78,11 +78,11 @@ module pokey_poly4(rst, clk_i, out);
    input clk_i;
    output out;
 
+   reg [3:0] shift;
 //   wire   rst, clk_i;
+
    assign out = shift[3];
 
-   reg [3:0] shift;
-   
    always @ (posedge clk_i)
      if (rst)
        shift <= {shift[2:0], 1'b0};
@@ -96,11 +96,11 @@ module pokey_poly5(rst, clk_i, out);
    input clk_i;
    output out;
 
+   reg [4:0] shift;
 //   wire   rst, clk_i;
+
    assign out = shift[4];
 
-   reg [4:0] shift;
-   
    always @ (posedge clk_i)
      if (rst)
        shift <= {shift[3:0], 1'b0};
@@ -117,14 +117,14 @@ module pokey_poly17(rst, clk_i, short, out, random);
    output out;
    output [7:0] random;
 
-//   wire       rst, clk_i;
-   assign out = shift[16];
-   assign random = shift[16:9];
-   
    reg [16:0] shift;
    wire       new_bit;
    reg 	      last_short;
+//   wire       rst, clk_i;
 
+   assign out = shift[16];
+   assign random = shift[16:9];
+   
    assign new_bit = shift[16] ~^ shift[11];
 
    // last_short is used to reset the shortened shift register when
@@ -157,20 +157,18 @@ module pokey_audout(rst, clk_i, dat_i,
    wire       audc_we;
 //   wire       poly4, poly5, poly17;
 //   wire       in, filter_en, filter_in;
-
 //   wire [3:0] out;
-   assign out = (ch_out | vol_only) ? vol : 4'b0;
-   
    reg [3:0]  vol;
    reg 	      vol_only;
    reg 	      no_poly5;
    reg 	      poly4_sel;
    reg 	      no_poly17_4;
-
    reg 	      nf, filter_reg;
 
    wire       change;
    wire       ch_out;
+   
+   assign out = (ch_out | vol_only) ? vol : 4'b0;
    
    assign change = in & (no_poly5 | poly5);
    assign ch_out = filter_en ? filter_reg ^ nf : nf;
@@ -265,9 +263,6 @@ module pokey_atosm(rst_i,
 
    reg 	      irq;
 
-   assign audout = {1'b0, audout0} + {1'b0, audout1} + {1'b0, audout2} + {1'b0, audout3};
-   assign rst = (rst_bits == 0);
-
    parameter [2:0] IRQ_BREAK  = 7;
    parameter [2:0] IRQ_KEY    = 6;
    parameter [2:0] IRQ_SERIN  = 5;
@@ -309,6 +304,9 @@ module pokey_atosm(rst_i,
    integer    i, irq_i;
 
    wire [7:0] random;
+
+   assign audout = {1'b0, audout0} + {1'b0, audout1} + {1'b0, audout2} + {1'b0, audout3};
+   assign rst = (rst_bits == 0);
 
    assign     ack_o = stb_i;
 

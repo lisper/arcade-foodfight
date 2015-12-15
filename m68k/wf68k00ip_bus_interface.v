@@ -682,7 +682,6 @@ module  wf68k00ip_bus_interface ( clk, resetn, reset_inn, reset_out_en, reset_cp
                reset_timer <= 7'b1111100; // 124 initial value.
                reset_timer_lock <= 1'b1; // Lock the counter initialisation.
             end
-          
           else if (reset_timer > 7'b0000000)
             reset_timer <= reset_timer - 7'h1;
           else if (~reset_en)
