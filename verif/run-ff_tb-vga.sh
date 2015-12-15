@@ -6,6 +6,8 @@ RTL="../rtl/ff.v ../rtl/ff_top.v ../rtl/m68000.v ../rtl/pokey.v ../rtl/pal.v ../
 
 INC="+incdir+../m68k +incdir+../rtl"
 
-#DEBUG=+define+debug=1
+PLI=+loadvpi=../pli/vga/vga.so:vpi_compat_bootstrap
 
-cver $DEBUG $INC $RTL ff_tb.v xilinx.v
+DEBUG=+define+debug=1
+
+cver +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v xilinx.v

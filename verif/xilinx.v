@@ -9,6 +9,10 @@ module BUFG(output O, input I);
    assign O = I;
 endmodule
 
+module BUFGMUX(output O, input S, input I1, input I0);
+   assign O = S ? I1 : I0;
+endmodule
+
 module PLL_BASE(	
 		output CLKFBOUT,
 		output CLKOUT0,

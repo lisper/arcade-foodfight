@@ -2,7 +2,15 @@
 //
 //
 
+`timescale 1ns/1ns
+
+`ifndef ISIM
+// `define use_vga
+`endif
+
 module ff_top_lx45_tb;
+
+   reg clk_50m, clk_25m;
 
    wire [5:1] led;
    wire       vga_hsync;
@@ -14,10 +22,12 @@ module ff_top_lx45_tb;
    wire [3:0] tmds, tmdsb;
    wire       audio_l, audio_r;
    
-   reg 	      sysclk;
+   wire	      sysclk;
    reg 	      switch;
    reg 	      button1, button2, button3;
-		
+
+   assign sysclk = clk_50m;
+   
    ff_top_lx45 top (
 		    .led(led),
 		    .sysclk(sysclk),
@@ -43,14 +53,23 @@ module ff_top_lx45_tb;
 
    always
      begin
-        sysclk = 1'b0;
+        clk_50m = 1'b0;
         #10;
-        sysclk = 1'b1;
+        clk_50m = 1'b1;
         #10;
      end
 
    initial
+     clk_25m = 0;
+   
+   always @(posedge clk_50m)
+     clk_25m <= ~clk_25m;
+
+   initial
      begin
+	clk_50m = 0;
+	clk_25m = 0;
+	
 	switch = 0;
 	button1 = 0;
 	button2 = 0;
@@ -59,5 +78,26 @@ module ff_top_lx45_tb;
        #500000000;
        $finish;
      end
-	  
+
+`ifdef use_vga
+   initial
+     begin
+	$cv_init_vga(800, 600);
+     end
+
+   wire [7:0] rgb8;
+   wire [2:0] red, green, blue;
+
+   assign red   = vga_r ? 3'b111 : 0;
+   assign green = vga_g ? 3'b111 : 0;
+   assign blue  = vga_b ? 3'b111 : 0;
+   
+   assign rgb8 = { red, green[1:0], blue };
+   
+   always @(posedge clk_25m)
+     begin
+	$cv_clk_vga(vga_vsync, vga_hsync, rgb8);
+     end
+`endif
+
 endmodule
