@@ -26,6 +26,7 @@ module coderam(
 `endif
 
    assign out = d;
+//   assign out =  cs ? d : 8'b0;
 
    always @(posedge clk)
      d <= ram[a];

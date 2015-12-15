@@ -11,8 +11,10 @@
 //`define debug_h_lines
 //`define debug_stamps
 //`define debug_stamps_color
+//`define jam_pf
 `define normal_video
 `define orig_video_timing
+//`define async_line_ram
 
 module ff(
 	  input        clk_12mhz,
@@ -36,7 +38,8 @@ module ff(
 	  output       o_vsync,
 	  output       o_blank,
 	  output [7:0] o_rgb,
-	  output [7:0] o_audio
+	  output [7:0] o_audio,
+	  output       o_clk_6mhz
 	  );
 
 // page 15 - sheet 4B
@@ -122,6 +125,111 @@ module ff(
    wire [15:0] 	 analog_out;
    wire [3:0] 	 nvram_out;
 
+   // cpu access
+   reg 	u_n_v, u_v_n, u_n_v_d;
+
+   wire rom0_n, rom1_n, rom2_n, rom3_n, ram0_n, ram1_n, objram_n;
+   wire watchdog_n, coloram_n, digitalin_n, analogout_n, analogin_n;
+   wire i_o_n, pf_n;
+
+   // video timing
+   reg vblank, vblank_n;
+   reg vsync, vsync_n;
+   reg vpreset, vpreset_n;
+
+   reg int4rst_n;
+   reg int3rst_n;
+
+   wire       s_1v, s_2v, s_4v, s_8v, s_16v, s_32v, s_64v, s_128v;
+   wire       s_1h, s_2h, s_4h, s_8h, s_16h, s_32h, s_64h, s_128h, s_256h;
+
+   wire       s_6mhz, s_6m_n;
+   wire       s_6mhz_unbuf;
+   wire       s_1h_n, s_2h_n, s_4h_n;
+   wire [8:0] offset_h;
+   reg [7:0]  counter_v;
+   
+   
+   reg 	      hsync, hsync_clr_n;
+   wire       hsync_clr;
+   wire       compsync;
+   wire       s_256h_n;
+   wire       blank_n;
+
+   // sync
+   reg 	s_8h_d, s_32h_d, s_256h_n_d;
+   wire s_8h_rise, s_32h_rise, s_256h_n_rise;
+   
+   // playfield
+   wire [9:0] pfa;
+   wire       csu_n, csl_n;
+   wire       s_4hf, s_4vf, s_2vf, s_1vf;
+   wire       pfwr_n;
+   
+   reg [11:4] pf_rom_a;
+   wire [7:0] pf_data;
+   wire [12:0] pf_rom_addr;
+   reg [7:0]   pf_shift;
+   wire        pf_s0, pf_s1;
+   wire [1:0] pfv_lower;
+   reg [7:0]  pf_out_h_hold;
+   reg [7:2]  pfv_hold;
+   wire [7:0] pfv;
+   
+   // motion objects
+   wire [6:0] moram_addr;
+   wire [15:0] mod;
+   wire        lwr_n;
+   wire        uwr_n;
+   
+   reg [8:1]   rom_addr_hold;
+   reg [8:1]   rom_addr_hold_d;
+   wire [12:0] rom_addr;
+   wire        rom_addr_4;
+   wire [15:0] rom_data;
+   reg [15:0]  rom_shift;
+
+   reg [7:0]   p;
+   reg 	       vflip;
+   reg 	       hflip;
+   reg 	       hflip_d;
+
+   wire        regld, hload_n;
+   wire        s_4y, s_3y, s_2y, s_1y;
+   wire        s_x1, s_x0;
+   wire [1:0]  evd;
+   wire [1:0]  odd;
+   wire        bg;
+   
+   // line buffers
+   reg [15:8] mv_addr_hold;
+
+   reg [7:0]  mv_addr_even;
+   reg [7:0]  mv_addr_odd;
+
+   wire [7:0] mv_odd;
+   wire [7:0] mv_even;
+
+   wire [7:0] mv;
+   reg [7:0]  ov;
+
+   // color ram
+   reg [7:0] rgb;
+   wire [7:0] rgb_addr;
+   wire [7:0] rgb_cr_out;
+   wire       coloramwr_n;
+
+   // sound
+   wire       vma;
+   wire [7:0] audout;
+   wire [5:0] audout0, audout1, audout2;
+
+
+   // playfield
+   wire        pf_obj_n;
+   wire        vcrsel_n;
+
+   
    // i/o -> cpu
    assign ud_in =
 		 ~membufen_n ? mb_out :
@@ -173,8 +281,6 @@ module ff(
    reg counterl;
    reg led2;
    reg led1;
-   reg int4rst_n;
-   reg int3rst_n;
    reg update;
    reg pfflip;
 
@@ -236,10 +342,6 @@ if (~s_ctrl)
    
 // page 19 - sheet 5B
 
-   wire rom0_n, rom1_n, rom2_n, rom3_n, ram0_n, ram1_n, objram_n;
-   wire watchdog_n, coloram_n, digitalin_n, analogout_n, analogin_n;
-   wire i_o_n, pf_n;
-   
    pal pal(
 	   .as_n(as_n),
 	   .a(a[23:18]),
@@ -274,8 +376,6 @@ if (~s_ctrl)
 
 // page 20 - sheet 5B
 
-   reg 	u_n_v, u_v_n, u_n_v_d;
-   
    always @(posedge s_4h or posedge as_n)
      if (as_n)
        begin
@@ -392,20 +492,9 @@ if (~s_ctrl)
        hsync_new <= 0;
      else
        hsync_new <= hsync_new_on;
-
 `endif
    
-   wire       s_6mhz, s_6m_n;
-   wire       s_1h, s_2h, s_4h, s_8h, s_16h, s_32h, s_64h, s_128h, s_256h;
-
-   wire       s_6mhz_unbuf;
    assign s_6mhz_unbuf = counter_h[0];
-   
-`ifdef SIMULATION
-   assign s_6mhz  = counter_h[0];
-`else
-   BUFG s_6mhz_bufg (.O(s_6mhz), .I(counter_h[0]));
-`endif
    assign s_1h    = counter_h[1];
    assign s_2h    = counter_h[2];
    assign s_4h    = counter_h[3];
@@ -416,17 +505,22 @@ if (~s_ctrl)
    assign s_128h  = counter_h[8];
    assign s_256h  = counter_h[9];
 
-   wire s_2h_n, s_4h_n;
+   assign s_1h_n = ~s_1h;
    assign s_2h_n = ~s_2h;
    assign s_4h_n = ~s_4h;
 
+`ifdef SIMULATION
+   assign s_6mhz  = counter_h[0];
+`else
+   BUFG s_6mhz_bufg (.O(s_6mhz), .I(counter_h[0]));
+`endif
+
+   assign o_clk_6mhz = s_6mhz;
+     
    // debug
-   wire [8:0] offset_h;
    assign offset_h = { s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_4h, s_2h, s_1h };
 
    //
-   reg [7:0]  counter_v;
-   
    always @(negedge clk_12mhz)
      if (reset)
 	 counter_v <= 0;
@@ -437,8 +531,6 @@ if (~s_ctrl)
 	 if (s_256h_n_rise)
 	   counter_v <= counter_v + 8'd1;
    
-   wire       s_1v, s_2v, s_4v, s_8v, s_16v, s_32v, s_64v, s_128v;
-
    assign s_1v    = counter_v[0];
    assign s_2v    = counter_v[1];
    assign s_4v    = counter_v[2];
@@ -461,10 +553,6 @@ if (~s_ctrl)
 		   .e1(1'b0),
 		   .e2(1'b0)
 		   );
-
-   reg vblank, vblank_n;
-   reg vsync, vsync_n;
-   reg vpreset, vpreset_n;
 
 //   always @(posedge s_256h_n or negedge s_128v)
    always @(negedge clk_12mhz)
@@ -491,9 +579,6 @@ if (~s_ctrl)
 // page 24 - sheet 6B - sync
 
    //
-   reg 	s_8h_d, s_32h_d, s_256h_n_d;
-   wire s_8h_rise, s_32h_rise, s_256h_n_rise;
-   
    always @(posedge s_6mhz)
      if (~reset_n)
        begin
@@ -513,12 +598,6 @@ if (~s_ctrl)
    assign s_256h_n_rise = ~s_256h_n_d & s_256h_n;
 
    //
-   reg hsync, hsync_clr_n;
-   wire hsync_clr;
-   wire compsync;
-   wire s_256h_n;
-   wire blank_n;
-   
    always @(posedge s_6mhz/*clk_12mhz*/)
      if (reset)
        hsync_clr_n <= 1'b1;
@@ -544,22 +623,17 @@ if (~s_ctrl)
 
 `ifdef SIMULATION
    assign s_6m_n = ~s_6mhz;
-   assign mpuclk = ~s_6mhz;
+   assign mpuclk = s_6mhz;
 `else
    // buffer?
    BUFG s_6m_n_bufg (.O(s_6m_n), .I(~s_6mhz_unbuf));
-   BUFG mpuclk_bufg (.O(mpuclk), .I(~s_6mhz_unbuf));
+   BUFG mpuclk_bufg (.O(mpuclk), .I(s_6mhz_unbuf));
 `endif
 
    assign blank_n = vblank_n & s_256h;
 
 // page 25 - sheet 7A - playfield ram/rom
 
-   wire [9:0] pfa;
-   wire csu_n, csl_n;
-   wire s_4hf, s_4vf, s_2vf, s_1vf;
-   wire pfwr_n;
-   
    assign pfa = u_v_n ?
 		{ ba[10:1] } :
 		{ s_128h, s_64h, s_32h, s_16h, s_8h, s_128v, s_64v, s_32v, s_16v, s_8v };
@@ -592,17 +666,6 @@ if (~s_ctrl)
 			 .out(pf_out[7:0])
 			 );
 
-   reg [11:4] pf_rom_a;
-   wire [7:0] pf_data;
-   wire [12:0] pf_rom_addr;
-   reg [7:0]   pf_shift;
-   wire        pf_s0, pf_s1;
-   wire [1:0] pfv_lower;
-   reg [7:0]  pf_out_h_hold;
-   reg [7:2]  pfv_hold;
-   wire [7:0] pfv;
-   
-   
    always @(posedge s_4h)
      if (reset)
        pf_out_h_hold <= 8'b0;
@@ -613,12 +676,19 @@ if (~s_ctrl)
      if (reset)
        pf_rom_a[11:4] <= 8'b0;
      else
+`ifndef jam_pf
        pf_rom_a[11:4] <= pf_out[7:0];
-
+`else
+//       pf_rom_a[11:4] <= 8'h21;
+//       pf_rom_a[11:4] <= 8'h11;
+//       pf_rom_a[11:4] <= 8'h01;
+       pf_rom_a[11:4] <= { s_32v, s_16v, s_8v, s_128h, s_64h, s_32h, s_16h, s_8h };
+`endif
+   
    assign pf_rom_addr = { pf_out_h_hold[7], pf_rom_a, s_4hf, s_4vf, s_2vf, s_1vf };
 
    rom_6lm rom_6lm(
-		   .clk(s_6m_n),
+		   .clk(mpuclk),
 		   .a(pf_rom_addr),
 		   .d(pf_data),
 		   .ce(1'b0),
@@ -652,11 +722,6 @@ if (~s_ctrl)
    
 // page 28 - sheet 7B - motion object ram
 
-   wire [6:0] moram_addr;
-   wire [15:0] mod;
-   wire        lwr_n;
-   wire        uwr_n;
-   
    assign moram_addr = objram_n ?
 		       {s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_2h} :
 		       ba[7:1];
@@ -665,46 +730,42 @@ if (~s_ctrl)
    assign uwr_n = uds_n | (~objram_n ? br_w_n : 1'b1);
 
    ram_137250 chip_6c(
-		      .clk(s_6mhz),
+		      .clk(s_6m_n),
 		      .a({1'b0, moram_addr}),
 		      .i(bd_out[15:12]),
 		      .d(mod[15:12]),
-		      .cs2(1'b1),
-		      .cs1(1'b0),
+		      .cs(s_1h),
 		      .w(uwr_n),
 		      .oe(1'b0)
 		      );
 
 
    ram_137250 chip_6d(
-		      .clk(s_6mhz),
+		      .clk(s_6m_n),
 		      .a({1'b0, moram_addr}),
 		      .i(bd_out[11:8]),
 		      .d(mod[11:8]),
-		      .cs2(1'b1),
-		      .cs1(1'b0),
+		      .cs(s_1h),
 		      .w(uwr_n),
 		      .oe(1'b0)
 		      );
 
    ram_137250 chip_6e(
-		      .clk(s_6mhz),
+		      .clk(s_6m_n),
 		      .a({1'b0, moram_addr}),
 		      .i(bd_out[7:4]),
 		      .d(mod[7:4]),
-		      .cs2(1'b1),
-		      .cs1(1'b0),
+		      .cs(s_1h),
 		      .w(lwr_n),
 		      .oe(1'b0)
 		      );
 
    ram_137250 chip_6f(
-		      .clk(s_6mhz),
+		      .clk(s_6m_n),
 		      .a({1'b0, moram_addr}),
 		      .i(bd_out[3:0]),
 		      .d(mod[3:0]),
-		      .cs2(1'b1),
-		      .cs1(1'b0),
+		      .cs(s_1h),
 		      .w(lwr_n),
 		      .oe(1'b0)
 		      );
@@ -761,29 +822,34 @@ if (~s_ctrl)
 
    assign ol = {vflip, vflip, vflip, vflip} ^ ol_hold;
 
-//   always @(posedge s_2h_n)
-//     if (reset)
-//       begin
-//	  match <= 0;
-//	  ol_hold <= 0;
-//       end
-//     else
-//       begin
-//	  match <= match_v;
-//	  ol_hold <= sum[3:0];
-//       end
-   always @(posedge s_6m_n)
+//xxx redo this - on posedge of 6mhz clk? like above using s_2h_n
+`ifdef old1
+   always @(posedge s_2h_n)
      if (reset)
        begin
 	  match <= 0;
 	  ol_hold <= 0;
        end
      else
-       if (s_2h/* & ~s_4h*/)
+       begin
+	  match <= match_v;
+	  ol_hold <= sum[3:0];
+       end
+`else
+   always @(negedge s_6mhz)
+     if (reset)
+       begin
+	  match <= 0;
+	  ol_hold <= 0;
+       end
+     else
+       // second half of s_2h=1 (mod = h,v)
+       if (s_1h & s_2h)
 	 begin
 	    match <= match_v;
 	    ol_hold <= sum[3:0];
 	 end
+`endif
 
    // s_1vx == 0 -> write odd line, read even line
    // s_1vx == 1 -> write even line, read odd line
@@ -806,30 +872,25 @@ if (~s_ctrl)
 
 // page 31 - motion object rom
 
-   reg [8:1] rom_addr_hold;
-   reg [8:1] rom_addr_hold_d;
-   wire [12:0] rom_addr;
-   wire        rom_addr_4;
-   wire [15:0] rom_data;
-   reg [15:0]  rom_shift;
-
-   always @(posedge s_6mhz/*s_6m_n*/)
+   always @(posedge s_6mhz)
      if (reset)
        rom_addr_hold[8:1] <= 0;
      else
-       if (~s_2h & s_1h)
+//      if (~s_2h & s_1h)
+//       if (~s_2h & s_1h & ~s_4h)
+       if (~s_2h & s_4h)
 	 rom_addr_hold[8:1] <= mod[7:0];
 
-   always @(posedge s_6mhz)
-     if (reset)
-       rom_addr_hold_d <= 0;
-     else
-       if (s_2h & s_1h)
-	 rom_addr_hold_d <= rom_addr_hold;
+//   always @(posedge s_6mhz)
+//     if (reset)
+//       rom_addr_hold_d <= 0;
+//     else
+//       if (s_2h & s_1h)
+//	 rom_addr_hold_d <= rom_addr_hold;
 
    assign rom_addr_4 = hflip ^ s_4h;
-   assign rom_addr = { rom_addr_hold_d, rom_addr_4, ol[3:0] };
-
+   assign rom_addr = { rom_addr_hold/*rom_addr_hold_d*/, rom_addr_4, ol[3:0] };
+   
    rom_136020_16 chip_4e4d(
 		      .clk(clk_12mhz),
 		      .a(rom_addr),
@@ -855,21 +916,13 @@ if (~s_ctrl)
    
 // page 32
 
-   reg [7:0]   p;
-   reg 	       vflip;
-   reg 	       hflip;
-   reg 	       hflip_d;
 
-   wire regld, hload_n;
-   wire s_4y, s_3y, s_2y, s_1y;
-   wire s_x1, s_x0;
-   wire [1:0] evd;
-   wire [1:0] odd;
-   wire bg;
-   
-
-//   always @(posedge s_2h)
-   always @(posedge s_6m_n)
+//stopped using s_6m_n
+//   always @(posedge s_6m_n)
+// redo using 6mh and s_2h ?
+//`define old2
+`ifdef old2
+   always @(posedge s_2h)
      if (reset)
        begin
 	  hflip <= 0;
@@ -881,22 +934,143 @@ if (~s_ctrl)
 	  hflip <= mod[15];
 	  vflip <= mod[14];
        end
-
-   always @(posedge clk_12mhz)
+`else
+   always @(negedge/*posedge*/ s_6mhz)
      if (reset)
        begin
-	  p <= 0;
-	  hflip_d <= 0;
+	  hflip <= 0;
+	  vflip <= 0;
        end
      else
-       if (~hload_n)
+//       // rising edge of s_2h
+//       // s_2h = 0
+//       if (s_2h_n)
+       if (s_1h & s_2h_n & s_4h)
 	 begin
+	    hflip <= mod[15];
+	    vflip <= mod[14];
+	 end
+`endif
+     
+//   always @(posedge clk_12mhz)
+//     if (reset)
+//       begin
+//	  p <= 0;
+//	  hflip_d <= 0;
+//       end
+//     else
+//       if (~hload_n)
+//	 begin
+//	    // priority + color
+//	    p[5:0] <= mod[13:8];
+//	    hflip_d <= hflip;
+//	 end
+//   always @(posedge s_6mhz)
+//     if (reset)
+//       begin
+//	  p <= 0;
+//	  hflip_d <= 0;
+//       end
+//     else
+////       if (s_2h_n)
+//       if (~s_1h & ~s_2h & s_4h)
+//	 begin
+//	    // priority + color
+//	    p[5:0] <= mod[13:8];
+//	    hflip_d <= hflip;
+//	 end
+
+   always @(negedge/*posedge*/ s_6mhz)
+     if (reset)
+       hflip_d <= 0;
+   else
+//     if (~s_1h & ~s_2h & s_4h)
+       hflip_d <= hflip;
+
+   reg [7:0] p_d1, p_d2;
+   
+   always @(negedge s_6mhz)
+     if (reset)
+       p <= 0;
+     else
+       if (~s_1h & ~s_2h & s_4h)
+	 begin
+	    // color (palette)
 	    p[5:0] <= mod[13:8];
-	    hflip_d <= hflip;
 	 end
 
-   assign regld = match & s_2h_n & s_1h & s_6mhz_unbuf;
-   assign hload_n = ~(s_4h & regld);
+   // delay 1x clk12 to line up with pixels clocked into line ram
+   always @(negedge s_6mhz)
+     if (reset)
+       p_d1 <= 8'b0;
+     else
+       p_d1 <= p;
+
+   always @(negedge s_6mhz)
+     if (reset)
+       p_d2 <= 8'b0;
+     else
+       p_d2 <= p_d1;
+   
+
+   // little state machines to raise regld and hload for one cycle of 12mhz
+   reg [1:0] regld_state;
+   reg [1:0] hload_state;
+   wire [1:0] regld_next;
+   wire [1:0] hload_next;
+
+   always @(regld_state or match or s_4h or s_2h or s_2h_n or s_1h)
+     begin
+	regld_next = regld_state;
+
+	case (regld_state)
+	  2'b00:
+	    if (match & s_2h_n & s_1h)
+	      regld_next = 2'b01;
+	  2'b01:
+	      regld_next = 2'b10;
+	  2'b10:
+	    if ((s_4h & s_2h & s_1h) || (s_4h & s_2h_n & s_1h_n))
+	      regld_next = 2'b00;
+	  default:
+	    regld_next = 2'b00;
+	endcase
+     end
+		      
+   always @(hload_state or match or s_4h or s_2h or s_2h_n or s_1h)
+     begin
+	hload_next = hload_state;
+
+	case (hload_state)
+	  2'b00:
+	    if (match & s_2h_n & s_1h & s_4h)
+	      hload_next = 2'b01;
+	  2'b01:
+	      hload_next = 2'b10;
+	  2'b10:
+	    if (s_4h & s_2h & s_1h)
+	      hload_next = 2'b00;
+	  default:
+	    hload_next = 2'b00;
+	endcase
+     end
+		      
+   always @(posedge clk_12mhz)
+     if (reset)
+       regld_state <= 2'b0;
+     else
+       regld_state <= regld_next;
+       
+   always @(posedge clk_12mhz)
+     if (reset)
+       hload_state <= 2'b0;
+     else
+       hload_state <= hload_next;
+
+   assign hload_n = ~hload_state[0];
+   assign regld = regld_state[0];
+   
+//----------------
 
    assign s_4y = hflip_d ? regld : 1'b1;
    assign s_3y = hflip_d ? 1'b1 : regld;
@@ -946,29 +1120,23 @@ if (~s_ctrl)
 	      
 // page 33-34 - line buffers
 
-   reg [15:8] mv_addr_hold;
-
-   reg [7:0]  mv_addr_even;
-   reg [7:0]  mv_addr_odd;
-
-   wire [7:0] mv_odd;
-   wire [7:0] mv_even;
-
-   wire [7:0] mv;
-   reg [7:0] ov;
-
-
-//   always @(posedge s_2h_n)
-//     if (reset)
-//       mv_addr_hold[15:8] <= 0;
-//     else
-//       mv_addr_hold[15:8] <= mod[15:8];
-   always @(posedge s_6m_n)
+//redo using 6mhz & s_2h_n ?
+`ifdef old3
+   always @(posedge s_2h_n)
      if (reset)
        mv_addr_hold[15:8] <= 0;
      else
+       mv_addr_hold[15:8] <= mod[15:8];
+`else
+   always @(negedge s_6mhz)
+     if (reset)
+       mv_addr_hold[15:8] <= 0;
+     else
+       // falling edge of s_2h
+//       if (s_1h & s_2h)
        if (s_2h)
 	 mv_addr_hold[15:8] <= mod[15:8];
+`endif
    
    always @(posedge oddclk)
      if (reset)
@@ -1003,7 +1171,7 @@ if (~s_ctrl)
 			    .rclk(~evenclk),
 			    .wclk(~oddclk),
 			    .a(mv_addr_odd),
-			    .i({p[5:0], odd[1:0]}),
+			    .i({p_d2[5:0], odd[1:0]}),
 			    .o(mv_odd),
 			    .r(s_1vx),
 			    .oe(s_1vx),
@@ -1014,7 +1182,7 @@ if (~s_ctrl)
 			     .rclk(~oddclk),
 			     .wclk(~evenclk),
 			     .a(mv_addr_even),
-			     .i({p[5:0], evd[1:0]}),
+			     .i({p_d2[5:0], evd[1:0]}),
 			     .o(mv_even),
 			     .r(s_1vx_n),
 			     .oe(s_1vx_n),
@@ -1028,11 +1196,6 @@ if (~s_ctrl)
        ov <= s_256h ? mv : 8'b0;
    
 // page 35 - color ram
-
-   reg [7:0] rgb;
-   wire [7:0] rgb_addr;
-   wire [7:0] rgb_cr_out;
-   wire       coloramwr_n;
 
 `ifdef debug_h
    always @(posedge s_6mhz or negedge blank_n)
@@ -1095,7 +1258,6 @@ hsync ? 8'hff :
 		    ~vcrsel_n ? (~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0]) :
 		    8'b0;
 
-//`define async_line_ram
 `ifdef async_line_ram
    ram_93422 chip_7p(
 		.a(rgb_addr),
@@ -1131,11 +1293,7 @@ hsync ? 8'hff :
 
 // c0122294-01
 
-   wire       vma;
    assign vma = ~vma_n;
-
-   wire [7:0] audout;
-   wire [5:0] audout0, audout1, audout2;
 
    assign audout = {2'b0, audout0} + {2'b0, audout1} + {2'b0, audout2};
    assign o_audio = audout;
@@ -1188,9 +1346,6 @@ hsync ? 8'hff :
    assign analog_out = 16'b0;
    
 // page 40
-
-   wire        pf_obj_n;
-   wire        vcrsel_n;
 
 `ifdef debug_stamps_color
    assign pf_obj_n = 0;
@@ -1382,4 +1537,70 @@ hsync ? 8'hff :
    chipscope_ila_ff ila0 (.CONTROL(control0), .CLK(clk_12mhz), .TRIG0(trig0));
 `endif
 
+`ifdef debug_rom   
+   integer sc;
+
+   initial
+     sc = 0;
+
+   //brad
+   always @(negedge mpuclk)
+     begin
+	if ((~rom0_n) && (~uds_n | ~lds_n))
+	  begin
+	     sc = sc + 1;
+	     if (sc == 2 && ba < 16'h8c)
+	       $display("rom: read %x -> %x; pc=%x", ba, mb_out_rom, cpu.wf68k00ip_top.i_68k00.pc_out);
+	  end
+	else
+	  sc = 0;
+     end
+`endif //  `ifdef debug_rom
+
+`ifdef debug_cpu
+   integer count = 0;
+   
+   always @(posedge s_6m_n)
+     begin
+	if (
+	    cpu.wf68k00ip_top.i_68k00.fc_out_i == 6 &&
+	    cpu.wf68k00ip_top.i_68k00.i_ctrl.exec_state == 1 &&
+	    cpu.wf68k00ip_top.i_68k00.chk_pc_i
+	    )
+	  begin
+	     if (cpu.wf68k00ip_top.i_68k00.pc_out == 32'h0000008c)
+	       begin
+		  count = count + 1;
+		  
+		  $display("%t; pc=%x d0=%x d1=%x d2=%x d3=%x d4=%x d5=%x d6=%x d7=%x",
+			   $time,
+			   cpu.wf68k00ip_top.i_68k00.pc_out,
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[0],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[1],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[2],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[3],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[4],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[5],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[6],
+			   cpu.wf68k00ip_top.i_68k00.i_datareg.dr[7]);
+
+		  $display("                     a0=%x a1=%x a2=%x a3=%x a4=%x a5=%x a6=%x ssp=%x",
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[0],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[1],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[2],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[3],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[4],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[5],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ar[6],
+			   cpu.wf68k00ip_top.i_68k00.i_adrreg.ssp);
+
+		  if (count > 1)
+		    begin
+		       $finish;
+		    end
+		  end // if (pc == 0x8c)
+	  end // if (...
+     end // always @ (posedge s_6m_n)
+`endif
+   
 endmodule // ff

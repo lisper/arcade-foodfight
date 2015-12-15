@@ -6,8 +6,7 @@ module ram_137250(
 		  input [7:0]  a,
 		  input [3:0]  i,
 		  output [3:0] d,
-		  input        cs2,
-		  input        cs1,
+		  input        cs,
 		  input        w,
 		  input        oe
 		 );
@@ -28,7 +27,8 @@ module ram_137250(
    assign d = data;
 
    always @(posedge clk)
-     data <= ram[a];
+     if (cs == 0)
+       data <= ram[a];
 
    always @(posedge clk)
      if (w == 0)

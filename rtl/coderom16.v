@@ -150,7 +150,11 @@ module coderom16(
 //-----------------------------------------------------------------------------
 
 `ifdef ROM_CASE
-`include "../roms/v3/rom_code_case.v"
+`ifdef SIMULATION
+ `include "../roms/v3/rom_code_case.v.patched"
+`else
+ `include "../roms/v3/rom_code_case.v"
+`endif
 `endif
    
 endmodule // coderom

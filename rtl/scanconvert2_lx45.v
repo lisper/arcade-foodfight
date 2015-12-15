@@ -1,5 +1,10 @@
 //
+// scanconvert2_lx45.v
 //
+// "scan convert" the cga video into a vga video stream
+// basically two engines; one follows the cga frame and writes
+// pixels into a dual-port ram.  the other follows the vga frame
+// and reads them out, doubling the pixels and lines...
 //
 
 module scanconvert2_lx45(
@@ -30,6 +35,7 @@ module scanconvert2_lx45(
 
    reg 	      hsync_i_d, vsync_i_d;
    wire       hsync_i_fall, vsync_i_fall;
+   wire       hsync_i_rise, vsync_i_rise;
 
    always @(posedge clk12m)
      if (reset)
@@ -46,7 +52,9 @@ module scanconvert2_lx45(
    assign hsync_i_fall = hsync_i_d & ~hsync_i;
    assign vsync_i_fall = vsync_i_d & ~vsync_i;
 
-   //
+   assign hsync_i_rise = ~hsync_i_d & hsync_i;
+   assign vsync_i_rise = ~vsync_i_d & vsync_i;
+
    always @(posedge clk12m)
      if (reset)
        begin
@@ -79,6 +87,7 @@ module scanconvert2_lx45(
    wire [7:0]  vga_data;
    wire        vga_ce;
    wire        vga_visable;
+   wire        vga_valid;
    
    reg [10:0] vga_hcount;
    reg [10:0] vga_vcount;
@@ -116,37 +125,61 @@ module scanconvert2_lx45(
 	      vga_vcount <= vga_vcount + 11'd1;
        end
 
-   assign vga_visable = (vga_hcount < 514/*640*/) && (vga_vcount < 255/*525*/)/* && (vga_vcount > 32)*/;
+   // cut off parts which are not valid
+   assign vga_valid = (/*vga_hcount >= 0 &&*/ vga_hcount < 548) &&
+		      (vga_vcount >= 2 && vga_vcount < 250);
+		       
+   // hdmi seems sensative to blanking - use full vga window
+   assign vga_visable = (/*vga_hcount >= 0 &&*/ vga_hcount < 640) &&
+			(/*vga_vcount >= 0 &&*/ vga_vcount < 480+2);
    
    assign vga_hsync = (vga_hcount >= (640+16) & vga_hcount <= (640+16+96));
    assign vga_vsync = (vga_vcount >= (480+10) & vga_vcount <= (480+10+2));
 
    assign hsync_o = ~vga_hsync;
    assign vsync_o = ~vga_vsync;
-   assign blank_o = 1'b0;
+   assign blank_o = ~vga_visable;
 
 
    // ----------------------------------------------------
 
-//   assign cga_ram_addr = { cga_vcount[7:0], cga_hcount[8:0] };
-//   assign cga_we_n = cga_visable;
+`define CGA_HOFFSET 11'd110
+`define CGA_VOFFSET 11'd0
 
-   wire [10:0] cga_hcount_offset;
-   assign cga_hcount_offset = cga_hcount - 11'd110;
+   wire [10:0] cga_hcount_offset, cga_vcount_offset;
+   assign cga_hcount_offset = cga_hcount - `CGA_HOFFSET;
+   assign cga_vcount_offset = cga_vcount - `CGA_VOFFSET;
    
    assign cga_ram_addr = { cga_vcount[7:0], cga_hcount_offset[8:0] };
-   assign cga_we = cga_visable && (cga_hcount >= 11'd110);
+   assign cga_we = cga_visable && (cga_hcount >= `CGA_HOFFSET);
    assign cga_data = rgb_i;
-   
+
+`define normal
+`ifdef normal
    assign vga_ram_addr = { vga_vcount[7:0], vga_hcount[8:0] };
+`endif
+
+`ifdef normal_double
+   assign vga_ram_addr = { vga_vcount[8:1], vga_hcount[9:1] };
+`endif
+
    assign vga_ce = vga_visable;
-   assign rgb_o = vga_visable ? vga_data : 8'hff;
+   assign rgb_o = (vga_visable & vga_valid) ? vga_data : /*8'hff*/8'h00;
    
+   reg [7:0]   cga_wr_data;
+//brad
+   always @(negedge clk12m/*clk6m*/)
+     if (reset)
+       cga_wr_data <= 0;
+     else
+       cga_wr_data <= cga_data;
+
    ram_dp128kx8 scan_ram(
 			 .rclk(clk25m),
-			 .wclk(clk6m),
+//brad
+			 .wclk(clk12m/*clk6m*/),
 			 .ai(cga_ram_addr),
-			 .i(cga_data),
+			 .i(cga_wr_data),
 			 .w(cga_we),
 			 .ao(vga_ram_addr),
 			 .o(vga_data),

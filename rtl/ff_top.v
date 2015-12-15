@@ -15,6 +15,7 @@ module ff_top(
 	      output 	   blank,
 	      output [7:0] rgb,
 	      output [7:0] audio,
+	      output       clk_6mhz_o,
 	      input [9:0]  sw,
 	      input [8:1]  sw1
 	      );
@@ -41,7 +42,8 @@ module ff_top(
 	 .o_vsync(vsync),
 	 .o_blank(blank),
 	 .o_rgb(rgb),
-	 .o_audio(audio)
+	 .o_audio(audio),
+	 .o_clk_6mhz(clk_6mhz_o)
 	 );
    
 endmodule // ff_top

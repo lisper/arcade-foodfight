@@ -16,7 +16,7 @@ module nvram_x2212(
    reg [3:0] ram[0:255];
    reg [3:0] d;
    
-`ifdef debug
+`ifdef SIMULATION
    integer    j;
    
    initial
@@ -24,6 +24,21 @@ module nvram_x2212(
 	for (j = 0; j < 256; j = j + 1)
 	  ram[j] = 4'b1111/*0*/;
      end
+
+   always @(posedge clk)
+       if (^ram[a] === 1'bX)
+	 begin
+	    $display("nvram: reading x's %b @ %x", ram[a], a);
+	    $finish;
+	 end
+
+   always @(posedge clk)
+     if (ce_n == 0 && rw_n == 0)
+       if (^i === 1'bX)
+	 begin
+	    $display("nvram: writing x's %b @ %x", i, a);
+	    $finish;
+	 end
 `endif
    
    assign o = d;

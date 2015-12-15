@@ -4,9 +4,14 @@
 // Brad Parker <brad@heeltoe.com> 5/2014
 //
 
+`ifndef no_cpu
 `define WF68K
+`endif
 
 `ifdef WF68K
+
+//`define CHIPSCOPE_M68K
+
 `include "../m68k/wf68k00ip_address_registers.v"
 `include "../m68k/wf68k00ip_alu.v"
 `include "../m68k/wf68k00ip_bus_interface.v"

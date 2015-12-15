@@ -31,18 +31,18 @@ module car_lx45(
 `endif
 
 `ifndef SIMULATION
-   reg [23:0] a_count;
+   reg [31:0] a_count;
 
    always @(posedge clk_pix)
      if (reset)
-       a_count <= 24'd0;
+       a_count <= 32'd0;
      else
-       if (a_count != 24'hffffff)
+       if (a_count != 32'hffffffff)
 	 a_count <= a_count + 24'd1;
    
    assign auto_coin_n = 1;
    assign auto_start_n = 1;
-   assign auto_throw_n = a_count >= 2000000 && a_count < 2200000;
+   assign auto_throw_n = a_count >= 32'hf000_0000 && a_count < 32'hf030_0000;
 `else
    assign auto_coin_n = 1;
    assign auto_start_n = 1;

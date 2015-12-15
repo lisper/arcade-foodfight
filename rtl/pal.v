@@ -48,11 +48,21 @@ module pal(
    assign audio0 = addr == 8'ha8;
 
 //   assign dtack  = /*addr >= 8'h00 && addr <= 8'h7f*/addr[23] ? 1'b0 : 1'b1;
+`ifdef SIMULATION
+   assign dtack  = (^addr === 1'bX) ? 1'b0 :
+		   (~addr[23] | (addr == 8'h90));
+
+   assign vpa    = (^addr === 1'bX) ? 1'b0 :
+		   ((addr >= 8'h94 && addr <= 8'h97) |   /* i/o */
+		    (addr >= 8'ha4 && addr <= 8'hac));    /* pokey */
+`else
    assign dtack  = ~addr[23] | (addr == 8'h90);
-   
+
    assign vpa    = (addr >= 8'h94 && addr <= 8'h97) |   /* i/o */
 		   (addr >= 8'ha4 && addr <= 8'hac);    /* pokey */
-
+`endif
+   
+   
    assign avec   = (fc == 3'b111 & a == 6'h3f/* & ~as_n*/); /* interrupt ack */
 
    //

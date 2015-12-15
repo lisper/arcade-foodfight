@@ -4,8 +4,10 @@
 // Brad Parker <brad@heeltoe.com> 5/2014
 //
 
+`ifndef ISIM
 `define sound
 //`define hdmi
+`endif
 
 module ff_top_lx45(
 		   output [5:1] led,
@@ -83,15 +85,14 @@ module ff_top_lx45(
    wire [2:0] vga_rrr, vga_ggg, vga_bbb;
 
    // to hdmi
-   assign vga_rrr = { vga_rgb[7], vga_rgb[6], vga_rgb[5] };
-   assign vga_ggg = { vga_rgb[4], vga_rgb[3], 1'b0   };
-   assign vga_bbb = { vga_rgb[0], vga_rgb[1], vga_rgb[2] };
+   assign vga_bbb = { vga_rgb[7], vga_rgb[6], vga_rgb[5] };
+   assign vga_ggg = { vga_rgb[4], vga_rgb[3], 1'b0 };
+   assign vga_rrr = { vga_rgb[2], vga_rgb[1], vga_rgb[0] };
 
    // to raw vga output
-   assign vga_r = vga_rgb[7] | vga_rgb[6] | vga_rgb[5];
+   assign vga_b = vga_rgb[7] | vga_rgb[6] | vga_rgb[5];
    assign vga_g = vga_rgb[4] | vga_rgb[3];
-//   assign vga_b = vga_rgb[0] | vga_rgb[1] | vga_rgb[2];
-assign vga_b = 1;
+   assign vga_r = vga_rgb[2] | vga_rgb[1] | vga_rgb[0];
 
    wire clk6m, clk12m, clk25m;
 
@@ -108,7 +109,8 @@ assign vga_b = 1;
 		 .rgb(cga_rgb),
 		 .audio(audio),
 		 .sw(sw),
-		 .sw1(sw1)
+		 .sw1(sw1),
+		 .clk_6mhz_o(clk_pix)
 		 );
 
    // clocks and reset
@@ -157,8 +159,8 @@ assign vga_b = 1;
    assign audio_l = dac_o;
    assign audio_r = dac_o;
 `else
-   assign audio_l = dac[1] | dac[4];
-   assign audio_r = dac[1] | dac[4];
+   assign audio_l = audio[1] | audio[4];
+   assign audio_r = audio[1] | audio[4];
 `endif
 
 `ifdef hdmi
@@ -199,9 +201,9 @@ assign vga_b = 1;
    // 16640 x 1000ns = 16.640us / frame
 
    //
-   assign dvid_red   = (vga_rrr == 3'b0) ? 8'b0 : { vga_rrr,   5'b11111 };
+   assign dvid_red   = (vga_rrr == 3'b0) ? 8'b0 : { vga_rrr, 5'b11111 };
    assign dvid_green = (vga_ggg == 3'b0) ? 8'b0 : { vga_ggg, 5'b11111 };
-   assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb,  5'b11111 };
+   assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb, 5'b11111 };
    
    assign dvid_hsync = hsync;
    assign dvid_vsync = vsync;
@@ -235,13 +237,12 @@ assign vga_b = 1;
    wire [15:0] do_unused;
    wire        drdy_unused;
    wire        clkfbout;
-   wire        clkout0, clkout1, clkout2;
-   wire        clkout3_unused, clkout4_unused, clkout5_unused;
+   wire        clkout0, clkout1;
+   wire        clkout2_unused, clkout3_unused, clkout4_unused, clkout5_unused;
 
    // 50*12 = 600Mhz
    // 600Mhz / 24  = 25Mhz (clk_vga)
    // 600Mhz / 50  = 12MHz (clk_cpu)
-   // 600Mhz / 100 =  6MHz (clk_pix)
   PLL_BASE
   #(.BANDWIDTH              ("OPTIMIZED"),
     .CLK_FEEDBACK           ("CLKFBOUT"),
@@ -258,10 +259,6 @@ assign vga_b = 1;
     .CLKOUT1_PHASE          (0.000),
     .CLKOUT1_DUTY_CYCLE     (0.500),
 
-    .CLKOUT2_DIVIDE         (100),
-    .CLKOUT2_PHASE          (0.000),
-    .CLKOUT2_DUTY_CYCLE     (0.500),
-
     .CLKIN_PERIOD           (20.000),
     .REF_JITTER             (0.010))
   pll_base_inst
@@ -269,7 +266,7 @@ assign vga_b = 1;
    (.CLKFBOUT              (clkfbout),
     .CLKOUT0               (clkout0),
     .CLKOUT1               (clkout1),
-    .CLKOUT2               (clkout2),
+    .CLKOUT2               (clkout2_unused),
     .CLKOUT3               (clkout3_unused),
     .CLKOUT4               (clkout4_unused),
     .CLKOUT5               (clkout5_unused),
@@ -282,7 +279,6 @@ assign vga_b = 1;
 
    BUFG clkout0_buf (.O(clk_vga), .I(clkout0));
    BUFG clkout1_buf (.O(clk_cpu), .I(clkout1));
-   BUFG clkout2_buf (.O(clk_pix), .I(clkout2));
 
    // null drivers
    wire blue_s, green_s, red_s, clock_s;
