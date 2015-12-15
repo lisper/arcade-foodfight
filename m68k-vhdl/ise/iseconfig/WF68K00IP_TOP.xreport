@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-06-04T06:22:27</DateModified>
+  <DateModified>2014-07-06T17:15:39</DateModified>
   <ModuleName>WF68K00IP_TOP</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>/files/code/foodfight/m68k-vhdl/ise/iseconfig/WF68K00IP_TOP.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/files/code/foodfight/m68k-vhdl/ise</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>/files/code/foodfight/m68k-vhdl/ise/</ImplementationReportsDirectory>
   <DateInitialized>2014-06-04T06:12:26</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
