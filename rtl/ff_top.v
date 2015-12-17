@@ -6,6 +6,7 @@
 
 module ff_top(
 	      input 	   clk12m,
+	      input 	   clk6m,
 	      input 	   reset,
 	      output 	   led1,
 	      output 	   led2,
@@ -15,13 +16,14 @@ module ff_top(
 	      output 	   blank,
 	      output [7:0] rgb,
 	      output [7:0] audio,
-	      output       clk_6mhz_o,
+	      output 	   clk_6mhz_o,
 	      input [9:0]  sw,
 	      input [8:1]  sw1
 	      );
 
    ff ff(
 	 .clk_12mhz(clk12m),
+	 .clk_6mhz(clk6m),
 	 .reset(reset),
 	 .test(sw[0]),
 	 .throw2(sw[1]),

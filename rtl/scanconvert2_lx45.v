@@ -126,8 +126,8 @@ module scanconvert2_lx45(
        end
 
    // cut off parts which are not valid
-   assign vga_valid = (/*vga_hcount >= 0 &&*/ vga_hcount < 548) &&
-		      (vga_vcount >= 2 && vga_vcount < 250);
+   assign vga_valid = (/*vga_hcount >= 0 &&*/ vga_hcount < 514) &&
+		      (vga_vcount >= 3 && vga_vcount < /*250*/256);
 		       
    // hdmi seems sensative to blanking - use full vga window
    assign vga_visable = (/*vga_hcount >= 0 &&*/ vga_hcount < 640) &&

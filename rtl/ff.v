@@ -4,20 +4,19 @@
 // Brad Parker <brad@heeltoe.com> 5/2014
 //
 
-`define cpu
+`define m68k
 //`define debug_color
 //`define debug_force_pf
 //`define debug_h
 //`define debug_h_lines
-//`define debug_stamps
 //`define debug_stamps_color
 //`define jam_pf
 `define normal_video
 `define orig_video_timing
-//`define async_line_ram
 
 module ff(
 	  input        clk_12mhz,
+	  input        clk_6mhz,
 	  input        reset,
 	  input        test,
 	  input        throw2,
@@ -65,7 +64,7 @@ module ff(
    reg 		 il3_n = 1;
    reg 		 il4_n = 1;
 
-`ifdef cpu   
+`ifdef m68k
    mc68000 cpu(
 	       .clk(mpuclk),
 	       .reset_n(reset_n),
@@ -90,9 +89,8 @@ module ff(
 	       .fc(fc)
 	       );
 `else // !`ifdef cpu
-   assign a_out = 24'b0;
-   assign d_out = 16'b0;
-   assign bg_n = 1'b1;
+   assign a = 24'b0;
+   assign ud_out = 16'b0;
    assign lds_n = 1'b1;
    assign uds_n = 1'b1;
    assign r_w_n = 1'b1;
@@ -114,6 +112,7 @@ module ff(
 
    wire [15:0] 	 mb_out;
    wire [15:0] 	 pf_out;
+   wire [15:0] 	 moram_out;
 
    //
    wire [15:0] 	 ba;
@@ -143,7 +142,8 @@ module ff(
    wire       s_1v, s_2v, s_4v, s_8v, s_16v, s_32v, s_64v, s_128v;
    wire       s_1h, s_2h, s_4h, s_8h, s_16h, s_32h, s_64h, s_128h, s_256h;
 
-   wire       s_6mhz, s_6m_n;
+   wire       s_6mhz;
+   wire       s_6m_n;
    wire       s_6mhz_unbuf;
    wire       s_1h_n, s_2h_n, s_4h_n;
    wire [8:0] offset_h;
@@ -177,7 +177,8 @@ module ff(
    wire [7:0] pfv;
    
    // motion objects
-   wire [6:0] moram_addr;
+   wire [7:0] moram_addr_cpu;
+   wire [6:0] moram_addr_display;
    wire [15:0] mod;
    wire        lwr_n;
    wire        uwr_n;
@@ -189,9 +190,12 @@ module ff(
    wire [15:0] rom_data;
    reg [15:0]  rom_shift;
 
+   reg [12:0]  mo_rom_addr;
+
    reg [7:0]   p;
    reg 	       vflip;
    reg 	       hflip;
+   reg 	       hflip_hold;
    reg 	       hflip_d;
 
    wire        regld, hload_n;
@@ -200,6 +204,8 @@ module ff(
    wire [1:0]  evd;
    wire [1:0]  odd;
    wire        bg;
+
+   wire        mo_romrd;
    
    // line buffers
    reg [15:8] mv_addr_hold;
@@ -215,7 +221,8 @@ module ff(
 
    // color ram
    reg [7:0] rgb;
-   wire [7:0] rgb_addr;
+   wire [7:0] rgb_addr_cpu;
+   wire [7:0] rgb_addr_display;
    wire [7:0] rgb_cr_out;
    wire       coloramwr_n;
 
@@ -227,13 +234,13 @@ module ff(
 
    // playfield
    wire        pf_obj_n;
-   wire        vcrsel_n;
 
    
    // i/o -> cpu
    assign ud_in =
 		 ~membufen_n ? mb_out :
 		 ~u_n_v ? pf_out :
+		 ~objram_n ? moram_out :
 		 ~analogin_n ? analog_out :
 		 ~audio0_n ? { 8'b0, pokey_out } :
 		 ~digitalin_n ? { 8'b0, digital_out } :
@@ -493,8 +500,8 @@ if (~s_ctrl)
      else
        hsync_new <= hsync_new_on;
 `endif
-   
-   assign s_6mhz_unbuf = counter_h[0];
+
+//   assign s_6mhz_unbuf = counter_h[0];
    assign s_1h    = counter_h[1];
    assign s_2h    = counter_h[2];
    assign s_4h    = counter_h[3];
@@ -510,16 +517,34 @@ if (~s_ctrl)
    assign s_4h_n = ~s_4h;
 
 `ifdef SIMULATION
-   assign s_6mhz  = counter_h[0];
+//   assign s_6mhz  = counter_h[0];
+   assign s_6mhz = clk_6mhz;
+   assign s_6mhz_unbuf = clk_6mhz;
 `else
-   BUFG s_6mhz_bufg (.O(s_6mhz), .I(counter_h[0]));
+//   BUFG s_6mhz_bufg (.O(s_6mhz), .I(counter_h[0]));
+   BUFG s_6mhz_bufg (.O(s_6mhz), .I(clk_6mhz));
+   assign s_6mhz_unbuf = clk_6mhz;
 `endif
 
-   assign o_clk_6mhz = s_6mhz;
+   assign o_clk_6mhz = clk_6mhz;
      
    // debug
    assign offset_h = { s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_4h, s_2h, s_1h };
 
+   reg [9:0] h_state;
+   wire [9:0] h_state_curr, h_state_next;
+   assign h_state_curr = { s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_4h, s_2h, s_1h, counter_h[0] };
+   assign h_state_next = h_state_curr + 10'd1;
+
+   always @(posedge clk_12mhz)
+     if (reset)
+       h_state <= 0;
+     else
+       h_state <= h_state_next;
+
+   wire [3:0] s_state;
+   assign s_state = h_state[3:0];
+   
    //
    always @(negedge clk_12mhz)
      if (reset)
@@ -666,6 +691,17 @@ if (~s_ctrl)
 			 .out(pf_out[7:0])
 			 );
 
+`ifdef debug_dp
+   always @(blank_n or pfwr_n or csu_n or csl_n)
+     if (blank_n & ~pfwr_n & (~csu_n | ~csl_n))
+       if ($time > 3000000 && cpu.wf68k00ip_top.i_68k00.pc_out != 32'h0396)
+	 begin
+	    $display("%t; XXX pf ram write while reading; pc %x",
+		     $time, cpu.wf68k00ip_top.i_68k00.pc_out);
+//	    $finish;
+	 end
+`endif
+
    always @(posedge s_4h)
      if (reset)
        pf_out_h_hold <= 8'b0;
@@ -719,57 +755,59 @@ if (~s_ctrl)
        pfv_hold[7:2] <= pf_out_h_hold[5:0];
 
    assign pfv = { pfv_hold, pfv_lower };
-   
+
 // page 28 - sheet 7B - motion object ram
 
-   assign moram_addr = objram_n ?
-		       {s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_2h} :
-		       ba[7:1];
+   assign moram_addr_cpu = ba[8:1];
+//   assign moram_addr_display = {s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_2h};
+   assign moram_addr_display = {h_state[9:4], h_state[2]};
 
+   reg [6:0] moram_addr_next;
+   always @(posedge clk_12mhz)
+     if (reset)
+       moram_addr_next <= 0;
+     else
+       begin
+       if (s_1h)
+//	 moram_addr_next <= (s_2h & s_4h) ?
+//			    { moram_addr_display[6:1] + 6'd1, 1'b0 } :
+//			    { moram_addr_display[6:1]       , ~s_2h };
+       if (s_state[1:0] == 2'b10)
+	 moram_addr_next <= (s_state[3:2] == 2'b11) ?
+			    { moram_addr_display[6:1] + 6'd1, 1'b0 } :
+			    { moram_addr_display[6:1]       , ~s_state[2] };
+       end
+   
    assign lwr_n = lds_n | (~objram_n ? br_w_n : 1'b1);
    assign uwr_n = uds_n | (~objram_n ? br_w_n : 1'b1);
 
-   ram_137250 chip_6c(
-		      .clk(s_6m_n),
-		      .a({1'b0, moram_addr}),
-		      .i(bd_out[15:12]),
-		      .d(mod[15:12]),
-		      .cs(s_1h),
-		      .w(uwr_n),
-		      .oe(1'b0)
-		      );
+   wire moram_cs;
+   assign moram_cs = s_state[1:0] == 2'b11;
+   
+   ram_moram moram(.p1_clk(s_6mhz),
+		   .p1_a(moram_addr_cpu),
+		   .p1_di(bd_out),
+		   .p1_do(moram_out),
+		   .p1_r(~objram_n),
+		   .p1_w(~uwr_n),
 
+		   .p2_clk(clk_12mhz),
+   		   .p2_a({1'b0, moram_addr_next}),
+		   .p2_r(moram_cs),
+		   .p2_do(mod)
+		   );
 
-   ram_137250 chip_6d(
-		      .clk(s_6m_n),
-		      .a({1'b0, moram_addr}),
-		      .i(bd_out[11:8]),
-		      .d(mod[11:8]),
-		      .cs(s_1h),
-		      .w(uwr_n),
-		      .oe(1'b0)
-		      );
-
-   ram_137250 chip_6e(
-		      .clk(s_6m_n),
-		      .a({1'b0, moram_addr}),
-		      .i(bd_out[7:4]),
-		      .d(mod[7:4]),
-		      .cs(s_1h),
-		      .w(lwr_n),
-		      .oe(1'b0)
-		      );
-
-   ram_137250 chip_6f(
-		      .clk(s_6m_n),
-		      .a({1'b0, moram_addr}),
-		      .i(bd_out[3:0]),
-		      .d(mod[3:0]),
-		      .cs(s_1h),
-		      .w(lwr_n),
-		      .oe(1'b0)
-		      );
-
+`ifdef debug_dp
+   always @(blank_n or lwr_n or uwr_n or s_1h)
+     if (blank_n & (~lwr_n | ~uwr_n) & ~s_1h)
+//       if (cpu.wf68k00ip_top.i_68k00.pc_out != 32'h00c8)
+       if ($time > 6000000)
+	 begin
+	    $display("%t; XXX mo ram write while reading; pc %x",
+		     $time, cpu.wf68k00ip_top.i_68k00.pc_out);
+//	    $finish;
+	 end
+`endif
 
 // page 29 - sheet 8A - vertical position
 
@@ -784,20 +822,6 @@ if (~s_ctrl)
    
    assign sum = {s_128v, s_64v, s_32v, s_16v, s_8v, s_4v, s_2v, s_1v} + mod[7:0];
    assign match_v = sum[7] & sum[6] & sum[5] & sum[4];
-
-//   assign clk_1vx = s_6mhz & s_1h & s_2h_n & s_4h;
-//
-//   always @(posedge clk_1vx)
-//     if (reset)
-//       begin
-//	  s_1vx <= 0;
-//	  s_1vx_n <= 0;
-//       end
-//     else
-//       begin
-//	  s_1vx <= s_1v;
-//	  s_1vx_n <= ~s_1v;
-//       end
 
    always @(posedge s_6mhz)
      if (reset)
@@ -822,20 +846,6 @@ if (~s_ctrl)
 
    assign ol = {vflip, vflip, vflip, vflip} ^ ol_hold;
 
-//xxx redo this - on posedge of 6mhz clk? like above using s_2h_n
-`ifdef old1
-   always @(posedge s_2h_n)
-     if (reset)
-       begin
-	  match <= 0;
-	  ol_hold <= 0;
-       end
-     else
-       begin
-	  match <= match_v;
-	  ol_hold <= sum[3:0];
-       end
-`else
    always @(negedge s_6mhz)
      if (reset)
        begin
@@ -849,7 +859,6 @@ if (~s_ctrl)
 	    match <= match_v;
 	    ol_hold <= sum[3:0];
 	 end
-`endif
 
    // s_1vx == 0 -> write odd line, read even line
    // s_1vx == 1 -> write even line, read odd line
@@ -876,26 +885,23 @@ if (~s_ctrl)
      if (reset)
        rom_addr_hold[8:1] <= 0;
      else
-//      if (~s_2h & s_1h)
-//       if (~s_2h & s_1h & ~s_4h)
        if (~s_2h & s_4h)
 	 rom_addr_hold[8:1] <= mod[7:0];
 
-//   always @(posedge s_6mhz)
-//     if (reset)
-//       rom_addr_hold_d <= 0;
-//     else
-//       if (s_2h & s_1h)
-//	 rom_addr_hold_d <= rom_addr_hold;
-
    assign rom_addr_4 = hflip ^ s_4h;
-   assign rom_addr = { rom_addr_hold/*rom_addr_hold_d*/, rom_addr_4, ol[3:0] };
+   assign rom_addr = { rom_addr_hold, rom_addr_4, ol[3:0] };
+
+   always @(negedge clk_6mhz/*posedge clk_12mhz*/)
+     if (reset)
+       mo_rom_addr <= 0;
+     else
+       mo_rom_addr <= rom_addr;
    
    rom_136020_16 chip_4e4d(
 		      .clk(clk_12mhz),
-		      .a(rom_addr),
+		      .a(mo_rom_addr),
 		      .d(rom_data),
-		      .ce(1'b0),
+		      .ce(~mo_romrd),
 		      .oe(1'b0)
 		      );
 
@@ -916,108 +922,54 @@ if (~s_ctrl)
    
 // page 32
 
-
-//stopped using s_6m_n
-//   always @(posedge s_6m_n)
-// redo using 6mh and s_2h ?
-//`define old2
-`ifdef old2
-   always @(posedge s_2h)
+   always @(posedge clk_12mhz)
      if (reset)
        begin
 	  hflip <= 0;
 	  vflip <= 0;
        end
      else
-       if (~s_2h & s_4h)
-       begin
-	  hflip <= mod[15];
-	  vflip <= mod[14];
-       end
-`else
-   always @(negedge/*posedge*/ s_6mhz)
-     if (reset)
-       begin
-	  hflip <= 0;
-	  vflip <= 0;
-       end
-     else
-//       // rising edge of s_2h
-//       // s_2h = 0
-//       if (s_2h_n)
-       if (s_1h & s_2h_n & s_4h)
+       if (s_state[3:0] == 4'b1000)
+	 /*~s_1h & ~s_2h & s_4h*/
 	 begin
 	    hflip <= mod[15];
 	    vflip <= mod[14];
 	 end
-`endif
-     
-//   always @(posedge clk_12mhz)
-//     if (reset)
-//       begin
-//	  p <= 0;
-//	  hflip_d <= 0;
-//       end
-//     else
-//       if (~hload_n)
-//	 begin
-//	    // priority + color
-//	    p[5:0] <= mod[13:8];
-//	    hflip_d <= hflip;
-//	 end
-//   always @(posedge s_6mhz)
-//     if (reset)
-//       begin
-//	  p <= 0;
-//	  hflip_d <= 0;
-//       end
-//     else
-////       if (s_2h_n)
-//       if (~s_1h & ~s_2h & s_4h)
-//	 begin
-//	    // priority + color
-//	    p[5:0] <= mod[13:8];
-//	    hflip_d <= hflip;
-//	 end
-
-   always @(negedge/*posedge*/ s_6mhz)
-     if (reset)
-       hflip_d <= 0;
-   else
-//     if (~s_1h & ~s_2h & s_4h)
-       hflip_d <= hflip;
-
-   reg [7:0] p_d1, p_d2;
    
    always @(negedge s_6mhz)
      if (reset)
+       hflip_hold <= 0;
+   else
+       hflip_hold <= hflip;
+
+   always @(negedge s_6mhz)
+     if (reset)
+       hflip_d <= 0;
+   else
+       hflip_d <= hflip_hold;
+
+   always @(posedge clk_12mhz)
+     if (reset)
        p <= 0;
      else
-       if (~s_1h & ~s_2h & s_4h)
+       if (s_state[3:0] == 4'b1010)
 	 begin
 	    // color (palette)
 	    p[5:0] <= mod[13:8];
 	 end
 
-   // delay 1x clk12 to line up with pixels clocked into line ram
+   reg [7:0] p_d;
    always @(negedge s_6mhz)
      if (reset)
-       p_d1 <= 8'b0;
+       p_d <= 0;
      else
-       p_d1 <= p;
-
-   always @(negedge s_6mhz)
-     if (reset)
-       p_d2 <= 8'b0;
-     else
-       p_d2 <= p_d1;
+       p_d <= p;
    
-
    // little state machines to raise regld and hload for one cycle of 12mhz
    reg [1:0] regld_state;
    reg [1:0] hload_state;
-   wire [1:0] regld_next;
-   wire [1:0] hload_next;
+   reg [1:0] regld_next;
+   reg [1:0] hload_next;
 
    always @(regld_state or match or s_4h or s_2h or s_2h_n or s_1h)
      begin
@@ -1069,6 +1021,8 @@ if (~s_ctrl)
 
    assign hload_n = ~hload_state[0];
    assign regld = regld_state[0];
+
+   assign mo_romrd = ((s_1h & s_2h_n & s_4h) | (s_1h & s_2h_n & s_4h_n)) & ~s_6mhz;
    
 //----------------
 
@@ -1101,17 +1055,20 @@ if (~s_ctrl)
        end
      else
        begin
-	  if (~hload_n & blank_n)
-	    stamp_active_d <= 1;
-	  else
 	    if (stamp_active_d)
-	      if (stamp_active_cnt == 15)
-		begin
-		   stamp_active_d <= 0;
-		   stamp_active_cnt <= 0;
-		end
-	      else
-		stamp_active_cnt <= stamp_active_cnt + 1;
+	      begin
+		 if (stamp_active_cnt == 15)
+		   begin
+		      stamp_active_cnt <= 0;
+		      if (hload_n)
+			stamp_active_d <= 0;
+		   end
+		 else
+		   stamp_active_cnt <= stamp_active_cnt + 1;
+	      end
+	    else
+	      if (~hload_n & blank_n)
+		stamp_active_d <= 1;
        end
 
    assign stamp_active = stamp_active_d | (~hload_n & blank_n);
@@ -1120,23 +1077,13 @@ if (~s_ctrl)
 	      
 // page 33-34 - line buffers
 
-//redo using 6mhz & s_2h_n ?
-`ifdef old3
-   always @(posedge s_2h_n)
-     if (reset)
-       mv_addr_hold[15:8] <= 0;
-     else
-       mv_addr_hold[15:8] <= mod[15:8];
-`else
    always @(negedge s_6mhz)
      if (reset)
        mv_addr_hold[15:8] <= 0;
      else
        // falling edge of s_2h
-//       if (s_1h & s_2h)
        if (s_2h)
 	 mv_addr_hold[15:8] <= mod[15:8];
-`endif
    
    always @(posedge oddclk)
      if (reset)
@@ -1171,7 +1118,7 @@ if (~s_ctrl)
 			    .rclk(~evenclk),
 			    .wclk(~oddclk),
 			    .a(mv_addr_odd),
-			    .i({p_d2[5:0], odd[1:0]}),
+			    .i({p_d[5:0], odd[1:0]}),
 			    .o(mv_odd),
 			    .r(s_1vx),
 			    .oe(s_1vx),
@@ -1182,7 +1129,7 @@ if (~s_ctrl)
 			     .rclk(~oddclk),
 			     .wclk(~evenclk),
 			     .a(mv_addr_even),
-			     .i({p_d2[5:0], evd[1:0]}),
+			     .i({p_d[5:0], evd[1:0]}),
 			     .o(mv_even),
 			     .r(s_1vx_n),
 			     .oe(s_1vx_n),
@@ -1213,7 +1160,7 @@ if (~s_ctrl)
      if (~blank_n | reset)
        rgb <= 8'b0;
      else
-       rgb <= rgb_addr;       //debug
+       rgb <= rgb_addr_display;       //debug
 `endif
 
 `ifdef debug_h_lines
@@ -1248,45 +1195,51 @@ hsync ? 8'hff :
        rgb <= 8'b0;
      else
        rgb <= rgb_cr_out != 0 ? 8'hff : 8'h00;
-//       rgb <= rgb_addr != 0 ? 8'hff : 8'h00;
+//       rgb <= rgb_addr_display != 0 ? 8'hff : 8'h00;
 `endif
    
    assign coloramwr_n = coloram_n | r_w_l_n;
 
-   assign rgb_addr =
-		    ~coloram_n ? ba[8:1] :
-		    ~vcrsel_n ? (~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0]) :
-		    8'b0;
+//   assign rgb_addr =
+//		    ~coloram_n ? ba[8:1] :
+//		    ~vcrsel_n ? (~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0]) :
+//		    8'b0;
+//
+//   ram_256x8 chip_7n7p(
+//		       .clk(~clk_12mhz),
+//		       .a(rgb_addr),
+//		       .i(bd_out[7:0]),
+//		       .o(rgb_cr_out),
+//		       .r_n(1'b0),
+//		       .w_n(coloramwr_n)
+//		       );
 
-`ifdef async_line_ram
-   ram_93422 chip_7p(
-		.a(rgb_addr),
-		.i(bd_out[7:4]),
-		.d(rgb_cr_out[7:4]),
-		.cs2(1'b1),
-		.cs1(1'b0),
-		.oe(1'b0),
-		.w(coloramwr_n)
-		);
+   assign rgb_addr_cpu = ba[8:1];
+   assign rgb_addr_display = ~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0];
+   
+   ram_coloram coloram(
+		       .p1_clk(s_6mhz),
+		       .p1_a(rgb_addr_cpu),
+		       .p1_di(bd_out[7:0]),
+		       .p1_do(),
+		       .p1_r_n(coloram_n),
+		       .p1_w_n(coloramwr_n),
 
-   ram_93422 chip_7n(
-		.a(rgb_addr),
-		.i(bd_out[3:0]),
-		.d(rgb_cr_out[3:0]),
-		.cs2(1'b1),
-		.cs1(1'b0),
-		.oe(1'b0),
-		.w(coloramwr_n)
-		);
-`else
-   ram_256x8 chip_7n7p(
-		       .clk(~clk_12mhz),
-		       .a(rgb_addr),
-		       .i(bd_out[7:0]),
-		       .o(rgb_cr_out),
-		       .r_n(1'b0),
-		       .w_n(coloramwr_n)
+		       .p2_clk(~clk_12mhz),
+		       .p2_a(rgb_addr_display),
+		       .p2_do(rgb_cr_out),
+		       .p2_r_n(1'b0)
 		       );
+
+`ifdef debug_dp
+   always @(blank_n or coloramwr_n)
+     if (blank_n & ~coloramwr_n)
+       if ($time > 6000000)
+       begin
+	  $display("%t; XXX color ram write while visiable; pc %x",
+		   $time, cpu.wf68k00ip_top.i_68k00.pc_out);
+//	  $finish;
+       end
 `endif
    
 // page 37 - sound
@@ -1357,8 +1310,6 @@ hsync ? 8'hff :
  `endif
 `endif
    
-   assign vcrsel_n = ~coloram_n;
-
 `ifdef debug_pf
    always @(negedge pfwr_n)
      begin
@@ -1470,21 +1421,31 @@ hsync ? 8'hff :
 `endif //  `ifdef debug_ram
 
 `ifdef debug
-   always @(negedge il4_n or negedge il3_n)
+   always @(negedge il4_n)
      begin
 	$display("IPL: il4_n %b il3_n %b", il4_n, il3_n);
-	if (il4_n == 0) $display("IPL: il4_n asserts");
-	if (il3_n == 0) $display("IPL: il3_n asserts");	
+	$display("IPL: il4_n asserts");
      end
 
-   always @(posedge il4_n or posedge il3_n)
+   always @(posedge il4_n)
      begin
 	$display("IPL: il4_n %b il3_n %b", il4_n, il3_n);
-	if (il4_n == 1) $display("IPL: il4_n deasserts");
-	if (il3_n == 1) $display("IPL: il3_n deasserts");	
+	$display("IPL: il4_n deasserts");
      end
 
-   always @(posedge vblank_n or posedge s_32v)
+   always @(negedge il3_n)
+     begin
+	$display("IPL: il4_n %b il3_n %b", il4_n, il3_n);
+	$display("IPL: il3_n asserts");	
+     end
+
+   always @(posedge il3_n)
+     begin
+	$display("IPL: il4_n %b il3_n %b", il4_n, il3_n);
+	$display("IPL: il3_n deasserts");
+     end
+
+   always @(posedge vblank or posedge s_32v)
      begin
 	if (0) $display("IPL: vblank_n=%b, s_32v=%b, int4rst_n=%b, int3rst_n=%b",
 			vblank_n, s_32v, int4rst_n, int3rst_n);

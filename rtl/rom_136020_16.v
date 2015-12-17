@@ -34,6 +34,7 @@ module rom_136020_16(
    reg [15:0] q;
    
    always @(posedge clk)
+     if (~ce)
  `include "../roms/v3/rom_4d4e_case.v"
 
    assign d = q;

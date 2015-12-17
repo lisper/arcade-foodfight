@@ -85,13 +85,13 @@ module ff_top_lx45(
    wire [2:0] vga_rrr, vga_ggg, vga_bbb;
 
    // to hdmi
-   assign vga_bbb = { vga_rgb[7], vga_rgb[6], vga_rgb[5] };
-   assign vga_ggg = { vga_rgb[4], vga_rgb[3], 1'b0 };
+   assign vga_bbb = { vga_rgb[7], vga_rgb[6], 1'b0 };
+   assign vga_ggg = { vga_rgb[5], vga_rgb[4], vga_rgb[3] };
    assign vga_rrr = { vga_rgb[2], vga_rgb[1], vga_rgb[0] };
 
    // to raw vga output
-   assign vga_b = vga_rgb[7] | vga_rgb[6] | vga_rgb[5];
-   assign vga_g = vga_rgb[4] | vga_rgb[3];
+   assign vga_b = vga_rgb[7] | vga_rgb[6];
+   assign vga_g = vga_rgb[5] | vga_rgb[4] | vga_rgb[3];
    assign vga_r = vga_rgb[2] | vga_rgb[1] | vga_rgb[0];
 
    wire clk6m, clk12m, clk25m;
@@ -99,6 +99,7 @@ module ff_top_lx45(
    // game & cpu
    ff_top ff_top(
 		 .clk12m(clk12m),
+		 .clk6m(clk6m),
 		 .reset(reset),
 		 .led1(led1),
 		 .led2(led2),
@@ -110,7 +111,7 @@ module ff_top_lx45(
 		 .audio(audio),
 		 .sw(sw),
 		 .sw1(sw1),
-		 .clk_6mhz_o(clk_pix)
+		 .clk_6mhz_o()
 		 );
 
    // clocks and reset
@@ -237,12 +238,13 @@ module ff_top_lx45(
    wire [15:0] do_unused;
    wire        drdy_unused;
    wire        clkfbout;
-   wire        clkout0, clkout1;
-   wire        clkout2_unused, clkout3_unused, clkout4_unused, clkout5_unused;
+   wire        clkout0, clkout1, clkout2;
+   wire        clkout3_unused, clkout4_unused, clkout5_unused;
 
    // 50*12 = 600Mhz
    // 600Mhz / 24  = 25Mhz (clk_vga)
    // 600Mhz / 50  = 12MHz (clk_cpu)
+   // 600Mhz / 100 = 6MHz  (clk_pix)
   PLL_BASE
   #(.BANDWIDTH              ("OPTIMIZED"),
     .CLK_FEEDBACK           ("CLKFBOUT"),
@@ -259,6 +261,10 @@ module ff_top_lx45(
     .CLKOUT1_PHASE          (0.000),
     .CLKOUT1_DUTY_CYCLE     (0.500),
 
+    .CLKOUT2_DIVIDE         (100),
+    .CLKOUT2_PHASE          (0.000),
+    .CLKOUT2_DUTY_CYCLE     (0.500),
+
     .CLKIN_PERIOD           (20.000),
     .REF_JITTER             (0.010))
   pll_base_inst
@@ -266,7 +272,7 @@ module ff_top_lx45(
    (.CLKFBOUT              (clkfbout),
     .CLKOUT0               (clkout0),
     .CLKOUT1               (clkout1),
-    .CLKOUT2               (clkout2_unused),
+    .CLKOUT2               (clkout2),
     .CLKOUT3               (clkout3_unused),
     .CLKOUT4               (clkout4_unused),
     .CLKOUT5               (clkout5_unused),
@@ -279,6 +285,7 @@ module ff_top_lx45(
 
    BUFG clkout0_buf (.O(clk_vga), .I(clkout0));
    BUFG clkout1_buf (.O(clk_cpu), .I(clkout1));
+   BUFG clkout2_buf (.O(clk_pix), .I(clkout2));
 
    // null drivers
    wire blue_s, green_s, red_s, clock_s;

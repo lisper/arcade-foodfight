@@ -27,9 +27,11 @@ module rom_136020(
 	     rom[0] = 0;
 	  end
      end
+
    assign d = data;
 
    always @(posedge clk)
-     data <= rom[a];
+     if (~ce)
+       data <= rom[a];
 
 endmodule // rom_136020
