@@ -20,8 +20,8 @@ module ff_verilator;
    
    wire       led1;
    wire       led2;
-   wire [9:0] sw/*verilator public_flat*/;
-   wire [8:1] sw1/*verilator public_flat*/;
+   wire [11:0] sw/*verilator public_flat*/;
+   wire [8:1]  sw1/*verilator public_flat*/;
    
 
    
@@ -33,16 +33,20 @@ module ff_verilator;
    wire       vga_vsync;
    wire       vga_blank;
    wire [7:0] vga_rgb;
-   
+   wire [7:0] audio;
+   wire       clk_6mhz_o/*verilator public_flat_rd*/;
 
    ff_top uut(
 	      .clk12m(clk12),
+	      .clk6m(clk6),
 	      .reset(reset),
 	      .led1(led1),
 	      .led2(led2),
 	      .hsync(cga_hsync),
 	      .vsync(cga_vsync),
 	      .rgb(cga_rgb),
+	      .audio(audio),
+	      .clk_6mhz_o(clk_6mhz_o),
 	      .sw(sw),
 	      .sw1(sw1)
 	      );

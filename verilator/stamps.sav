@@ -1,0 +1,92 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Fri Dec 18 12:40:43 2015
+[*]
+[dumpfile] "/files/code/foodfight/verilator/verilator.vcd"
+[dumpfile_mtime] "Fri Dec 18 12:38:39 2015"
+[dumpfile_size] 17890190
+[savefile] "/files/code/foodfight/verilator/stamps.sav"
+[timestart] 20212341
+[size] 1868 862
+[pos] -1 -1
+*-5.511789 20212480 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.v.
+[treeopen] TOP.v.uut.
+[treeopen] TOP.v.uut.ff.
+[treeopen] TOP.v.uut.ff.cpu.
+[sst_width] 302
+[signals_width] 434
+[sst_expanded] 1
+[sst_vpaned_height] 245
+@28
+TOP.v.uut.ff.s_1v
+TOP.v.uut.ff.s_2v
+TOP.v.uut.ff.s_4v
+TOP.v.uut.ff.s_8v
+TOP.v.uut.ff.s_16v
+TOP.v.uut.ff.s_32v
+TOP.v.uut.ff.s_64v
+TOP.v.uut.ff.s_128v
+TOP.v.uut.ff.vblank
+TOP.v.uut.ff.hsync
+TOP.v.uut.ff.vsync
+TOP.v.uut.ff.il3
+TOP.v.uut.ff.il4
+TOP.v.uut.ff.clk_12mhz
+TOP.v.uut.ff.clk_6mhz
+TOP.v.uut.ff.s_6mhz
+TOP.v.uut.ff.reset
+TOP.v.uut.ff.s_1h
+TOP.v.uut.ff.s_2h
+TOP.v.uut.ff.s_4h
+TOP.v.uut.ff.blank_n
+TOP.v.uut.ff.s_6m_n
+@22
+TOP.v.uut.ff.s_state[3:0]
+@28
+TOP.v.uut.ff.stamp_active
+@22
+TOP.v.uut.ff.moram_addr_next[6:0]
+TOP.v.uut.ff.mod[15:0]
+TOP.v.uut.ff.sum[7:0]
+@28
+TOP.v.uut.ff.match_v
+TOP.v.uut.ff.match
+TOP.v.uut.ff.hflip
+TOP.v.uut.ff.vflip
+TOP.v.uut.ff.hflip_d
+@22
+TOP.v.uut.ff.p[7:0]
+@28
+TOP.v.uut.ff.hload_n
+TOP.v.uut.ff.regld
+TOP.v.uut.ff.mo_romrd
+@22
+TOP.v.uut.ff.rom_addr_hold[8:1]
+TOP.v.uut.ff.rom_addr[12:0]
+TOP.v.uut.ff.mo_rom_addr[12:0]
+TOP.v.uut.ff.rom_data[15:0]
+@28
+TOP.v.uut.ff.rom_addr_4
+TOP.v.uut.ff.stamp_active
+@22
+TOP.v.uut.ff.stamp_active_cnt[3:0]
+@28
+TOP.v.uut.ff.oddld_n
+TOP.v.uut.ff.oddclr_n
+@22
+TOP.v.uut.ff.mv_addr_odd[7:0]
+@28
+TOP.v.uut.ff.oddcs_n
+TOP.v.uut.ff.bg
+TOP.v.uut.ff.evenld_n
+TOP.v.uut.ff.evenclr_n
+@22
+TOP.v.uut.ff.mv_addr_even[7:0]
+@28
+TOP.v.uut.ff.evencs_n
+@200
+-
+[pattern_trace] 1
+[pattern_trace] 0

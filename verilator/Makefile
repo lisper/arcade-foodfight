@@ -11,30 +11,36 @@ TOP = --top-module ff_verilator
 RTL = ../rtl
 CPU = ../m68k
 ROM = ../roms/v3
-INC = +incdir+$(RTL) +incdir+$(CPU) +incdir+$(ROM)
+V_INC = +incdir+$(RTL) +incdir+$(CPU) +incdir+$(ROM)
 
-DEFINE = +define+debug=1 +define+SIMULATION=1
+V_DEFINE = +define+debug=1 +define+SIMULATION=1
+
+CFLAGS = "$(CC_OPT) $(CC_DEFINE) -I../../emu/famec"
 LDFLAGS = "-L../../emu/famec -lSDL -lpthread -lfame"
 EXE = ./tmp/Vff_verilator
-OPT = -O2 
+V_OPT = -O2 
+CC_OPT = -O
 
 ifeq ($(COSIM),y)
-CFLAGS = "-O -DCOSIM=1 -I../../emu/famec"
+CC_DEFINE = -DCOSIM=1
 COSIM_SRC = cosim.cpp
 else
-#CFLAGS = "-O -Dnocpu=1 -I../../emu/famec"
-CFLAGS = "-O -I../../emu/famec"
-#CFLAGS = "-I../../emu/famec"
+CC_DEFINE =
 COSIM_SRC =
 endif
 
+#V_DEFINE = +define+debug=1 +define+SIMULATION=1 +define+no_cpu=1
+#V_OPT =
+#CC_DEFINE = -Dno_cpu=1
+#CC_OPT =
+
 V_SRC = \
 	ff_verilator.v \
-	$(RTL)/ff.v $(RTL)/ff_top.v $(RTL)/m68000.v $(RTL)/pokey.v $(RTL)/pal.v $(RTL)/prom_2b.v \
-	$(RTL)/coderom16.v $(RTL)/coderam.v $(RTL)/ram_907036.v $(RTL)/rom_6lm.v $(RTL)/ram_137250.v \
-	$(RTL)/nvram.v $(RTL)/rom_136020_16.v $(RTL)/ram_93422.v \
-	$(RTL)/ram_dp256x8.v $(RTL)/ram_256x8.v \
-	$(RTL)/scanconvert2_lx45.v
+	$(RTL)/ff.v $(RTL)/ff_top.v $(RTL)/m68000.v $(RTL)/pokey.v $(RTL)/joystick.v \
+	$(RTL)/pal.v $(RTL)/prom_2b.v \
+	$(RTL)/coderom16.v $(RTL)/coderam.v $(RTL)/rom_6lm.v $(RTL)/nvram.v  \
+	$(RTL)/ram_pfram.v $(RTL)/ram_moram.v $(RTL)/ram_coloram.v  \
+	$(RTL)/ram_dp256x8.v $(RTL)/scanconvert2_lx45.v
 
 V_DEP = \
 	$(CPU)/wf68k00ip_address_registers.v \
@@ -56,7 +62,7 @@ VOUT = tmp/Vff_verilator.cpp
 all: $(EXE)
 
 $(VOUT): $(V_SRC) $(V_DEP) Makefile
-	$V -cc $(OPT) -LDFLAGS $(LDFLAGS) -exe --trace --Mdir ./tmp $(DEFINE) $(INC) $(TOP) -CFLAGS $(CFLAGS) $(V_SRC) $(C_SRC)
+	$V -cc $(V_OPT) -LDFLAGS $(LDFLAGS) -exe --trace --Mdir ./tmp $(V_DEFINE) $(V_INC) $(TOP) -CFLAGS $(CFLAGS) $(V_SRC) $(C_SRC)
 
 $(EXE): $(VOUT) $(C_SRC)
 #	(cd tmp; make OPT="-fauto-inc-dec -fdce -fdefer-pop -fdse -ftree-ccp -ftree-ch -ftree-fre -ftree-dce -ftree-dse" -f Vff_verilator.mk)

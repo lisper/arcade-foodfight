@@ -3,12 +3,9 @@
 //
 //
 
-//#define ASYNC_LINE_RAM
-
 #include <verilated.h>
 #include <verilated_vcd_c.h>
 #include "Vff_verilator.h"
-#include "Vff_verilator_ff_verilator.h"
 
 #include <iostream>
 
@@ -67,7 +64,8 @@ dump_last_pc(void)
 /* private */
 #define LED1 	top->v__DOT__uut__DOT__ff__DOT__led1
 #define LED2	top->v__DOT__uut__DOT__ff__DOT__led2
-#define S_6MHZ	top->v__DOT__uut__DOT__ff__DOT__s_6mhz
+//#define S_6MHZ	top->v__DOT__uut__DOT__ff__DOT__s_6mhz
+#define S_6MHZ	top->v__DOT__clk_6mhz_o
 
 #define UDS_N	top->v__DOT__uut__DOT__ff__DOT__uds_n
 #define LDS_N	top->v__DOT__uut__DOT__ff__DOT__lds_n
@@ -83,20 +81,12 @@ dump_last_pc(void)
 #define ROM_PIA_WRITE top->v__DOT__uut__DOT__rom_pia_write
 #define MPU_DATA_OUT  top->v__DOT__uut__DOT__mpu_data_out
 
-#define SCAN_RAM    top->v__DOT__scanconv__DOT__scan_ram__DOT__ram
-
-#define CHIP_3N_3M_RAM top->v__DOT__uut__DOT__ff__DOT__chip_3n_3m__DOT__ram
-#define CHIP_3L_3K_RAM top->v__DOT__uut__DOT__ff__DOT__chip_3l_3k__DOT__ram
-
-#define CHIP_6C_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6c__DOT__ram
-#define CHIP_6D_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6d__DOT__ram
-#define CHIP_6E_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6e__DOT__ram
-#define CHIP_6F_RAM top->v__DOT__uut__DOT__ff__DOT__chip_6f__DOT__ram
-
-#define CHIP_7P_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7p__DOT__ram
-#define CHIP_7N_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7n__DOT__ram
-
-#define CHIP_7N7P_RAM top->v__DOT__uut__DOT__ff__DOT__chip_7n7p__DOT__ram
+#define SCAN_RAM top->v__DOT__scanconv__DOT__scan_ram__DOT__ram
+#define PFRAM_H  top->v__DOT__uut__DOT__ff__DOT__pfram__DOT__ramh
+#define PFRAM_L  top->v__DOT__uut__DOT__ff__DOT__pfram__DOT__raml
+#define MORAM_H  top->v__DOT__uut__DOT__ff__DOT__moram__DOT__ramh__DOT__ram
+#define MORAM_L  top->v__DOT__uut__DOT__ff__DOT__moram__DOT__raml__DOT__ram
+#define COLORAM  top->v__DOT__uut__DOT__ff__DOT__coloram__DOT__ram
 
 #ifndef no_cpu
 #define PC	 top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__pc_out
@@ -119,6 +109,8 @@ dump_last_pc(void)
 
 #define EX_STATE    top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__ex_state
 #define VECTOR_NO   top->v__DOT__uut__DOT__ff__DOT__cpu__DOT__wf68k00ip_top__DOT__i_68k00__DOT__i_irq_ctrl__DOT__vector_no
+#else
+#define PC_OUT	 0
 #endif // no_cpu
 
 void
@@ -154,33 +146,28 @@ dump_rams(char *filename)
 
 	// pf ram - 1kx8
 	for (i = 0; i < 1024; i++) {
-		fprintf(f, "pf %x %x %x\n", 
+		fprintf(f, "pf %x %02x %02x\n", 
 			i,
-			CHIP_3N_3M_RAM[i],
-			CHIP_3L_3K_RAM[i]);
+			PFRAM_H[i],
+			PFRAM_L[i]);
 	}
 
 	// moram - 256x4
 	for (i = 0; i < 256; i++) {
 		fprintf(f, "mo %x %x %x %x %x\n", 
 			i,
-			CHIP_6E_RAM[i],
-			CHIP_6F_RAM[i],
-			CHIP_6C_RAM[i],
-			CHIP_6D_RAM[i]);
+			(MORAM_H[i] >> 4) & 0xf,
+			(MORAM_H[i] >> 0) & 0xf,
+			(MORAM_L[i] >> 4) & 0xf,
+			(MORAM_L[i] >> 0) & 0xf);
 	}
 
 	// color ram - 256x4
 	for (i = 0; i < 256; i++) {
 		fprintf(f, "co %x %x %x\n", 
 			i,
-#ifdef ASYNC_LINE_RAM
-			CHIP_7P_RAM[i],
-			CHIP_7N_RAM[i]
-#else
-			(CHIP_7N7P_RAM[i] >> 4) & 0xf,
-			(CHIP_7N7P_RAM[i] >> 0) & 0xf
-#endif
+			(COLORAM[i] >> 4) & 0xf,
+			(COLORAM[i] >> 0) & 0xf
 			);
 	}
 
@@ -213,30 +200,23 @@ read_rams(char *filename)
 			n = sscanf(line, "pf %x %x %x\n", &a, &v1, &v2);
 			if (0) printf("pf (n %d, %x %x %x)\n", n, a, v1, v2);
 
-			CHIP_3N_3M_RAM[a] = v1;
-			CHIP_3L_3K_RAM[a] = v2;
+			PFRAM_H[a] = v1;
+			PFRAM_L[a] = v2;
 		}
 
 		if (line[0] == 'm' && line[1] == 'o') {
 			n = sscanf(line, "mo %x %x %x %x %x\n", &a, &v1, &v2, &v3, &v4);
 			if (0) printf("mo (n %d, %x %x %x %x %x)\n", n, a, v1, v2, v3, v4);
 
-			CHIP_6C_RAM[a] = v1;
-			CHIP_6D_RAM[a] = v2;
-			CHIP_6E_RAM[a] = v3;
-			CHIP_6F_RAM[a] = v4;
+			MORAM_H[a] = (v1 << 4) | (v2 << 0);
+			MORAM_L[a] = (v3 << 4) | (v4 << 0);
 		}
 
 		if (line[0] == 'c' && line[1] == 'o') {
 			n = sscanf(line, "co %x %x %x\n", &a, &v1, &v2);
 			if (0) printf("co (n %d, %x %x %x)\n", n, a, v1, v2);
 
-#ifdef ASYNC_LINE_RAM
-			CHIP_7P_RAM[a] = v1;
-			CHIP_7N_RAM[a] = v2;
-#else
-			CHIP_7N7P_RAM[a] = (v1 << 4) | v2;
-#endif
+			COLORAM[a] = (v1 << 4) | v2;
 		}
 	}
 
@@ -362,12 +342,19 @@ int main(int argc, char** argv)
     vsw  = 0xffff /*0x3ff*/;
     vsw1 = 0xbf /*0xffff*/ /*0x0*/;
 
+    vCLK = 0;
+    vclk25 = 0;
+    vclk12 = 0;
+    vclk6 = 1;
+
     // main loop
     while (!Verilated::gotFinish()) {
 
+#ifndef no_cpu
         if (do_halt) {
 		HALT_IN = 0;
 	}
+#endif
 
 	if (do_ramload && main_time == 1) {
 		read_rams(filename);
@@ -453,11 +440,12 @@ int main(int argc, char** argv)
 	vCLK = vCLK ? 0 : 1;
 	vclk25 = vCLK;
 
-	if (vclk25)
+	if (vclk25) {
 		vclk12 = vclk12 ? 0 : 1;
 
-	if (vclk12)
-		vclk6 = vclk6 ? 0 : 1;
+		if (vclk12)
+			vclk6 = vclk6 ? 0 : 1;
+	}
 #endif
 #if 0 // 12mhz
 	vCLK = vCLK ? 0 : 1;
@@ -482,8 +470,10 @@ int main(int argc, char** argv)
 		else
 			RESET = 0;
 
+#ifndef no_cpu
 //?
 top->v__DOT__uut__DOT__ff__DOT__reset_n = RESET ? 0 : 1;
+#endif
 
 	// evaluate model
         top->eval();

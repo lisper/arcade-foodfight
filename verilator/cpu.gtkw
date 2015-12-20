@@ -1,0 +1,66 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Sat Dec 12 13:10:38 2015
+[*]
+[dumpfile] "/files/code/foodfight/verilator/verilator.vcd"
+[dumpfile_mtime] "Sat Dec 12 12:36:41 2015"
+[dumpfile_size] 41535359
+[savefile] "/files/code/foodfight/verilator/cpu.gtkw"
+[timestart] 17878777
+[size] 1864 795
+[pos] -231 -139
+*-5.000000 17878919 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.v.
+[treeopen] TOP.v.uut.
+[treeopen] TOP.v.uut.ff.
+[treeopen] TOP.v.uut.ff.cpu.
+[treeopen] TOP.v.uut.ff.cpu.wf68k00ip_top.
+[treeopen] TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.
+[sst_width] 314
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 340
+@28
+TOP.v.uut.ff.reset
+TOP.v.uut.ff.reset_n
+TOP.v.uut.ff.clk_12mhz
+@22
+TOP.v.uut.ff.cpu.wf68k00ip_top.adr[23:1]
+@28
+TOP.v.uut.ff.cpu.wf68k00ip_top.asn
+TOP.v.uut.ff.cpu.wf68k00ip_top.udsn
+TOP.v.uut.ff.cpu.wf68k00ip_top.ldsn
+TOP.v.uut.ff.cpu.wf68k00ip_top.rwn
+TOP.v.uut.ff.cpu.wf68k00ip_top.dtackn
+@22
+TOP.v.uut.ff.cpu.wf68k00ip_top.data_in[15:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.data_out[15:0]
+@28
+TOP.v.uut.ff.cpu.wf68k00ip_top.fc[2:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.reset_coren
+TOP.v.uut.ff.cpu.wf68k00ip_top.reset_en
+TOP.v.uut.ff.cpu.wf68k00ip_top.reset_inn
+@22
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.pc_out[31:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_ctrl.exec_state[4:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw(0)[15:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw(1)[15:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_opcode.biw(2)[15:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_nr_a[2:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.ar_nr_b[2:0]
+@28
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.adr_mode_i[2:0]
+@29
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.regsel_b[2:0]
+@22
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.areg[31:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.adr_eff_i[31:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.adr_eff_tmp[31:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.abs_address[31:0]
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.adr_eff[31:0]
+@28
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.trap_aerr
+TOP.v.uut.ff.cpu.wf68k00ip_top.i_68k00.i_adrreg.chk_adr
+[pattern_trace] 1
+[pattern_trace] 0
