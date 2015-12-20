@@ -26,8 +26,10 @@ module ff(
 	  input        start1,
 	  input        coin2,
 	  input        coin1,
-	  input        cntrr,
-	  input        cntrl,
+	  input        js_l,
+	  input        js_r,
+	  input        js_u,
+	  input        js_d,
 	  input [8:1]  sw1, 
 	  output       o_led1,
 	  output       o_led2,
@@ -112,6 +114,7 @@ module ff(
 
    wire [15:0] 	 mb_out;
    wire [15:0] 	 pf_out;
+   wire [15:0] 	 pf_out_display;
    wire [15:0] 	 moram_out;
 
    //
@@ -161,7 +164,8 @@ module ff(
    wire s_8h_rise, s_32h_rise, s_256h_n_rise;
    
    // playfield
-   wire [9:0] pfa;
+   wire [9:0] pfa_cpu;
+   wire [9:0] pfa_display;
    wire       csu_n, csl_n;
    wire       s_4hf, s_4vf, s_2vf, s_1vf;
    wire       pfwr_n;
@@ -273,11 +277,28 @@ module ff(
      else
        il4_n <= 1'b0;
 
-   always @(posedge s_32v or negedge int3rst_n)
+//   always @(posedge s_32v or negedge int3rst_n)
+//     if (~int3rst_n)
+//       il3_n <= 1'b1;
+//     else
+//       il3_n <= 1'b0;
+
+   reg s_32v_d;
+   always @(posedge s_6mhz)
+     if (reset)
+       s_32v_d <= 0;
+     else
+       s_32v_d <= s_32v;
+
+   wire s_32v_rising;
+   assign s_32v_rising = ~s_32v_d & s_32v;
+
+   always @(posedge s_6mhz)
      if (~int3rst_n)
        il3_n <= 1'b1;
      else
-       il3_n <= 1'b0;
+       if (s_32v_rising)
+	 il3_n <= 1'b0;
 
    assign il3 = ~il3_n;
    assign il4 = ~il4_n;
@@ -322,7 +343,8 @@ if (~s_ctrl)
 
    assign o_led1 = led1;
    assign o_led2 = led2;
-   assign o_led3 = ~dtack_n;
+//   assign o_led3 = ~dtack_n;
+   assign o_led3 = 1'b0;
 `ifdef orig_video_timing
    assign o_hsync = hsync;
 `else
@@ -552,6 +574,7 @@ if (~s_ctrl)
      else
        if (~vpreset_n)
 	 counter_v <= 8'hdf/*8'hdc*/;
+//	 counter_v <= 8'hdc;
        else
 	 if (s_256h_n_rise)
 	   counter_v <= counter_v + 8'd1;
@@ -574,9 +597,7 @@ if (~s_ctrl)
    prom_2b prom_2b(
 		   .clk(clk_12mhz),
 		   .a(prom_2b_addr),
-		   .d(prom_out),
-		   .e1(1'b0),
-		   .e2(1'b0)
+		   .d(prom_out)
 		   );
 
 //   always @(posedge s_256h_n or negedge s_128v)
@@ -659,10 +680,9 @@ if (~s_ctrl)
 
 // page 25 - sheet 7A - playfield ram/rom
 
-   assign pfa = u_v_n ?
-		{ ba[10:1] } :
-		{ s_128h, s_64h, s_32h, s_16h, s_8h, s_128v, s_64v, s_32v, s_16v, s_8v };
-
+   assign pfa_cpu = ba[10:1];
+   assign pfa_display = { s_128h, s_64h, s_32h, s_16h, s_8h, s_128v, s_64v, s_32v, s_16v, s_8v };
+		
    assign csu_n = u_v_n ? 1'b0 : uds_n;
    assign csl_n = u_v_n ? 1'b0 : lds_n;
 
@@ -673,62 +693,102 @@ if (~s_ctrl)
 
    assign pfwr_n = br_w_n | u_n_v_d;
 
-   ram_907036 chip_3n_3m(
-			 .clk(s_6mhz),
-			 .a(pfa),
-			 .cs_n(csu_n),
-			 .we_n(pfwr_n),
-			 .in(bd_out[15:8]),
-			 .out(pf_out[15:8])
-			 );
+//   ram_907036 chip_3n_3m(
+//			 .clk(s_6mhz),
+//			 .a(pfa),
+//			 .cs_n(csu_n),
+//			 .we_n(pfwr_n),
+//			 .in(bd_out[15:8]),
+//			 .out(pf_out[15:8])
+//			 );
+//
+//   ram_907036 chip_3l_3k(
+//			 .clk(s_6mhz),
+//			 .a(pfa),
+//			 .cs_n(csl_n),
+//			 .we_n(pfwr_n),
+//			 .in(bd_out[7:0]),
+//			 .out(pf_out[7:0])
+//			 );
 
-   ram_907036 chip_3l_3k(
-			 .clk(s_6mhz),
-			 .a(pfa),
-			 .cs_n(csl_n),
-			 .we_n(pfwr_n),
-			 .in(bd_out[7:0]),
-			 .out(pf_out[7:0])
-			 );
+   wire pfwr_u, pfwr_l;
 
-`ifdef debug_dp
-   always @(blank_n or pfwr_n or csu_n or csl_n)
-     if (blank_n & ~pfwr_n & (~csu_n | ~csl_n))
-       if ($time > 3000000 && cpu.wf68k00ip_top.i_68k00.pc_out != 32'h0396)
-	 begin
-	    $display("%t; XXX pf ram write while reading; pc %x",
-		     $time, cpu.wf68k00ip_top.i_68k00.pc_out);
-//	    $finish;
-	 end
-`endif
+   assign pfwr_u = ~pfwr_n & ~csu_n;
+   assign pfwr_l = ~pfwr_n & ~csl_n;
+   
+   ram_pfram pfram(
+		   .p1_clk(s_6mhz),
+		   .p1_a(pfa_cpu),
+		   .p1_di(bd_out),
+		   .p1_do(pf_out),
+		   .p1_r(~u_n_v),
+		   .p1_uw(pfwr_u),
+		   .p1_lw(pfwr_l),
 
+		   .p2_clk(s_6mhz),
+		   .p2_a(pfa_display),
+		   .p2_r(1'b1),
+		   .p2_do(pf_out_display));
+
+//`define old_pf
+`ifdef old_pf
    always @(posedge s_4h)
      if (reset)
        pf_out_h_hold <= 8'b0;
      else
-       pf_out_h_hold <= pf_out[15:8];
+       pf_out_h_hold <= pf_out_display[15:8];
 
    always @(posedge s_4h)
      if (reset)
        pf_rom_a[11:4] <= 8'b0;
      else
 `ifndef jam_pf
-       pf_rom_a[11:4] <= pf_out[7:0];
+       pf_rom_a[11:4] <= pf_out_display[7:0];
 `else
 //       pf_rom_a[11:4] <= 8'h21;
 //       pf_rom_a[11:4] <= 8'h11;
 //       pf_rom_a[11:4] <= 8'h01;
        pf_rom_a[11:4] <= { s_32v, s_16v, s_8v, s_128h, s_64h, s_32h, s_16h, s_8h };
 `endif
+
+`else
+
+   reg s_4h_d;
+   always @(posedge clk_12mhz)
+     if (reset)
+       s_4h_d <= 0;
+     else
+       s_4h_d <= s_4h;
+
+   wire s_4h_rising;
+   assign s_4h_rising = ~s_4h_d & s_4h;
+
+   always @(posedge clk_12mhz)
+     if (reset)
+       pf_out_h_hold <= 8'b0;
+     else
+       if (s_4h_rising)
+	 pf_out_h_hold <= pf_out_display[15:8];
+
+   always @(posedge clk_12mhz)
+     if (reset)
+       pf_rom_a[11:4] <= 8'b0;
+     else
+       if (s_4h_rising)
+`ifndef jam_pf
+	 pf_rom_a[11:4] <= pf_out_display[7:0];
+`else
+         pf_rom_a[11:4] <= { s_32v, s_16v, s_8v, s_128h, s_64h, s_32h, s_16h, s_8h };
+`endif
+`endif
    
+   //
    assign pf_rom_addr = { pf_out_h_hold[7], pf_rom_a, s_4hf, s_4vf, s_2vf, s_1vf };
 
    rom_6lm rom_6lm(
 		   .clk(mpuclk),
 		   .a(pf_rom_addr),
-		   .d(pf_data),
-		   .ce(1'b0),
-		   .oe(1'b0)
+		   .d(pf_data)
 		   );
 
    always @(posedge s_6mhz)
@@ -759,27 +819,21 @@ if (~s_ctrl)
 // page 28 - sheet 7B - motion object ram
 
    assign moram_addr_cpu = ba[8:1];
-//   assign moram_addr_display = {s_256h, s_128h, s_64h, s_32h, s_16h, s_8h, s_2h};
-   assign moram_addr_display = {h_state[9:4], h_state[2]};
+   assign moram_addr_display = { h_state[9:4], h_state[2] };
 
    reg [6:0] moram_addr_next;
+
    always @(posedge clk_12mhz)
      if (reset)
        moram_addr_next <= 0;
      else
-       begin
-       if (s_1h)
-//	 moram_addr_next <= (s_2h & s_4h) ?
-//			    { moram_addr_display[6:1] + 6'd1, 1'b0 } :
-//			    { moram_addr_display[6:1]       , ~s_2h };
        if (s_state[1:0] == 2'b10)
 	 moram_addr_next <= (s_state[3:2] == 2'b11) ?
 			    { moram_addr_display[6:1] + 6'd1, 1'b0 } :
 			    { moram_addr_display[6:1]       , ~s_state[2] };
-       end
    
-   assign lwr_n = lds_n | (~objram_n ? br_w_n : 1'b1);
-   assign uwr_n = uds_n | (~objram_n ? br_w_n : 1'b1);
+   assign lwr_n = r_w_l_n | objram_n;
+   assign uwr_n = r_w_u_n | objram_n;
 
    wire moram_cs;
    assign moram_cs = s_state[1:0] == 2'b11;
@@ -789,25 +843,14 @@ if (~s_ctrl)
 		   .p1_di(bd_out),
 		   .p1_do(moram_out),
 		   .p1_r(~objram_n),
-		   .p1_w(~uwr_n),
+		   .p1_lw(~lwr_n),
+		   .p1_uw(~uwr_n),
 
 		   .p2_clk(clk_12mhz),
    		   .p2_a({1'b0, moram_addr_next}),
 		   .p2_r(moram_cs),
 		   .p2_do(mod)
 		   );
-
-`ifdef debug_dp
-   always @(blank_n or lwr_n or uwr_n or s_1h)
-     if (blank_n & (~lwr_n | ~uwr_n) & ~s_1h)
-//       if (cpu.wf68k00ip_top.i_68k00.pc_out != 32'h00c8)
-       if ($time > 6000000)
-	 begin
-	    $display("%t; XXX mo ram write while reading; pc %x",
-		     $time, cpu.wf68k00ip_top.i_68k00.pc_out);
-//	    $finish;
-	 end
-`endif
 
 // page 29 - sheet 8A - vertical position
 
@@ -971,7 +1014,7 @@ if (~s_ctrl)
    reg [1:0] regld_next;
    reg [1:0] hload_next;
 
-   always @(regld_state or match or s_4h or s_2h or s_2h_n or s_1h)
+   always @(regld_state or match or s_4h or s_2h or s_2h_n or s_1h or s_1h_n)
      begin
 	regld_next = regld_state;
 
@@ -1111,30 +1154,30 @@ if (~s_ctrl)
 	 else
 	   mv_addr_even <= mv_addr_even + 8'd1;
 
-   assign mv = s_1vx_n ? mv_even : mv_odd;
-
    // dual port 256x8
-   ram_dp256x8 line_ram_odd(
-			    .rclk(~evenclk),
-			    .wclk(~oddclk),
-			    .a(mv_addr_odd),
-			    .i({p_d[5:0], odd[1:0]}),
-			    .o(mv_odd),
-			    .r(s_1vx),
-			    .oe(s_1vx),
-			    .w(~oddcs_n)
-			    );
+   ram_line line_ram_odd(
+			 .rclk(~evenclk),
+			 .wclk(~oddclk),
+			 .a(mv_addr_odd),
+			 .i({p_d[5:0], odd[1:0]}),
+			 .o(mv_odd),
+			 .r(s_1vx),
+			 .oe(s_1vx),
+			 .w(~oddcs_n)
+			 );
 
-   ram_dp256x8 line_ram_even(
-			     .rclk(~oddclk),
-			     .wclk(~evenclk),
-			     .a(mv_addr_even),
-			     .i({p_d[5:0], evd[1:0]}),
-			     .o(mv_even),
-			     .r(s_1vx_n),
-			     .oe(s_1vx_n),
-			     .w(~evencs_n)
-			     );
+   ram_line line_ram_even(
+			  .rclk(~oddclk),
+			  .wclk(~evenclk),
+			  .a(mv_addr_even),
+			  .i({p_d[5:0], evd[1:0]}),
+			  .o(mv_even),
+			  .r(s_1vx_n),
+			  .oe(s_1vx_n),
+			  .w(~evencs_n)
+			  );
+
+   assign mv = s_1vx_n ? mv_even : mv_odd;
 
    always @(posedge s_6mhz/* or negedge s_256h*/)
      if (reset)
@@ -1200,20 +1243,6 @@ hsync ? 8'hff :
    
    assign coloramwr_n = coloram_n | r_w_l_n;
 
-//   assign rgb_addr =
-//		    ~coloram_n ? ba[8:1] :
-//		    ~vcrsel_n ? (~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0]) :
-//		    8'b0;
-//
-//   ram_256x8 chip_7n7p(
-//		       .clk(~clk_12mhz),
-//		       .a(rgb_addr),
-//		       .i(bd_out[7:0]),
-//		       .o(rgb_cr_out),
-//		       .r_n(1'b0),
-//		       .w_n(coloramwr_n)
-//		       );
-
    assign rgb_addr_cpu = ba[8:1];
    assign rgb_addr_display = ~pf_obj_n ? {1'b0, ov[6:0]} : pfv[7:0];
    
@@ -1231,17 +1260,6 @@ hsync ? 8'hff :
 		       .p2_r_n(1'b0)
 		       );
 
-`ifdef debug_dp
-   always @(blank_n or coloramwr_n)
-     if (blank_n & ~coloramwr_n)
-       if ($time > 6000000)
-       begin
-	  $display("%t; XXX color ram write while visiable; pc %x",
-		   $time, cpu.wf68k00ip_top.i_68k00.pc_out);
-//	  $finish;
-       end
-`endif
-   
 // page 37 - sound
 
 // c0122294-01
@@ -1260,7 +1278,7 @@ hsync ? 8'hff :
 		 .a(ba[4:1]),
 		 .d_in(bd_out[7:0]),
 		 .d_out(),
-		 .p(),
+		 .p(8'b0),
 		 .aud(audout2)
 		 );
 
@@ -1273,7 +1291,7 @@ hsync ? 8'hff :
 		 .a(ba[4:1]),
 		 .d_in(bd_out[7:0]),
 		 .d_out(),
-		 .p(),
+		 .p(8'b0),
 		 .aud(audout1)
 		 );
 
@@ -1295,8 +1313,17 @@ hsync ? 8'hff :
 
 // analogout_n drive STRT on ADC0809
 // analogin enables LS244 -> bd[7:0]
-   
-   assign analog_out = 16'b0;
+
+   joystick joystick(.clk6m(s_6mhz),
+		     .reset(reset),
+		     .js_l(js_l),
+		     .js_r(js_r),
+		     .js_u(js_u),
+		     .js_d(js_d),
+		     .a(ba[2:1]),
+		     .wr_n(analogout_n),
+		     .rd_n(analogin_n),
+		     .data_out(analog_out));
    
 // page 40
 
@@ -1453,8 +1480,9 @@ hsync ? 8'hff :
 `endif
 
 
-//`define CHIPSCOPE_FF
-
+`define CHIPSCOPE_FF
+//`define trig_cpu
+   
 `ifdef __CVER__
  `ifdef CHIPSCOPE_FF
   `undef CHIPSCOPE_FF
@@ -1475,6 +1503,7 @@ hsync ? 8'hff :
    wire        mclk;
         
    assign trig0 = {
+`ifdef trig_cpu
 		   mpuclk,//1
 		   reset_n,//1
 		   uds_n,//1
@@ -1492,6 +1521,26 @@ hsync ? 8'hff :
 		   ud_in,//16
 		   ud_out,//16
 		   a //24
+`else // !`ifdef trig_cpu
+		   s_6mhz,//1
+		   objram_n,//1
+		   lwr_n,//1
+		   uwr_n,//1
+		   bd_out,//16
+		   moram_addr_cpu,//8
+		   moram_addr_next,//7
+		   mod,//16
+		   match,//1
+		   hload_n,//1
+		   regld,//1
+		   hflip,//1
+		   vflip,//1
+		   oddcs_n,//1
+		   evencs_n,//1
+		   p[7:0],//8
+		   mv_addr_odd,//8
+		   mv_addr_even//8
+`endif
                    };
 
    chipscope_icon_ff icon0 (.CONTROL0(control0));

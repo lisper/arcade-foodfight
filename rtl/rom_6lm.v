@@ -8,9 +8,7 @@
 module rom_6lm(
 	       input        clk,
 	       input [12:0] a,
-	       output [7:0] d,
-	       input 	    ce,
-	       input 	    oe
+	       output [7:0] d
 	       );
 
    // 111

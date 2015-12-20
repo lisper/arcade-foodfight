@@ -1,15 +1,17 @@
 
-module ram_dp256x8(input rclk,
-		   input 	wclk,
-		   input [7:0] 	a,
-		   input [7:0] 	i,
-		   output [7:0] o,
-		   input 	oe,
-		   input 	r,
-		   input 	w);
+module ram_dp256x8(input        p1_clk,
+		   input [7:0] 	p1_a,
+		   input [7:0] 	p1_di,
+		   input 	p1_r,
+		   input 	p1_w,
+		   input 	p2_clk,
+		   input [7:0] 	p2_a,
+		   input 	p2_r,
+		   output [7:0] p1_do,
+		   output [7:0] p2_do);
 
    reg [7:0] ram[0:255];
-   reg [7:0] d;
+   reg [7:0] d1, d2;
    
 `ifdef debug
    integer    j;
@@ -21,19 +23,22 @@ module ram_dp256x8(input rclk,
      end
 `endif
 
-   wire ram_read;
-   wire ram_write;
-   assign ram_read = r/*~cs & w*/;
-   assign ram_write = w/*~cs & ~w*/;
+   //
+   always @(posedge p1_clk)
+     if (p1_r)
+       d1 <= ram[p1_a];
 
-   always @(posedge rclk)
-     if (ram_read)
-       d <= ram[a];
+   assign p1_do = d1;
 
-   assign o = d;
-   
-   always @(posedge wclk)
-     if (ram_write)
-       ram[a] <= i;
+   always @(posedge p1_clk)
+     if (p1_w)
+       ram[p1_a] <= p1_di;
+
+   //
+   always @(posedge p2_clk)
+     if (p2_r)
+       d2 <= ram[p2_a];
+
+   assign p2_do = d2;
    
 endmodule // ram_dp256x8

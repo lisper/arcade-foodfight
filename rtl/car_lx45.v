@@ -27,7 +27,7 @@ module car_lx45(
 `ifdef SIMULATION
    assign reset = r_count < 16'h00ff;
 `else
-   assign reset = r_count < 16'h0fff;
+   assign reset = r_count < 16'h1fff/*16'h0fff*/;
 `endif
 
 `ifndef SIMULATION

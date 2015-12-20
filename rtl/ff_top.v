@@ -17,7 +17,7 @@ module ff_top(
 	      output [7:0] rgb,
 	      output [7:0] audio,
 	      output 	   clk_6mhz_o,
-	      input [9:0]  sw,
+	      input [11:0] sw,
 	      input [8:1]  sw1
 	      );
 
@@ -33,8 +33,10 @@ module ff_top(
 	 .start1(sw[5]),
 	 .coin2(sw[6]),
 	 .coin1(sw[7]),
-	 .cntrr(sw[8]),
-	 .cntrl(sw[9]),
+	 .js_l(sw[8]),
+	 .js_r(sw[9]),
+	 .js_u(sw[10]),
+	 .js_d(sw[11]),
 	 .sw1(sw1),
 	 .o_led1(led1),
 	 .o_led2(led2),

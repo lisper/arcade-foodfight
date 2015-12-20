@@ -5,13 +5,11 @@
 module prom_2b(
 	       input 		clk,
 	       input [7:0 ] 	a,
-	       output reg [3:0] d,
-	       input 		e1,
-	       input 		e2
+	       output reg [3:0] d
 	       );
 
 `ifdef async
-   always @(a or e1 or e2)
+   always @(a)
      case (a)
 `include "../roms/v3/rom_2p.v"
      endcase
@@ -112,7 +110,7 @@ module prom_2b(
 	8'h5a: d <= 4'b0000;
 	8'h5b: d <= 4'b0000;
 	8'h5c: d <= 4'b0000;
-	8'h5d: d <= 4'b0000;
+	8'h5d: d <= 4'b0001;//xxx
 	8'h5e: d <= 4'b0001;
 	8'h5f: d <= 4'b0100;
 	8'h60: d <= 4'b0000;

@@ -45,8 +45,8 @@ module ff_top_lx45(
    wire [7:0] audio;
    wire       cga_hsync, cga_vsync, cga_blank;
    wire [7:0] cga_rgb;
-   wire [9:0] sw;
-   wire [8:1] sw1;
+   wire [11:0] sw;
+   wire [8:1]  sw1;
 
    wire       clk_vga;
    wire       clk_cpu;
@@ -55,8 +55,9 @@ module ff_top_lx45(
 
    wire       sw_coin1, sw_coin2, sw_start1, sw_start2;
    wire       sw_coinaux, sw_throw1, sw_throw2, sw_test;
+   wire       sw_js_l, sw_js_r, sw_js_u, sw_js_d;
    wire       auto_throw_n, auto_start_n, auto_coin_n;
-       
+   
    assign sw_coin1 = ~button1 & auto_coin_n;
    assign sw_coin2 = 1'b1;
    assign sw_start1 = ~button2 & auto_start_n;
@@ -65,8 +66,12 @@ module ff_top_lx45(
    assign sw_throw1 = ~button3 & auto_throw_n;
    assign sw_throw2 = 1'b1;
    assign sw_test = 1'b1;
+   assign sw_js_l = 1'b0;
+   assign sw_js_r = 1'b0;
+   assign sw_js_u = 1'b0;
+   assign sw_js_d = 1'b0;
 
-   assign sw = { 2'b11,
+   assign sw = { sw_js_d, sw_js_u, sw_js_r, sw_js_l,
 		 sw_coin1, sw_coin2, sw_start1, sw_start2,
 		 sw_coinaux, sw_throw1, sw_throw2, sw_test };
 
@@ -173,11 +178,11 @@ module ff_top_lx45(
    reg [3:0]  reset_reg;
 
    // quick reset
-   assign dcm_reset = reset_reg[3];
-   initial reset_reg = 4'b1111;
+   assign dcm_reset = reset_reg[15];
+   initial reset_reg = 16'b1111_1111_1111_1111;
 		     
    always @ (posedge sysclk_buf)
-     reset_reg <= {reset_reg[2:0],1'b0};
+     reset_reg <= {reset_reg[14:0],1'b0};
 
    //
    // 12mhz clock, 83ns
