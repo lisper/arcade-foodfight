@@ -55,3 +55,5 @@ NET "button3"         LOC = "C6"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 
 #INST "E" LOC=BUFGMUX_X3Y13;
 
 PIN "ff_top/ff/mpuclk_bufg.O" CLOCK_DEDICATED_ROUTE = FALSE;
+PIN "clkout2_buf.O" CLOCK_DEDICATED_ROUTE = FALSE;
+PIN "ff_top/ff/s_6mhz_bufg.O" CLOCK_DEDICATED_ROUTE = FALSE;
