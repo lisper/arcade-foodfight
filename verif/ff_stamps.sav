@@ -1,0 +1,66 @@
+[*]
+[*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
+[*] Thu Dec 17 22:00:53 2015
+[*]
+[dumpfile] "/files/code/foodfight/verif/ff_tb.vcd"
+[dumpfile_mtime] "Thu Dec 17 22:00:07 2015"
+[dumpfile_size] 18874287
+[savefile] "/files/code/foodfight/verif/ff_stamps.sav"
+[timestart] 0
+[size] 1722 778
+[pos] -1 -1
+*-6.480217 249645 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ff_top_tb.
+[treeopen] ff_top_tb.uut.
+[treeopen] ff_top_tb.uut.ff.
+[sst_width] 224
+[signals_width] 329
+[sst_expanded] 1
+[sst_vpaned_height] 214
+@28
+ff_top_tb.uut.ff.clk_12mhz
+ff_top_tb.uut.ff.clk_6mhz
+ff_top_tb.uut.ff.s_6mhz
+ff_top_tb.uut.ff.reset
+ff_top_tb.uut.ff.s_1h
+ff_top_tb.uut.ff.s_2h
+ff_top_tb.uut.ff.s_4h
+ff_top_tb.uut.ff.s_6m_n
+@22
+ff_top_tb.uut.ff.s_state[3:0]
+ff_top_tb.uut.ff.moram_addr_next[6:0]
+@28
+ff_top_tb.uut.ff.moram_cs
+@22
+ff_top_tb.uut.ff.mod[15:0]
+@28
+ff_top_tb.uut.ff.match
+ff_top_tb.uut.ff.vflip
+ff_top_tb.uut.ff.hflip
+ff_top_tb.uut.ff.hflip_d
+@22
+ff_top_tb.uut.ff.p[7:0]
+@28
+ff_top_tb.uut.ff.stamp_active
+ff_top_tb.uut.ff.hload_n
+ff_top_tb.uut.ff.regld
+ff_top_tb.uut.ff.mo_romrd
+@22
+ff_top_tb.uut.ff.rom_addr_hold[8:1]
+ff_top_tb.uut.ff.ol[3:0]
+ff_top_tb.uut.ff.ol_hold[3:0]
+ff_top_tb.uut.ff.rom_addr[12:0]
+ff_top_tb.uut.ff.mo_rom_addr[12:0]
+ff_top_tb.uut.ff.rom_data[15:0]
+ff_top_tb.uut.ff.stamp_active_cnt[3:0]
+ff_top_tb.uut.ff.mv_addr_odd[7:0]
+@28
+ff_top_tb.uut.ff.oddcs_n
+@22
+ff_top_tb.uut.ff.mv_addr_even[7:0]
+@28
+ff_top_tb.uut.ff.evencs_n
+@201
+-
+[pattern_trace] 1
+[pattern_trace] 0

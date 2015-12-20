@@ -5,12 +5,12 @@
 `timescale 1ns/1ns
 
 `ifndef ISIM
-// `define use_vga
+ `define use_vga
 `endif
 
 module ff_top_lx45_tb;
 
-   reg clk_50m, clk_25m;
+   reg clk_50m, clk_25m, clk_12m;
 
    wire [5:1] led;
    wire       vga_hsync;
@@ -66,9 +66,16 @@ module ff_top_lx45_tb;
      clk_25m <= ~clk_25m;
 
    initial
+     clk_12m = 0;
+   
+   always @(posedge clk_25m)
+     clk_12m <= ~clk_12m;
+
+   initial
      begin
 	clk_50m = 0;
 	clk_25m = 0;
+	clk_12m = 0;
 	
 	switch = 0;
 	button1 = 0;
@@ -92,9 +99,9 @@ module ff_top_lx45_tb;
    assign green = vga_g ? 3'b111 : 0;
    assign blue  = vga_b ? 3'b111 : 0;
    
-   assign rgb8 = { red, green[1:0], blue };
+   assign rgb8 = { blue[1:0], green, red };
    
-   always @(posedge clk_25m)
+   always @(posedge clk_12m)
      begin
 	$cv_clk_vga(vga_vsync, vga_hsync, rgb8);
      end
