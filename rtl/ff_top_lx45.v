@@ -6,7 +6,7 @@
 
 `ifndef ISIM
 `define sound
-//`define hdmi
+`define hdmi
 `endif
 
 module ff_top_lx45(
@@ -175,7 +175,7 @@ module ff_top_lx45(
    wire [7:0] dvid_red;
    wire [7:0] dvid_green;
    wire [7:0] dvid_blue;
-   reg [3:0]  reset_reg;
+   reg [15:0]  reset_reg;
 
    // quick reset
    assign dcm_reset = reset_reg[15];
@@ -211,9 +211,9 @@ module ff_top_lx45(
    assign dvid_green = (vga_ggg == 3'b0) ? 8'b0 : { vga_ggg, 5'b11111 };
    assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb, 5'b11111 };
    
-   assign dvid_hsync = hsync;
-   assign dvid_vsync = vsync;
-   assign dvid_blank = blank;
+   assign dvid_hsync = ~vga_hsync;
+   assign dvid_vsync = ~vga_vsync;
+   assign dvid_blank = vga_blank;
 
    dvid_output hdmi(.clk50(sysclk_buf),
 		    .reset(/*reset*/dcm_reset),
@@ -226,19 +226,20 @@ module ff_top_lx45(
 		    .blank(dvid_blank),
 		    .clk_vga(clk_vga),
 		    .clk_cpu(clk_cpu),
+		    .clk_pix(clk_pix),
 		    .TMDS(tmds),
 		    .TMDSB(tmdsb));
 `else // !`ifdef hdmi
 
    wire       LOCKED;
-   reg [3:0]  reset_reg;
+   reg [15:0]  reset_reg;
 
    // quick reset
-   assign dcm_reset = reset_reg[3];
-   initial reset_reg = 4'b1111;
+   assign dcm_reset = reset_reg[15];
+   initial reset_reg = 16'b1111_1111_1111_1111;
 		     
    always @ (posedge sysclk_buf)
-     reset_reg <= {reset_reg[2:0],1'b0};
+     reset_reg <= {reset_reg[14:0],1'b0};
 
    wire [15:0] do_unused;
    wire        drdy_unused;

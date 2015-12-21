@@ -574,6 +574,8 @@ if (~s_ctrl)
      else
        if (~vpreset_n)
 	 counter_v <= 8'hdf/*8'hdc*/;
+//	 counter_v <= 8'hde;
+//	 counter_v <= 8'hdd;
 //	 counter_v <= 8'hdc;
        else
 	 if (s_256h_n_rise)
