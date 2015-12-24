@@ -11,6 +11,7 @@
 //`define debug_h_lines
 //`define debug_stamps_color
 //`define jam_pf
+//`define normal_video_with_line
 `define normal_video
 `define orig_video_timing
 
@@ -572,12 +573,9 @@ if (~s_ctrl)
      if (reset)
 	 counter_v <= 0;
      else
-       if (~vpreset_n)
-	 counter_v <= 8'hdf/*8'hdc*/;
-//	 counter_v <= 8'hde;
-//	 counter_v <= 8'hdd;
-//	 counter_v <= 8'hdc;
-       else
+//       if (vpreset)
+//         counter_v <= 8'hdc;
+//       else
 	 if (s_256h_n_rise)
 	   counter_v <= counter_v + 8'd1;
    
@@ -594,7 +592,8 @@ if (~s_ctrl)
    wire [7:0] prom_2b_addr;
    wire [3:0] prom_out;
    
-   assign prom_2b_addr = { vblank, s_64v, s_32v, s_16v, s_8v, s_4v, s_2v, s_1v };
+//   assign prom_2b_addr = { vblank, s_64v, s_32v, s_16v, s_8v, s_4v, s_2v, s_1v };
+   assign prom_2b_addr = { s_128v, s_64v, s_32v, s_16v, s_8v, s_4v, s_2v, s_1v };
    
    prom_2b prom_2b(
 		   .clk(clk_12mhz),
@@ -1242,6 +1241,17 @@ hsync ? 8'hff :
        rgb <= rgb_cr_out != 0 ? 8'hff : 8'h00;
 //       rgb <= rgb_addr_display != 0 ? 8'hff : 8'h00;
 `endif
+
+`ifdef normal_video_with_line
+   always @(posedge s_6mhz or negedge blank_n)
+     if (~blank_n | reset)
+       rgb <= 8'b0;
+     else
+       if (counter_v == 8'hdf)
+	 rgb <= 8'hff;
+       else
+	 rgb <= rgb_cr_out;
+`endif
    
    assign coloramwr_n = coloram_n | r_w_l_n;
 
@@ -1313,11 +1323,12 @@ hsync ? 8'hff :
 
 // page 38
 
-// analogout_n drive STRT on ADC0809
-// analogin enables LS244 -> bd[7:0]
+   // analogout_n drive STRT on ADC0809
+   // analogin enables LS244 -> bd[7:0]
 
    joystick joystick(.clk6m(s_6mhz),
 		     .reset(reset),
+		     .vblank(vblank),
 		     .js_l(js_l),
 		     .js_r(js_r),
 		     .js_u(js_u),

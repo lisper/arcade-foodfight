@@ -1,22 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.34 (w)1999-2012 BSI
-[*] Thu Dec 17 22:00:53 2015
+[*] Mon Dec 21 13:35:14 2015
 [*]
 [dumpfile] "/files/code/foodfight/verif/ff_tb.vcd"
-[dumpfile_mtime] "Thu Dec 17 22:00:07 2015"
-[dumpfile_size] 18874287
+[dumpfile_mtime] "Mon Dec 21 13:34:44 2015"
+[dumpfile_size] 196082687
 [savefile] "/files/code/foodfight/verif/ff_stamps.sav"
-[timestart] 0
-[size] 1722 778
+[timestart] 1494300
+[size] 1667 802
 [pos] -1 -1
-*-6.480217 249645 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-17.390158 1959010 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ff_top_tb.
 [treeopen] ff_top_tb.uut.
 [treeopen] ff_top_tb.uut.ff.
 [sst_width] 224
 [signals_width] 329
 [sst_expanded] 1
-[sst_vpaned_height] 214
+[sst_vpaned_height] 315
 @28
 ff_top_tb.uut.ff.clk_12mhz
 ff_top_tb.uut.ff.clk_6mhz
@@ -60,7 +60,38 @@ ff_top_tb.uut.ff.oddcs_n
 ff_top_tb.uut.ff.mv_addr_even[7:0]
 @28
 ff_top_tb.uut.ff.evencs_n
-@201
+@200
 -
+@22
+ff_top_tb.uut.ff.pfa_display[9:0]
+ff_top_tb.uut.ff.pf_out_display[15:0]
+ff_top_tb.uut.ff.pf_out_h_hold[7:0]
+ff_top_tb.uut.ff.pf_rom_a[11:4]
+ff_top_tb.uut.ff.pf_rom_addr[12:0]
+@28
+ff_top_tb.uut.ff.s_1vf
+@200
+-
+@28
+ff_top_tb.uut.ff.s_1v
+ff_top_tb.uut.ff.s_2v
+ff_top_tb.uut.ff.s_4v
+ff_top_tb.uut.ff.s_8v
+ff_top_tb.uut.ff.s_16v
+ff_top_tb.uut.ff.s_32v
+ff_top_tb.uut.ff.s_64v
+ff_top_tb.uut.ff.s_128v
+ff_top_tb.uut.ff.clk_12mhz
+ff_top_tb.uut.ff.clk_6mhz
+@22
+ff_top_tb.uut.ff.counter_v[7:0]
+ff_top_tb.uut.ff.prom_2b_addr[7:0]
+ff_top_tb.uut.ff.prom_out[3:0]
+@29
+ff_top_tb.uut.ff.vblank
+@28
+ff_top_tb.uut.ff.vpreset
+ff_top_tb.uut.ff.s_256h_n_rise
+ff_top_tb.uut.ff.vsync
 [pattern_trace] 1
 [pattern_trace] 0

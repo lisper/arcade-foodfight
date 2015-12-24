@@ -7,29 +7,32 @@
 `ifndef ISIM
 `define sound
 `define hdmi
+//`define color_orig
+//`define color_2
+`define color_2
 `endif
 
 module ff_top_lx45(
-		   output [5:1] led,
-		   input 	sysclk,
+		   output [5:1]   led,
+		   input 	  sysclk,
 			      
-		   output 	vga_hsync,
-		   output 	vga_vsync,
-		   output 	vga_blank,
-		   output 	vga_r,
-		   output 	vga_g,
-		   output 	vga_b,
+		   output 	  vga_hsync,
+		   output 	  vga_vsync,
+		   output 	  vga_blank,
+		   output 	  vga_r,
+		   output 	  vga_g,
+		   output 	  vga_b,
 			      
-		   input 	switch,
-		   input 	button1,
-		   input 	button2,
-		   input 	button3,
+		   input 	  switch,
+		   input [10:0]   Wing_A_in,
+		   input [6:0] 	  Wing_B_in,
+		   output [15:11] Wing_A_out,
+ 	
+		   output [3:0]   tmds,
+		   output [3:0]   tmdsb,
 			      
-		   output [3:0] tmds,
-		   output [3:0] tmdsb,
-			      
-		   output 	audio_l,
-		   output 	audio_r
+		   output 	  audio_l,
+		   output 	  audio_r
 		   );
 
    // -----
@@ -58,6 +61,7 @@ module ff_top_lx45(
    wire       sw_js_l, sw_js_r, sw_js_u, sw_js_d;
    wire       auto_throw_n, auto_start_n, auto_coin_n;
    
+`ifdef testing
    assign sw_coin1 = ~button1 & auto_coin_n;
    assign sw_coin2 = 1'b1;
    assign sw_start1 = ~button2 & auto_start_n;
@@ -70,7 +74,27 @@ module ff_top_lx45(
    assign sw_js_r = 1'b0;
    assign sw_js_u = 1'b0;
    assign sw_js_d = 1'b0;
+`else
+   assign sw_coin1 = Wing_A_in[0] & auto_coin_n;
+   assign sw_coin2 = 1'b1;
+   assign sw_start1 = Wing_A_in[1] & auto_start_n;
+   assign sw_start2 = Wing_A_in[2];
+   assign sw_coinaux = 1'b1;
+   assign sw_throw1 = Wing_B_in[1] & auto_throw_n;
+   assign sw_throw2 = 1'b1;
+   assign sw_test = 1'b1;
+   assign sw_js_l = Wing_A_in[3];
+   assign sw_js_r = Wing_A_in[4];
+   assign sw_js_u = Wing_A_in[5];
+   assign sw_js_d = Wing_A_in[6];
 
+   assign Wing_A_out[11] = led1;
+   assign Wing_A_out[12] = led2;
+   assign Wing_A_out[13] = led3;
+   assign Wing_A_out[14] = reset;
+   assign Wing_A_out[15] = switch;
+`endif
+   
    assign sw = { sw_js_d, sw_js_u, sw_js_r, sw_js_l,
 		 sw_coin1, sw_coin2, sw_start1, sw_start2,
 		 sw_coinaux, sw_throw1, sw_throw2, sw_test };
@@ -207,9 +231,23 @@ module ff_top_lx45(
    // 16640 x 1000ns = 16.640us / frame
 
    //
+`ifdef color_orig
    assign dvid_red   = (vga_rrr == 3'b0) ? 8'b0 : { vga_rrr, 5'b11111 };
    assign dvid_green = (vga_ggg == 3'b0) ? 8'b0 : { vga_ggg, 5'b11111 };
    assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb, 5'b11111 };
+`endif
+
+`ifdef color_2
+   assign dvid_red   = (vga_rrr == 3'b0) ? 8'b0 : { vga_rrr, 5'b01111 };
+   assign dvid_green = (vga_ggg == 3'b0) ? 8'b0 : { vga_ggg, 5'b01111 };
+   assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb, 5'b01111 };
+`endif
+   
+`ifdef color_3
+   assign dvid_red   = (vga_rrr == 3'b0) ? 8'b0 : { vga_rrr, 5'b11000 };
+   assign dvid_green = (vga_ggg == 3'b0) ? 8'b0 : { vga_ggg, 5'b11000 };
+   assign dvid_blue  = (vga_bbb == 3'b0) ? 8'b0 : { vga_bbb, 5'b11000 };
+`endif
    
    assign dvid_hsync = ~vga_hsync;
    assign dvid_vsync = ~vga_vsync;

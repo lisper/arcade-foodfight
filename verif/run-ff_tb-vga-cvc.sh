@@ -25,5 +25,5 @@ PLI=+loadvpi=../pli/vga/vga.so:vpi_compat_bootstrap
 
 
 #cvc                         +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v $*
-#cvc +interp +define+debug=1 +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v $*
-cvc         +define+debug=1 +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v $*
+cvc +interp +define+debug=1 +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v $*
+#cvc         +define+debug=1 +define+SIMULATION=1 $PLI $DEBUG $INC $RTL ff_tb.v $*

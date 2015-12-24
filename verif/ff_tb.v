@@ -126,7 +126,8 @@ module ff_top_tb;
 	 for (i = 0; i < 1024; i = i + 1)
 	   begin
 	      ff_top_tb.uut.ff.pfram.ramh[i] = 'h00;
-	      ff_top_tb.uut.ff.pfram.raml[i] = 'h41 + i;
+//	      ff_top_tb.uut.ff.pfram.raml[i] = 'h41 + i;
+	      ff_top_tb.uut.ff.pfram.raml[i] = 'h23;
 	   end
       end
    endtask

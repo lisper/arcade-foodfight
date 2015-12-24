@@ -43,9 +43,46 @@ NET "vga_vsync"       LOC = "C8"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 
 NET "vga_r"           LOC = "D6"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
 NET "vga_g"           LOC = "C4"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
 NET "vga_b"           LOC = "B11"  | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-NET "button1"         LOC = "C9"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-NET "button2"         LOC = "D8"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-NET "button3"         LOC = "C6"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "button1"         LOC = "C9"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "button2"         LOC = "D8"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+#NET "button3"         LOC = "C6"   | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
+
+# Wings
+NET "Wing_A_out<15>"       LOC = "D18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW ;
+NET "Wing_A_out<14>"       LOC = "F18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW ;
+NET "Wing_A_out<13>"       LOC = "H18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW ;
+NET "Wing_A_out<12>"       LOC = "H15"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW ;
+NET "Wing_A_out<11>"       LOC = "J16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW ;
+NET "Wing_A_in<10>"       LOC = "K17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<9>"        LOC = "K15"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<8>"        LOC = "L17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<7>"        LOC = "L15"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<6>"        LOC = "M16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<5>"        LOC = "N17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<4>"        LOC = "N16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<3>"        LOC = "P16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<2>"        LOC = "P17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<1>"        LOC = "T17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_A_in<0>"        LOC = "U18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+
+#NET "Wing_B_in<15>"       LOC = "U17"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<14>"       LOC = "T18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<13>"       LOC = "P18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<12>"       LOC = "P15"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<11>"       LOC = "N15"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<10>"       LOC = "N18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<9>"        LOC = "M18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<8>"        LOC = "L16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+#NET "Wing_B_in<7>"        LOC = "L18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<6>"        LOC = "K16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<5>"        LOC = "K18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<4>"        LOC = "J18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<3>"        LOC = "H16"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<2>"        LOC = "G18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<1>"        LOC = "E18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+NET "Wing_B_in<0>"        LOC = "C18"  | IOSTANDARD = LVTTL | DRIVE = 8 | SLEW = SLOW | PULLUP ;
+
+#---------------------------------------------------------
 
 #INST "hdmi/pll_base_inst" LOC=PLL_ADV_X0Y1;
 #INST "hdmi/clkout1_buf" LOC=BUFGMUX_X2Y4;
